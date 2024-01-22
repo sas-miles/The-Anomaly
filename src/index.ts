@@ -1,7 +1,3 @@
-import { greetUser } from '$utils/greet';
+import Experience from './Experience/Experience.js';
 
-window.Webflow ||= [];
-window.Webflow.push(() => {
-  const name = 'John Doe';
-  greetUser(name);
-});
+const experience = new Experience(document.querySelector('canvas.webgl'));

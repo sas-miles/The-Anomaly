@@ -1,6 +1,9 @@
 import * as esbuild from 'esbuild';
+import alias from 'esbuild-plugin-alias';
+import { glsl } from 'esbuild-plugin-glsl';
 import { readdirSync } from 'fs';
-import { join, sep } from 'path';
+import { dirname, join, sep } from 'path';
+import { fileURLToPath } from 'url';
 
 // Config output
 const BUILD_DIRECTORY = 'dist';
@@ -14,6 +17,10 @@ const LIVE_RELOAD = !PRODUCTION;
 const SERVE_PORT = 3000;
 const SERVE_ORIGIN = `http://localhost:${SERVE_PORT}`;
 
+// Convert the URL to a directory path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Create context
 const context = await esbuild.context({
   bundle: true,
@@ -26,6 +33,15 @@ const context = await esbuild.context({
   define: {
     SERVE_ORIGIN: JSON.stringify(SERVE_ORIGIN),
   },
+  plugins: [
+    glsl({
+      minify: true,
+    }),
+    alias({
+      $utils: join(__dirname, 'src/utils'),
+      $draco: join(__dirname, 'src/utils/draco'),
+    }),
+  ],
 });
 
 // Build files in prod

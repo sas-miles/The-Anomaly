@@ -4,8 +4,9 @@
     "rootDir": ".",
     "baseUrl": "./",
     "paths": {
-      "$utils/*": ["src/utils/*"]
+      "$utils/*": ["src/utils/*"], 
+      "$draco/*": ["src/utils/draco/*"]
     },
-    "types": ["@finsweet/ts-utils"]
+    "types": ["@finsweet/ts-utils", "esbuild-plugin-glsl/types"]
   }
 }
