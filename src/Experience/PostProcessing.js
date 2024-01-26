@@ -1,8 +1,13 @@
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+
+import vignetteVertexShader from './shaders/vignettePP/vertex.glsl'
+import vignetteFragmentShader from './shaders/vignettePP/fragment.glsl'
 
 import Experience from './Experience.js';
 
@@ -13,34 +18,18 @@ export default class PostProcessing {
         this.time = this.experience.time
         this.sizes = this.experience.sizes
         this.renderer = this.experience.renderer
-        this.effectComposer = new EffectComposer()
-        this.gammaCorrection = new GammaCorrectionShader()
-        this.bloomPass = new UnrealBloomPass()
+        this.effectComposer = new EffectComposer(this.renderer.instance)
         this.renderPass = new RenderPass()
+        this.shaderPass = new ShaderPass()
+        this.bloom = new UnrealBloomPass()
+        this.gamma = new ShaderPass(GammaCorrectionShader)
 
-        
+        this.setEffectComposer()
+        this.setRenderPass()
         this.setVignette()
-        this.setBloom()
-        this.renderPass()
+        this.setBloom ()
+        this.addPasses()
 
-        this.effectComposer(this.renderer.instance)
-
-
-    }
-
-    setVignette() {
-        this.vignette = {}
-        this.vignette.active = true
-        this.vignette.offset = 0.95
-        this.vignette.darkness = 1.6
-    }
-
-    setBloom() {
-        this.bloom = {}
-        this.bloom.active = true
-        this.bloom.strength = 1
-        this.bloom.radius = 0
-        this.bloom.threshold = 0
     }
 
     setEffectComposer() {
@@ -49,13 +38,39 @@ export default class PostProcessing {
 
     }
 
+    setVignette() {
+        const vignetteShader = {
+            uniforms: {
+                tDiffuse: { value: null }
+            },
+            vertexShader: vignetteVertexShader,
+            fragmentShader: vignetteFragmentShader
+        }
+
+        this.vignetteShader = new ShaderPass(vignetteShader)
+    }
+
+    setBloom() {
+        this.bloom.strength = 0.5
+        this.bloom.radius = 0.5
+        this.bloom.threshold = 0.3
+        console.log(this.bloom)
+    }
+
     setRenderPass() {
         this.renderPass = new RenderPass(this.experience.scene, this.experience.camera.instance)
     }
 
+    addPasses() {
+        this.effectComposer.addPass(this.renderPass)
+        this.effectComposer.addPass(this.bloom)
+        this.effectComposer.addPass(this.vignetteShader)
+        this.effectComposer.addPass(this.gamma)
+    }
+
 
     update() {  
-        this.effectComposer.render()
+        this.effectComposer.render(this.time.delta)
     }
 
 

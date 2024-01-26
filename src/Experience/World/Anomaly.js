@@ -26,12 +26,12 @@ export default class Anomaly {
 
         this.parameters = {
             count: 709620,
-            size: 20,
+            size: 88.938,
             radius: 30,
             branches: 10,
             spin: 1,
-            randomness: .3,
-            randomnessPower: 2.3,
+            randomness: 0.451,
+            randomnessPower: 3.695,
             insideColor: '#e5ad76',
             outsideColor: '#9ba2d9',
             offsetX: -10,

@@ -1,9 +1,10 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Plane from './Plane.js'
-import Islands from './Islands.js'
-import Roads from './Roads.js'
-import Buildings from './Buildings.js'
+import Central from './Central.js'
+import QuadrantOne from './QuadrantOne.js'
+import QuadrantTwo from './QuadrantTwo.js'
+import QuadrantFour from './QuadrantFour.js'
 import Anomaly  from './Anomaly.js'
 
 export default class World {
@@ -18,9 +19,10 @@ export default class World {
 
             //Setup
             this.plane = new Plane()
-            this.islands = new Islands()
-            this.roads = new Roads()
-            this.buildings = new Buildings()
+            this.central = new Central()
+            this.quandrantOne = new QuadrantOne()
+            this.quandrantTwo = new QuadrantTwo()
+            this.quandrantFour = new QuadrantFour()
             this.anomaly = new Anomaly(this.renderer)
             this.environment = new Environment()
             

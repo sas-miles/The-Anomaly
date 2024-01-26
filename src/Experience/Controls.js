@@ -13,7 +13,7 @@ export default class Controls {
         this.isDragging = false;
         this.dragStart = { x: 0, y: 0 };
         this.moveSpeed = 0.001; // Speed of forward/backward movement
-        this.rotateSpeed = 0.006; // Speed of rotation
+        this.rotateSpeed = 0.0008; // Speed of rotation
         this.damping = 0.02; // Smoothing factor for damping
         this.rotationDeadzone = 5;
 

@@ -1,27 +1,27 @@
 export default [
   {
-    name: 'Island1',
+    name: 'Central',
     type: 'gltfModel',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/islands/island1.glb',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/central/central-module.glb',
   },
   {
-    name: 'Road1',
+    name: 'QuadrantOne',
     type: 'gltfModel',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/roads/road1.glb',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/Quadrant1/modelGroup.glb',
   },
   {
-    name: 'building1',
+    name: 'QuadrantTwo',
     type: 'gltfModel',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/buildings/group1.glb',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/Quadrant2/modelGroup.glb',
   },
   {
-    name: 'building2',
+    name: 'QuadrantThree',
     type: 'gltfModel',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/buildings/group2.glb',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/Quadrant2/pods.glb',
   },
   {
-    name: 'building3',
+    name: 'QuadrantFour',
     type: 'gltfModel',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/buildings/group3.glb',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/Quadrant4/modelGroup.glb',
   },
 ];

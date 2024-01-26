@@ -24,8 +24,20 @@ export default class Camera{
     }
 
     setInstance() {
-        this.instance = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 1000)
-        this.instance.position.set(0, 8, 40)
+
+        //Camera Calculation
+        const sensorSize = 36; // 36mm (full-frame)
+        const focalLength = 50; // 50mm lens
+
+        const fovRadians = 2 * Math.atan(sensorSize / (2 * focalLength));
+        const fovDegrees = fovRadians * (180 / Math.PI);
+
+        const aspectRatio = this.experience.sizes.width / this.experience.sizes.height;
+        const nearPlane = 0.1;
+        const farPlane = 1000;
+
+
+        this.instance = new THREE.PerspectiveCamera(fovDegrees, aspectRatio, nearPlane, farPlane)
         this.scene.add(this.instance)
 
         //Debug
@@ -35,7 +47,7 @@ export default class Camera{
             this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(100).name('positionZ')
 
 
-            this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationY').onChange(() => {
+            this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationX').onChange(() => {
                 this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
             });
 
@@ -43,7 +55,7 @@ export default class Camera{
                 this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
             });
 
-            this.debugFolder.add(this.instance.rotation, 'z').step(0.01).min(-Math.PI).max(Math.PI).name('rotationY').onChange(() => {
+            this.debugFolder.add(this.instance.rotation, 'z').step(0.01).min(-Math.PI).max(Math.PI).name('rotationZ').onChange(() => {
                 this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
             });
 
@@ -64,7 +76,7 @@ export default class Camera{
             duration: this.animationConfig.defaultDuration, 
             ease: this.animationConfig.defaultEase,
             x: 0, 
-            y: 2, 
+            y: 9, 
             z: 40
         }, 
         { emitEvents: true })
