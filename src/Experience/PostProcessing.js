@@ -41,7 +41,8 @@ export default class PostProcessing {
     setVignette() {
         const vignetteShader = {
             uniforms: {
-                tDiffuse: { value: null }
+                tDiffuse: { value: null },
+                noiseIntensity: { value: 0.008 },
             },
             vertexShader: vignetteVertexShader,
             fragmentShader: vignetteFragmentShader
@@ -71,6 +72,10 @@ export default class PostProcessing {
 
     update() {  
         this.effectComposer.render(this.time.delta)
+    }
+
+    resize() {
+        this.effectComposer.setSize(this.sizes.width, this.sizes.height)
     }
 
 

@@ -13,6 +13,7 @@ import Resources from './Utils/Resources.js';
 import Sizes from './Utils/Sizes.js';
 import Time from './Utils/Time.js';
 import World from './World/World.js';
+import Interface from './Interface.js';
 
 let instance = null;
 
@@ -41,6 +42,7 @@ export default class Experience {
     this.renderer = new Renderer();
     this.postProcessing = new PostProcessing();
     this.controls = new Controls(this);
+    this.interface = new Interface();
     this.world = new World(this.renderer.instance);
 
     //Sizes Resize Event
@@ -57,6 +59,9 @@ export default class Experience {
   resize() {
     this.camera.resize();
     this.renderer.resize();
+    this.postProcessing.resize();
+    this.interface.resize();
+    
   }
 
   update() {
@@ -66,6 +71,7 @@ export default class Experience {
     this.world.update();
     this.controls.update();
     this.animation.update();
+    this.interface.update();
   }
 
   //Ideally call this on each class
