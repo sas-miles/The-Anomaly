@@ -1,3 +1,5 @@
+import { gsap } from 'gsap';
+
 import Experience from './Experience.js'
 
 import planeVertexShader1 from './shaders/plane/1/vertex.glsl'
@@ -140,17 +142,37 @@ export default class ExperienceManager{
     
 
     setChapter(index) {
-        const chapter = this.chapters[index];
-        if (chapter.anomalyParams) {
-            this.anomaly.updateParameters(chapter.anomalyParams);
-        }
-        if (chapter.planeShaders) {
-            this.plane.updateShader(chapter.planeShaders.vertexShader, chapter.planeShaders.fragmentShader);
-        }
+        // Create a timeline
+        let tl = gsap.timeline();
     
-        // Update button state
-        this.updateButtonState(index);
+        // Fade out the current content
+        tl.to(this.experience.canvas, {
+            duration: 1, // Duration of the fade out
+            opacity: 0,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                // Change the chapter
+                const chapter = this.chapters[index];
+                if (chapter.anomalyParams) {
+                    this.anomaly.updateParameters(chapter.anomalyParams);
+                }
+                if (chapter.planeShaders) {
+                    this.plane.updateShader(chapter.planeShaders.vertexShader, chapter.planeShaders.fragmentShader);
+                }
+    
+                // Update button state
+                this.updateButtonState(index);
+            }
+        });
+    
+        // Fade the content back in
+        tl.to(this.experience.canvas, {
+            duration: 0.5, // Duration of the fade in
+            opacity: 1,
+            delay: 0.5 // Add a delay here if needed to wait for chapter content to be ready
+        });
     }
+    
     
     updateButtonState(index) {
         // Remove 'is-current' class from the previous button

@@ -1,9 +1,9 @@
 import barba from '@barba/core';
+import { gsap } from 'gsap';
 
 import Experience from './Experience/Experience'
 
 const experience = new Experience(document.querySelector('canvas.webgl'));
-
 
 // Initialize Barba.js
 barba.init({
@@ -13,10 +13,10 @@ barba.init({
       console.log('Barba once hook - Initial page load');
     },
     leave(data) {
-      console.log('Barba leave hook - Leaving current page');
+      gsap.fromTo(".chapter-title-wrapper", { opacity: 1, y: 20 }, { opacity: 0, y: 0, duration: 2 });
     },
     enter(data) {
-      console.log('Barba enter hook - Entering new page');
+      gsap.fromTo(".chapter-title-wrapper", { opacity: 0, y: 0 }, { opacity: 1, y: 20, duration: 2 });
     },
   }],
 });
