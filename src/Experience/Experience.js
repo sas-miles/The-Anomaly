@@ -44,6 +44,9 @@ export default class Experience {
     this.controls = new Controls(this);
     this.interface = new Interface();
     this.world = new World(this.renderer.instance);
+    
+
+    
 
     //Sizes Resize Event
     this.sizes.on('resize', () => {
@@ -67,11 +70,11 @@ export default class Experience {
   update() {
     this.camera.update();
     this.renderer.update();
-    this.postProcessing.update();
     this.world.update();
     this.controls.update();
     this.animation.update();
     this.interface.update();
+    this.postProcessing.update();
   }
 
   //Ideally call this on each class

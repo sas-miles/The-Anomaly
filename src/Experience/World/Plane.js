@@ -2,8 +2,9 @@ import * as THREE from 'three'
 
 import Experience from '../Experience.js'
 
-import planeVertexShader from '../shaders/plane/vertex.glsl'
-import planeFragmentShader from '../shaders/plane/fragment.glsl'
+import planeVertexShader1 from '../shaders/plane/1/vertex.glsl'
+import planeFragmentShader1 from '../shaders/plane/1/fragment.glsl'
+
 
 
 export default class Plane {   
@@ -19,12 +20,12 @@ export default class Plane {
         }
 
         //Set up
-        this.planeVertexShader = planeVertexShader
-        this.planeFragmentShader = planeFragmentShader
+        this.planeVertexShader = planeVertexShader1
+        this.planeFragmentShader = planeFragmentShader1
 
         this.setGeometry()
         this.planeParameters = {
-            planeColor: '#363535',
+            planeColor: '#1a5c8e',
         }
         this.setMaterial()
         
@@ -39,8 +40,8 @@ export default class Plane {
 
     setMaterial(){
         this.material = new THREE.ShaderMaterial({
-            vertexShader: planeVertexShader,
-            fragmentShader: planeFragmentShader,
+            vertexShader: planeVertexShader1,
+            fragmentShader: planeFragmentShader1,
             uniforms: {
                 tDiffuse: { value: null }, 
                 uTime: { value: 0 },
@@ -62,6 +63,29 @@ export default class Plane {
         this.mesh.rotation.x = - Math.PI * 0.5
         this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
+    }
+
+    updateShader(vertexShader, fragmentShader) {
+        // Preserve the old uniforms' values
+        const oldUniforms = this.material.uniforms;
+    
+        // Dispose the old material
+        this.material.dispose();
+    
+        // Create a new material with the new shaders and old uniform values
+        this.material = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: {
+                tDiffuse: { value: oldUniforms.tDiffuse.value },
+                uTime: { value: oldUniforms.uTime.value },
+                uColor: { value: oldUniforms.uColor.value },
+                // Add other uniforms here if needed
+            },
+        });
+    
+        // Reassign the material to the mesh
+        this.mesh.material = this.material;
     }
 
     update() {

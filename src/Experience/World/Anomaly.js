@@ -14,6 +14,7 @@ export default class Anomaly {
         this.time = this.experience.time
         this.debug = this.experience.debug
         
+        
 
         //Debug
         if(this.debug.active){
@@ -25,24 +26,23 @@ export default class Anomaly {
         this.anomalyFragmentShader = anomalyFragmentShader
 
         this.parameters = {
-            count: 709620,
-            size: 88.938,
-            radius: 30,
-            branches: 10,
+            count: 66000,
+            size: 53.294,
+            radius: 5.358,
+            branches: 0.328,
             spin: 1,
-            randomness: 0.451,
-            randomnessPower: 3.695,
-            insideColor: '#e5ad76',
-            outsideColor: '#9ba2d9',
+            randomness: 0.599,
+            randomnessPower: 6.46,
+            insideColor: '#ffc994',
+            outsideColor: '#373c81',
             offsetX: -10,
-            offsetY: 20,
+            offsetY: 18.224,
             offsetZ: 0,
         }
 
+        this.points = null;
         this.setGeometry()
         this.setPoints()
-
-        
         this.generateGalaxy()
         this.setDebug()
 
@@ -55,8 +55,11 @@ export default class Anomaly {
     setPoints(){
 
         this.material = new THREE.ShaderMaterial({
-            depthWrite: false,
+           
             blending: THREE.AdditiveBlending,
+            depthTest: true,
+            depthWrite: false,
+            transparent: true,
             vertexColors: true,
             vertexShader: anomalyVertexShader,
             fragmentShader: anomalyFragmentShader,
@@ -70,6 +73,8 @@ export default class Anomaly {
     }
 
     generateGalaxy() {
+        console.log("generateGalaxy called with parameters:", this.parameters);
+
         if (this.points !== null) {
             this.geometry.dispose();
             this.material.dispose();
@@ -164,17 +169,60 @@ export default class Anomaly {
             this.debugFolder.addColor(this.parameters, 'outsideColor').onFinishChange(() => {
                 this.generateGalaxy()
             })
-            this.debugFolder.add(this.parameters, 'offsetX').min(- 5).max(5).step(0.001).onFinishChange(() => {
-                this.generateGalaxy()
+            this.debugFolder.add(this.parameters, 'offsetX').min(- 5).max(50).step(0.001).onFinishChange(() => {
+                this.updateParameters({ offsetX: this.parameters.offsetX });
             })
-            this.debugFolder.add(this.parameters, 'offsetY').min(- 5).max(5).step(0.001).onFinishChange(() => {
-                this.generateGalaxy()
+            this.debugFolder.add(this.parameters, 'offsetY').min(- 5).max(50).step(0.001).onFinishChange(() => {
+                this.updateParameters({ offsetY: this.parameters.offsetY });
             })
-            this.debugFolder.add(this.parameters, 'offsetZ').min(- 5).max(5).step(0.001).onFinishChange(() => {
-                this.generateGalaxy()
+            this.debugFolder.add(this.parameters, 'offsetZ').min(- 5).max(50).step(0.001).onFinishChange(() => {
+                this.updateParameters({ offsetZ: this.parameters.offsetZ });
             })
         }
     }
+    
+    updateParameters(newParams) {
+        // Flag to check if galaxy needs regeneration
+        let regenerateGalaxy = false;
+    
+        // Update parameters and check if galaxy regeneration is needed
+        for (const [key, value] of Object.entries(newParams)) {
+            if (key in this.parameters) {
+                this.parameters[key] = value;
+    
+                // Check if this parameter requires regenerating the galaxy
+                if (['count', 'radius', 'branches', 'randomness', 'randomnessPower', 'insideColor', 'outsideColor'].includes(key)) {
+                    regenerateGalaxy = true;
+                }
+    
+                // Update material-related uniforms directly if they are changed
+                if (['size', 'offsetX', 'offsetY', 'offsetZ'].includes(key)) {
+                    switch (key) {
+                        case 'size':
+                            this.material.uniforms.uSize.value = this.parameters.size * this.renderer.getPixelRatio();
+                            break;
+                        case 'offsetX':
+                        case 'offsetY':
+                        case 'offsetZ':
+                            this.material.uniforms.uOffset.value = new THREE.Vector3(this.parameters.offsetX, this.parameters.offsetY, this.parameters.offsetZ);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            } else {
+                console.warn(`Parameter ${key} is not recognized.`);
+            }
+        }
+    
+        // Regenerate the galaxy if needed
+        if (regenerateGalaxy) {
+            this.generateGalaxy();
+        }
+    }
+    
+    
+    
     
     update() {
         this.material.uniforms.uTime.value = this.time.elapsed * 0.001

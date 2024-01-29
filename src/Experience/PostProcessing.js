@@ -55,7 +55,6 @@ export default class PostProcessing {
         this.bloom.strength = 0.5
         this.bloom.radius = 0.5
         this.bloom.threshold = 0.3
-        console.log(this.bloom)
     }
 
     setRenderPass() {

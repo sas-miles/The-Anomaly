@@ -9,39 +9,34 @@ varying vec3 vColor;
 
 void main()
 {
-    /**
-     * Position
-     */
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-    
-                
-    // Rotate 1
+
+    // Rotate
     float angle = atan(modelPosition.x, modelPosition.z);
     float distanceToCenter = length(modelPosition.xz);
-    float angleOffset = (1.0 / distanceToCenter) * uTime;
+    float angleOffset = (1.0 / distanceToCenter) * uTime * 0.3; // Added a scaling factor to slow down the rotation effect.
     angle += angleOffset;
     modelPosition.x = cos(angle) * distanceToCenter;
     modelPosition.z = sin(angle) * distanceToCenter;
 
-    // Randomness
+    // Apply the randomness
     modelPosition.xyz += aRandomness;
 
-    // Offset in world space
+    // Apply the offset after the rotation and randomness to avoid moving with the galaxy's rotation
+    modelPosition.xyz += uOffset;
+
+    // Convert the modelPosition to view space
     vec4 viewPosition = viewMatrix * modelPosition;
 
-    viewPosition.xyz += uOffset;
-
+    // Project the viewPosition to clip space
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
 
-    /**
-     * Size
-     */
-    gl_PointSize = uSize * aScale;
-    gl_PointSize *= (1.0 / - viewPosition.z);
+    // Calculate size with perspective correction
+    float perspectiveSize = uSize * aScale * (4.0 / -viewPosition.z);
+    perspectiveSize = clamp(perspectiveSize, 0.0, uSize); // Add clamping to avoid over-scaling
 
-    /**
-     * Color
-     */
+    gl_PointSize = perspectiveSize;
+
     vColor = color;
 }

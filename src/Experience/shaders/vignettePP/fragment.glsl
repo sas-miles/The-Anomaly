@@ -28,7 +28,7 @@ void main() {
     vec3 color = texture2D(tDiffuse, vUv).xyz;
 
     // RGB shift effect
-    float shiftAmount = 0.001; // Amount of RGB shift
+    float shiftAmount = 0.004; // Amount of RGB shift
     float edgeIntensity = 0.8 - vignetteAmount; // Apply the shift more on the edges, less in the center
 
     vec2 redOffset = vec2(shiftAmount, 0.0) * edgeIntensity;
