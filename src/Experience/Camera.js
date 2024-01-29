@@ -21,6 +21,11 @@ export default class Camera{
         
         this.setInstance()
         this.setIntroAnimation()
+
+        this.markerTargets = {
+            'sphere1': { position: new THREE.Vector3(10, 5, 10), lookAt: new THREE.Vector3(0, 4, 0) },
+            'sphere2': { position: new THREE.Vector3(-25, 5, -9), lookAt: new THREE.Vector3(-20, 2, -4) },
+        };
     }
 
     setInstance() {
@@ -82,6 +87,26 @@ export default class Camera{
         { emitEvents: true })
 
     }
+
+    animateToMarker(markerName) {
+        if (!this.markerTargets[markerName]) {
+            console.warn(`No target set for marker ${markerName}`);
+            return;
+        }
+    
+        const target = this.markerTargets[markerName];
+    
+        // Animate the camera's position
+        this.animation.addAnimation(this.instance.position, {
+            duration: this.animationConfig.defaultDuration,
+            ease: this.animationConfig.defaultEase,
+            x: target.position.x,
+            y: target.position.y,
+            z: target.position.z
+        }, { emitEvents: true });
+    
+    }
+    
 
     resize() {
         this.instance.aspect = this.sizes.width / this.sizes.height

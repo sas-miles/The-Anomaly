@@ -45,6 +45,7 @@ export default class Experience {
     this.interface = new Interface();
     this.world = new World(this.renderer.instance);
     
+    
 
     
 
@@ -57,6 +58,17 @@ export default class Experience {
     this.time.on('tick', () => {
       this.update();
     });
+  }
+
+  getExperienceManager() {
+    return this.world ? this.world.experienceManager : null;
+}
+
+
+  updateScene() {
+
+    this.resize();
+    this.update();
   }
 
   resize() {
@@ -76,6 +88,8 @@ export default class Experience {
     this.interface.update();
     this.postProcessing.update();
   }
+
+
 
   //Ideally call this on each class
   destroy() {

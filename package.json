@@ -53,6 +53,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@barba/core": "^2.9.7",
     "@finsweet/ts-utils": "^0.40.0",
     "aws-sdk": "^2.1540.0",
     "esbuild-plugin-glsl": "^1.2.2",

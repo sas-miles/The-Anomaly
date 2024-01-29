@@ -3,6 +3,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": "./",
+    "allowJs": true,
+    "noImplicitAny": false,
     "paths": {
       "$utils/*": ["src/utils/*"], 
       "$draco/*": ["src/utils/draco/*"]

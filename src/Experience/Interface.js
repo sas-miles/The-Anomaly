@@ -85,6 +85,7 @@ export default class Interface{
     }
 
     setRaycaster() {
+        window.addEventListener('click', this.onMouseClick.bind(this)); 
         window.addEventListener('mousemove', (event) => {
             // Convert the mouse position to normalized device coordinates (-1 to +1) for raycasting.
             this.mousePosition.x = (event.clientX / this.sizes.width) * 2 - 1;
@@ -119,6 +120,21 @@ export default class Interface{
                 }
             }
         });
+    }
+
+    onMouseClick(event) {
+        // Update the mouse position for raycasting
+        this.mousePosition.x = (event.clientX / this.sizes.width) * 2 - 1;
+        this.mousePosition.y = -(event.clientY / this.sizes.height) * 2 + 1;
+        this.raycaster.setFromCamera(this.mousePosition, this.experience.camera.instance);
+    
+        // Check for intersections with the markers
+        const intersects = this.raycaster.intersectObjects(this.group.children);
+    
+        if (intersects.length > 0) {
+            const intersectedMarker = intersects[0].object;
+            this.experience.camera.animateToMarker(intersectedMarker.name);
+        }
     }
     
     
