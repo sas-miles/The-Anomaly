@@ -96,36 +96,43 @@ export default class ExperienceManager{
         this.chapters.forEach((_, index) => {
             const buttonId = `chapter${index + 1}`;
             const button = document.getElementById(buttonId);
-
+    
             if (button) {
                 // Initialize the first button as the current button
                 if (index === 0) {
                     button.classList.add('is-current');
                     this.currentButton = button;
                 }
-
-                button.addEventListener('click', () => {
+    
+                const handleButtonClick = () => {
                     console.log(`Chapter ${index + 1} button clicked`);
-
+    
                     // Remove 'is-current' class from the previous button
                     if (this.currentButton) {
                         this.currentButton.classList.remove('is-current');
                     }
-
+    
                     // Add 'is-current' class to the clicked button
                     button.classList.add('is-current');
-
+    
                     // Update the reference to the current button
                     this.currentButton = button;
-
+    
                     // Set the chapter
                     this.setChapter(index);
-                });
+                };
+    
+                // Handle click events (mouse and touch)
+                button.addEventListener('click', handleButtonClick);
+    
+                // Optionally handle touchstart or touchend events for better mobile support
+                button.addEventListener('touchend', handleButtonClick);
             } else {
                 console.warn(`Button with ID '${buttonId}' was not found.`);
             }
         });
     }
+    
     
     determineChapterIndexFromURL() {
         const url = window.location.pathname; // Get the current URL path
