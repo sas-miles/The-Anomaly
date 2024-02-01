@@ -1,5 +1,6 @@
 import barba from '@barba/core';
 import { gsap } from 'gsap';
+import { restartWebflow } from '@finsweet/ts-utils';
 
 import Experience from './Experience/Experience'
 
@@ -9,19 +10,24 @@ const experience = new Experience(document.querySelector('canvas.webgl'));
 barba.init({
   transitions: [{
     name: 'fade',
-    once(data) {
-      console.log('Barba once hook - Initial page load');
-    },
+    sync: false,
     leave(data) {
-      gsap.fromTo(".chapter-page-title", { opacity: 1, x: 0 }, { opacity: 0, x: -20, duration: 2 });
+      
+      gsap.fromTo(".chapter-page-title", 
+      { opacity: 1, x: 0 }, { opacity: 0, x: -20, duration: 2, });
+
     },
     enter(data) {
       gsap.fromTo(".chapter-page-title", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 2 });
     },
+    after(data) {
+      restartWebflow();
+    }
   }],
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  
   const navLinks = document.querySelectorAll('.nav-link');
 
   navLinks.forEach(link => {
