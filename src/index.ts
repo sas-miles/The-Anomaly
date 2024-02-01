@@ -13,10 +13,10 @@ barba.init({
       console.log('Barba once hook - Initial page load');
     },
     leave(data) {
-      gsap.fromTo(".chapter-title-wrapper", { opacity: 1, y: 20 }, { opacity: 0, y: 0, duration: 2 });
+      gsap.fromTo(".chapter-page-title", { opacity: 1, x: 0 }, { opacity: 0, x: -20, duration: 2 });
     },
     enter(data) {
-      gsap.fromTo(".chapter-title-wrapper", { opacity: 0, y: 0 }, { opacity: 1, y: 20, duration: 2 });
+      gsap.fromTo(".chapter-page-title", { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 2 });
     },
   }],
 });

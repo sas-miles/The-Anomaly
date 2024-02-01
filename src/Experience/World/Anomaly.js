@@ -36,7 +36,7 @@ export default class Anomaly {
             insideColor: '#ffc994',
             outsideColor: '#373c81',
             offsetX: -10,
-            offsetY: 18.224,
+            offsetY: 40.224,
             offsetZ: 0,
         }
 

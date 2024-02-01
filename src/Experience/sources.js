@@ -1,5 +1,10 @@
 export default [
   {
+    name: 'Full',
+    type: 'gltfModel',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/full-scene.glb',
+  },
+  {
     name: 'Central',
     type: 'gltfModel',
     path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/central/central-module.glb',

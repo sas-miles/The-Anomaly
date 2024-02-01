@@ -11,6 +11,8 @@ export default class Interface{
         this.pointLabel = new CSS2DObject()
         this.mousePosition = new THREE.Vector2()
         this.debug = this.experience.debug
+        
+        console.log(this.debug.active)
 
         if(this.debug.active){
             this.debugFolder = this.debug.gui.addFolder('Markers')
@@ -31,6 +33,7 @@ export default class Interface{
         this.setGroup()
         this.setLabels()
         this.setRaycaster()
+        this.setDebug()
     }
 
     setLabelRenderer() {
@@ -55,10 +58,10 @@ export default class Interface{
     setGroup() {
         this.group = new THREE.Group()
 
-        this.sphereMesh1 = this.setMarkers('sphere1', 0, 4, 0)
+        this.sphereMesh1 = this.setMarkers('sphere1', 0, 6.25, 0)
         this.group.add(this.sphereMesh1)
 
-        this.sphereMesh2 = this.setMarkers('sphere2', -20, 2, -4)
+        this.sphereMesh2 = this.setMarkers('sphere2', -17, 14, -10)
         this.group.add(this.sphereMesh2)
 
         this.sphereMesh3 = this.setMarkers('sphere3', -16, 2, 12)
@@ -137,7 +140,14 @@ export default class Interface{
         }
     }
     
-    
+    setDebug() {
+        if(this.debug.active){
+        this.debugFolder.add(this.sphereMesh2.position, 'x').step(0.01).min(-100).max(100).name('positionX')
+        this.debugFolder.add(this.sphereMesh2.position, 'y').step(0.01).min(-100).max(100).name('positionY')    
+        this.debugFolder.add(this.sphereMesh2.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
+        }
+        
+    }
     
 
     update() {

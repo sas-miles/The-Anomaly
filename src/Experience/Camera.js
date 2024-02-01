@@ -49,7 +49,7 @@ export default class Camera{
         if(this.debug.active){
             this.debugFolder.add(this.instance.position, 'x').step(0.01).min(-100).max(100).name('positionX')
             this.debugFolder.add(this.instance.position, 'y').step(0.01).min(-100).max(100).name('positionY')
-            this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(100).name('positionZ')
+            this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
 
 
             this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationX').onChange(() => {
@@ -71,8 +71,8 @@ export default class Camera{
 
         const startPosition = {
             x: 0, 
-            y: 32, 
-            z: 60
+            y: 200, 
+            z: 600
         }
 
         this.instance.position.set(startPosition.x, startPosition.y, startPosition.z)
@@ -81,8 +81,8 @@ export default class Camera{
             duration: this.animationConfig.defaultDuration, 
             ease: this.animationConfig.defaultEase,
             x: 0, 
-            y: 9, 
-            z: 40
+            y: 15, 
+            z: 200
         }, 
         { emitEvents: true })
 

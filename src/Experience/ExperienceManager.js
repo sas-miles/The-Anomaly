@@ -18,17 +18,17 @@ export default class ExperienceManager{
         this.chapters = [
             {
                 anomalyParams: { 
-                    count: 262500,
-                    size: 69.269,
-                    radius: 11.495,
-                    branches: 0.328,
+                    count: 300500,
+                    size: 200,
+                    radius: 40.495,
+                    branches: 0.068,
                     spin: 1,
-                    randomness: 0.599,
+                    randomness: 1.0,
                     randomnessPower: 6.46,
                     insideColor: '#ffc994',
                     outsideColor: '#373c81',
-                    offsetX: -10,
-                    offsetY: 18.224,
+                    offsetX: -20,
+                    offsetY: 60,
                     offsetZ: 0,
                 },
 
@@ -100,20 +100,20 @@ export default class ExperienceManager{
             if (button) {
                 // Initialize the first button as the current button
                 if (index === 0) {
-                    button.classList.add('is-current');
+                    button.classList.add('is-active');
                     this.currentButton = button;
                 }
     
                 const handleButtonClick = () => {
                     console.log(`Chapter ${index + 1} button clicked`);
     
-                    // Remove 'is-current' class from the previous button
+                    // Remove 'is-active' class from the previous button
                     if (this.currentButton) {
-                        this.currentButton.classList.remove('is-current');
+                        this.currentButton.classList.remove('is-active');
                     }
     
-                    // Add 'is-current' class to the clicked button
-                    button.classList.add('is-current');
+                    // Add 'is-active' class to the clicked button
+                    button.classList.add('is-active');
     
                     // Update the reference to the current button
                     this.currentButton = button;
@@ -136,7 +136,7 @@ export default class ExperienceManager{
     
     determineChapterIndexFromURL() {
         const url = window.location.pathname; // Get the current URL path
-        const chapterPattern = /the-anomaly-experience-chapter-(\d+)/; // Regex to extract chapter number
+        const chapterPattern = /chapter-(\d+)/; // Regex to extract chapter number
         const match = url.match(chapterPattern);
     
         if (match && match[1]) {
@@ -182,16 +182,16 @@ export default class ExperienceManager{
     
     
     updateButtonState(index) {
-        // Remove 'is-current' class from the previous button
+        // Remove 'is-active' class from the previous button
         if (this.currentButton) {
-            this.currentButton.classList.remove('is-current');
+            this.currentButton.classList.remove('is-active');
         }
     
-        // Find the new current button and add 'is-current' class
+        // Find the new current button and add 'is-active' class
         const newButtonId = `chapter${index + 1}`;
         const newButton = document.getElementById(newButtonId);
         if (newButton) {
-            newButton.classList.add('is-current');
+            newButton.classList.add('is-active');
             this.currentButton = newButton;
         }
     }
