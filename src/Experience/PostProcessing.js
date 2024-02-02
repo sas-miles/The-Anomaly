@@ -52,7 +52,7 @@ export default class PostProcessing {
     }
 
     setBloom() {
-        this.bloom.strength = 0.5
+        this.bloom.strength = 0.2
         this.bloom.radius = 0.5
         this.bloom.threshold = 0.3
     }

@@ -7,6 +7,7 @@ import Experience from './Experience/Experience'
 
 const experience = new Experience(document.querySelector('canvas.webgl'));
 
+
 window.Webflow ||= [];
 window.Webflow.push(async () => {
 
@@ -21,9 +22,19 @@ barba.init({
       { opacity: 1, x: 0 }, { opacity: 0, x: -20, duration: 2, });
       
     },
+    beforeEnter(data) {
+      // Get the ExperienceManager from the Experience instance
+      const experienceManager = experience.getExperienceManager();
+      
+      if (experienceManager) {
+        // Update the ExperienceManager based on the new URL or Barba's state
+        const chapterIndex = experienceManager.determineChapterIndexFromURL();
+        experienceManager.setChapter(chapterIndex);
+      }
+    },
     enter(data) {
       gsap.fromTo(".chapter-page-title", { opacity: 0, y: 20, ease: "power4.out" }, { opacity: 1, y: 0, duration: 1, delay: 2 });
-      gsap.fromTo(".chapter-main", { opacity: 0, x: -100, ease: "power4.out" }, { opacity: 1, x: 0, duration: 1, delay: 2});
+      gsap.fromTo(".chapter-main", { opacity: 0, x: -100, ease: "power4.out" }, { opacity: 1, x: 0, duration: 1, delay: 1});
     },
     after(data) {
       restartWebflow();

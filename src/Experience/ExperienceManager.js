@@ -154,7 +154,7 @@ export default class ExperienceManager{
     
         // Fade out the current content
         tl.to(this.experience.canvas, {
-            duration: 1, // Duration of the fade out
+            duration: .5, // Duration of the fade out
             opacity: 0,
             ease: 'power2.inOut',
             onComplete: () => {
