@@ -14,12 +14,13 @@ void main()
     // Rotate
     float angle = atan(modelPosition.x, modelPosition.z);
     float distanceToCenter = length(modelPosition.xz);
-    float angleOffset = (1.0 / distanceToCenter) * uTime * 0.3; // Added a scaling factor to slow down the rotation effect.
+    float angleOffset = distanceToCenter * 0.2;
+    angle += uTime * 0.1;
     angle += angleOffset;
     modelPosition.x = cos(angle) * distanceToCenter;
     modelPosition.z = sin(angle) * distanceToCenter;
 
-    // Apply the randomness
+    // Randomness
     modelPosition.xyz += aRandomness;
 
     // Apply the offset after the rotation and randomness to avoid moving with the galaxy's rotation

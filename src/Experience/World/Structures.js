@@ -12,7 +12,7 @@ export default class Structures {
         this.resource = this.resources.items.Full
 
         //Science Main
-        console.log(this.resource)
+        // console.log(this.resource)
 
         this.setModel()
 

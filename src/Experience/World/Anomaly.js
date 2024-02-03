@@ -2,8 +2,8 @@ import * as THREE from 'three'
 
 import Experience from '../Experience.js'
 
-import anomalyVertexShader from '../shaders/anomaly/vertex.glsl'
-import anomalyFragmentShader from '../shaders/anomaly/fragment.glsl'
+import galaxyVertexShader from '../shaders/anomaly/galaxy/vertex.glsl'
+import galaxyFragmentShader from '../shaders/anomaly/galaxy/fragment.glsl'
 
 
 export default class Anomaly {   
@@ -22,22 +22,24 @@ export default class Anomaly {
         }
 
         //Set up
-        this.anomalyVertexShader = anomalyVertexShader
-        this.anomalyFragmentShader = anomalyFragmentShader
+        this.anomalyVertexShader = galaxyVertexShader
+        this.anomalyFragmentShader = galaxyFragmentShader
 
         this.parameters = {
-            count: 66000,
-            size: 53.294,
-            radius: 5.358,
-            branches: 0.328,
+            count: 619000,
+            size: 53,
+            radius: 45.914,
+            branches: 2,
             spin: 1,
-            randomness: 0.599,
-            randomnessPower: 6.46,
+            randomness: 0.5,
+            randomnessPower:4.579,
             insideColor: '#ffc994',
             outsideColor: '#373c81',
-            offsetX: -10,
-            offsetY: 40.224,
-            offsetZ: 0,
+            offsetX: 19,
+            offsetY: 41,
+            offsetZ: -28,
+            vertexShader: galaxyVertexShader,
+            fragmentShader: galaxyFragmentShader
         }
 
         this.points = null;
@@ -61,8 +63,8 @@ export default class Anomaly {
             depthWrite: false,
             transparent: true,
             vertexColors: true,
-            vertexShader: anomalyVertexShader,
-            fragmentShader: anomalyFragmentShader,
+            vertexShader: this.anomalyVertexShader,
+            fragmentShader: this.anomalyFragmentShader,
             uniforms: {
                 uSize: { value: this.parameters.size * this.renderer.getPixelRatio() },
                 uTime: { value: 0 },
@@ -73,7 +75,7 @@ export default class Anomaly {
     }
 
     generateGalaxy() {
-        console.log("generateGalaxy called with parameters:", this.parameters);
+        // console.log("generateGalaxy called with parameters:", this.parameters);
 
         if (this.points !== null) {
             this.geometry.dispose();
@@ -93,36 +95,35 @@ export default class Anomaly {
 
         const insideColor = new THREE.Color(this.parameters.insideColor)
         const outsideColor = new THREE.Color(this.parameters.outsideColor)
-
         for(let i = 0; i < this.parameters.count; i++)
         {
             const i3 = i * 3
-
+    
             // Position
             const radius = Math.random() * this.parameters.radius
-
+    
             const branchAngle = (i % this.parameters.branches) / this.parameters.branches * Math.PI * 2
-
-            const randomX = Math.pow(Math.random(), this.parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * this.parameters.randomness * radius
-            const randomY = Math.pow(Math.random(), this.parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * this.parameters.randomness * radius
+    
+            const randomX = Math.pow(Math.random(), this.parameters.randomnessPower) * (Math.random() < 0.3 ? 1 : - 1) * this.parameters.randomness * radius
+            const randomY = Math.pow(Math.random(), this.parameters.randomnessPower) * this.parameters.randomness * radius
             const randomZ = Math.pow(Math.random(), this.parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * this.parameters.randomness * radius
-
-            positions[i3    ] = Math.cos(branchAngle) * radius 
+    
+            positions[i3    ] = Math.cos(branchAngle) * radius
             positions[i3 + 1] = 0
             positions[i3 + 2] = Math.sin(branchAngle) * radius
         
-            randomness[i3    ] = randomX
-            randomness[i3 + 1] = randomY 
+            randomness[i3    ] = randomY
+            randomness[i3 + 1] = randomX
             randomness[i3 + 2] = randomZ
-
+    
             // Color
             const mixedColor = insideColor.clone()
             mixedColor.lerp(outsideColor, radius / this.parameters.radius)
-
+    
             colors[i3    ] = mixedColor.r
             colors[i3 + 1] = mixedColor.g
             colors[i3 + 2] = mixedColor.b
-
+    
             // Scale
             scales[i] = Math.random()
         }
@@ -144,7 +145,7 @@ export default class Anomaly {
             this.debugFolder.add(this.parameters, 'count').min(100).max(1000000).step(100).onFinishChange(() => {
                 this.generateGalaxy()
             })
-            this.debugFolder.add(this.parameters, 'size').min(0).max(100).step(0.001).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'size').min(0).max(1000).step(1.0).onFinishChange(() => {
                 this.material.uniforms.uSize.value = this.parameters.size * this.renderer.getPixelRatio();
                 // Potentially re-render or regenerate the galaxy if necessary.
             })
@@ -169,13 +170,13 @@ export default class Anomaly {
             this.debugFolder.addColor(this.parameters, 'outsideColor').onFinishChange(() => {
                 this.generateGalaxy()
             })
-            this.debugFolder.add(this.parameters, 'offsetX').min(- 5).max(50).step(0.001).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'offsetX').min(-100).max(100).step(1).onFinishChange(() => {
                 this.updateParameters({ offsetX: this.parameters.offsetX });
             })
-            this.debugFolder.add(this.parameters, 'offsetY').min(- 5).max(50).step(0.001).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'offsetY').min(-100).max(100).step(1).onFinishChange(() => {
                 this.updateParameters({ offsetY: this.parameters.offsetY });
             })
-            this.debugFolder.add(this.parameters, 'offsetZ').min(- 5).max(50).step(0.001).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'offsetZ').min(-100).max(100).step(1).onFinishChange(() => {
                 this.updateParameters({ offsetZ: this.parameters.offsetZ });
             })
         }

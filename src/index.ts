@@ -35,9 +35,10 @@ barba.init({
     enter(data) {
       gsap.fromTo(".chapter-page-title", { opacity: 0, y: 20, ease: "power4.out" }, { opacity: 1, y: 0, duration: 1, delay: 2 });
       gsap.fromTo(".chapter-main", { opacity: 0, x: -100, ease: "power4.out" }, { opacity: 1, x: 0, duration: 1, delay: 1});
+      restartWebflow();
     },
     after(data) {
-      restartWebflow();
+      
     }
   }],
 });

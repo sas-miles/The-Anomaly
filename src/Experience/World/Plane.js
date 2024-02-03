@@ -12,30 +12,29 @@ export default class Plane {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.time = this.experience.time
-        this.debug = this.experience.debug
+        this.resources = this.experience.resources 
+        // this.debug = this.experience.debug
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder = this.debug.gui.addFolder('The Plane')
-        }
+        // if(this.debug.active){
+        //     this.debugFolder = this.debug.gui.addFolder('The Plane')
+        // }
 
         //Set up
         this.planeVertexShader = planeVertexShader1
         this.planeFragmentShader = planeFragmentShader1
 
-        this.setGeometry()
-        this.planeParameters = {
-            planeColor: '#1a5c8e',
-        }
-        this.setMaterial()
-        
-        this.setMesh()
+        this.resource = this.resources.items.Ground
+
+        this.setModel()
         
 
     }
 
-    setGeometry(){
-        this.geometry = new THREE.PlaneGeometry(100, 100, 200, 200)
+    setModel() {
+        this.model = this.resource.scene
+        this.scene.add(this.model)
+        
     }
 
     setMaterial(){
@@ -50,11 +49,11 @@ export default class Plane {
         })
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder.addColor(this.planeParameters, 'planeColor').onChange(() => {
-                this.material.uniforms.uColor.value.set(this.planeParameters.planeColor)
-            })
-        }
+        // if(this.debug.active){
+        //     this.debugFolder.addColor(this.planeParameters, 'planeColor').onChange(() => {
+        //         this.material.uniforms.uColor.value.set(this.planeParameters.planeColor)
+        //     })
+        // }
 
     }
 

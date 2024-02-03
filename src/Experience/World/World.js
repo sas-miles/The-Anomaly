@@ -41,8 +41,8 @@ export default class World {
     }
 
     update() {
-        if(this.plane)
-        this.plane.update()
+        // if(this.plane)
+        // this.plane.update()
         if(this.anomaly)
         this.anomaly.update()
     }   

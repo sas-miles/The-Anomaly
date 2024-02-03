@@ -6,6 +6,11 @@ import planeVertexShader1 from './shaders/plane/1/vertex.glsl'
 import planeFragmentShader1 from './shaders/plane/1/fragment.glsl'
 import planeVertexShader2 from './shaders/plane/2/vertex.glsl'
 import planeFragmentShader2 from './shaders/plane/2/fragment.glsl'
+import galaxyVertexShader from './shaders/anomaly/galaxy/vertex.glsl'
+import galaxyFragmentShader from './shaders/anomaly/galaxy/fragment.glsl'
+import wormholeVertexShader from './shaders/anomaly/wormhole/vertex.glsl'
+import wormholeFragmentShader from './shaders/anomaly/wormhole/fragment.glsl'
+
 
 
 export default class ExperienceManager{
@@ -18,46 +23,51 @@ export default class ExperienceManager{
         this.chapters = [
             {
                 anomalyParams: { 
-                    count: 300500,
-                    size: 200,
-                    radius: 40.495,
-                    branches: 0.068,
-                    spin: 1,
-                    randomness: 1.0,
-                    randomnessPower: 6.46,
+                    count: 619000,
+                    size: 53,
+                    radius: 14,
+                    branches: 10,
+                    spin: 2,
+                    randomness: 2,
+                    randomnessPower:3,
                     insideColor: '#ffc994',
                     outsideColor: '#373c81',
-                    offsetX: -20,
-                    offsetY: 60,
+                    offsetX: 16,
+                    offsetY: 50,
                     offsetZ: 0,
+                    vertexShader: galaxyVertexShader,
+                    fragmentShader: galaxyFragmentShader
                 },
 
-                planeShaders: {
-                    vertexShader: planeVertexShader1, 
-                    fragmentShader: planeFragmentShader1, 
-                },
+                // planeShaders: {
+                //    vertexShader: planeVertexShader1,
+                //    fragmentShader: planeFragmentShader1,
+                // },
                 
             },
 
             {
                 anomalyParams: { 
-                    count: 709620,
-                    size: 88.938,
+                    count: 410000,
+                    size: 103,
                     radius: 30,
-                    branches: 10,
+                    branches: 13,
                     spin: 1,
-                    randomness: 0.451,
-                    randomnessPower: 3.695,
+                    randomness: 0.476,
+                    randomnessPower: 4.579,
                     insideColor: '#e5ad76',
                     outsideColor: '#9ba2d9',
                     offsetX: -10,
-                    offsetY: 20,
+                    offsetY: 6.055,
                     offsetZ: 0,
+                    vertexShader: wormholeVertexShader,
+                    fragmentShader: wormholeFragmentShader
+                    
                 },
-                planeShaders: {
-                    vertexShader: planeVertexShader2, 
-                    fragmentShader: planeFragmentShader2, 
-                },
+                // planeShaders: {
+                //     vertexShader: planeVertexShader2, 
+                //     fragmentShader: planeFragmentShader2, 
+                // },
                 
             },
 
@@ -76,10 +86,10 @@ export default class ExperienceManager{
                     offsetY: 8.759,
                     offsetZ: 40,
                 },
-                planeShaders: {
-                    vertexShader: planeVertexShader2, 
-                    fragmentShader: planeFragmentShader2, 
-                },
+                // planeShaders: {
+                //     vertexShader: planeVertexShader2, 
+                //     fragmentShader: planeFragmentShader2, 
+                // },
                 
             },
         ];

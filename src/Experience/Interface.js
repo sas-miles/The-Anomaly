@@ -12,11 +12,10 @@ export default class Interface{
         this.mousePosition = new THREE.Vector2()
         this.debug = this.experience.debug
         
-        console.log(this.debug.active)
 
-        if(this.debug.active){
-            this.debugFolder = this.debug.gui.addFolder('Markers')
-        }
+        // if(this.debug.active){
+        //     this.debugFolder = this.debug.gui.addFolder('Markers')
+        // }
 
         this.labels = {}
 
@@ -33,7 +32,7 @@ export default class Interface{
         this.setGroup()
         this.setLabels()
         this.setRaycaster()
-        this.setDebug()
+        // this.setDebug()
     }
 
     setLabelRenderer() {
@@ -140,14 +139,14 @@ export default class Interface{
         }
     }
     
-    setDebug() {
-        if(this.debug.active){
-        this.debugFolder.add(this.sphereMesh2.position, 'x').step(0.01).min(-100).max(100).name('positionX')
-        this.debugFolder.add(this.sphereMesh2.position, 'y').step(0.01).min(-100).max(100).name('positionY')    
-        this.debugFolder.add(this.sphereMesh2.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
-        }
+    // setDebug() {
+    //     if(this.debug.active){
+    //     this.debugFolder.add(this.sphereMesh2.position, 'x').step(0.01).min(-100).max(100).name('positionX')
+    //     this.debugFolder.add(this.sphereMesh2.position, 'y').step(0.01).min(-100).max(100).name('positionY')    
+    //     this.debugFolder.add(this.sphereMesh2.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
+    //     }
         
-    }
+    // }
     
 
     update() {

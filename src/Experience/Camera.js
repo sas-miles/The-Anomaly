@@ -14,9 +14,9 @@ export default class Camera{
         this.debug = this.experience.debug
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder = this.debug.gui.addFolder('Camera')
-        }
+        // if(this.debug.active){
+        //     this.debugFolder = this.debug.gui.addFolder('Camera')
+        // }
         
         
         this.setInstance()
@@ -46,33 +46,33 @@ export default class Camera{
         this.scene.add(this.instance)
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder.add(this.instance.position, 'x').step(0.01).min(-100).max(100).name('positionX')
-            this.debugFolder.add(this.instance.position, 'y').step(0.01).min(-100).max(100).name('positionY')
-            this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
+        // if(this.debug.active){
+        //     this.debugFolder.add(this.instance.position, 'x').step(0.01).min(-100).max(100).name('positionX')
+        //     this.debugFolder.add(this.instance.position, 'y').step(0.01).min(-100).max(100).name('positionY')
+        //     this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
 
 
-            this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationX').onChange(() => {
-                this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
-            });
+        //     this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationX').onChange(() => {
+        //         this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
+        //     });
 
-            this.debugFolder.add(this.instance.rotation, 'y').step(0.01).min(-Math.PI).max(Math.PI).name('rotationY').onChange(() => {
-                this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
-            });
+        //     this.debugFolder.add(this.instance.rotation, 'y').step(0.01).min(-Math.PI).max(Math.PI).name('rotationY').onChange(() => {
+        //         this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
+        //     });
 
-            this.debugFolder.add(this.instance.rotation, 'z').step(0.01).min(-Math.PI).max(Math.PI).name('rotationZ').onChange(() => {
-                this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
-            });
+        //     this.debugFolder.add(this.instance.rotation, 'z').step(0.01).min(-Math.PI).max(Math.PI).name('rotationZ').onChange(() => {
+        //         this.experience.eventEmitter.trigger('camera.rotationChanged', [this.instance.rotation]);
+        //     });
 
-        }
+        // }
     }
 
     setIntroAnimation() {
 
         const startPosition = {
             x: 0, 
-            y: 200, 
-            z: 600
+            y: 100, 
+            z: 400
         }
 
         this.instance.position.set(startPosition.x, startPosition.y, startPosition.z)
@@ -81,8 +81,8 @@ export default class Camera{
             duration: this.animationConfig.defaultDuration, 
             ease: this.animationConfig.defaultEase,
             x: 0, 
-            y: 15, 
-            z: 200
+            y: 20, 
+            z: 100
         }, 
         { emitEvents: true })
 

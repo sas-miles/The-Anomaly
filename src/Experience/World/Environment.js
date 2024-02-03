@@ -11,12 +11,12 @@ export default class Environment{
         this.experience = new Experience()
         this.scene = this.experience.scene 
         this.resources = this.experience.resources
-        this.debug = this.experience.debug
+        // this.debug = this.experience.debug
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder = this.debug.gui.addFolder('Environment')
-        }
+        // if(this.debug.active){
+        //     this.debugFolder = this.debug.gui.addFolder('Environment')
+        // }
 
         this.setSunLight()
         //this.setEnvironmentMap()
@@ -32,65 +32,65 @@ export default class Environment{
         // this.scene.add(sunLightHelper)
 
         //Debug
-        if(this.debug.active){
-            this.debugFolder
-                .add(this.sunLight, 'intensity')
-                .min(0).max(50).step(0.01)
-                .name('Sun Light Intensity')
+        // if(this.debug.active){
+        //     this.debugFolder
+        //         .add(this.sunLight, 'intensity')
+        //         .min(0).max(50).step(0.01)
+        //         .name('Sun Light Intensity')
 
-            this.debugFolder
-                .add(this.sunLight.position, 'x')
-                .min(-50).max(50).step(0.1)
-                .name('Sun X')
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'x')
+        //         .min(-50).max(50).step(0.1)
+        //         .name('Sun X')
 
-            this.debugFolder
-                .add(this.sunLight.position, 'y')
-                .min(0).max(50).step(0.1)
-                .name('Sun Y')
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'y')
+        //         .min(0).max(50).step(0.1)
+        //         .name('Sun Y')
 
-            this.debugFolder
-                .add(this.sunLight.position, 'z')
-                .min(-40).max(60).step(1)
-                .name('Sun Z')
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'z')
+        //         .min(-40).max(60).step(1)
+        //         .name('Sun Z')
 
-                this.debugFolder
-            .add(this.sunLight.rotation, 'x')
-            .min(-Math.PI).max(Math.PI).step(0.01)
-            .name('Sun Rotation X')
+        //         this.debugFolder
+        //     .add(this.sunLight.rotation, 'x')
+        //     .min(-Math.PI).max(Math.PI).step(0.01)
+        //     .name('Sun Rotation X')
         
-        this.debugFolder
-            .add(this.sunLight.rotation, 'y')
-            .min(-Math.PI).max(Math.PI).step(0.01)
-            .name('Sun Rotation Y')
-
-        this.debugFolder
-            .add(this.sunLight.rotation, 'z')
-            .min(-Math.PI).max(Math.PI).step(0.01)
-            .name('Sun Rotation Z')
-
-            // Add width control
-        this.debugFolder
-        .add(this.sunLight, 'width')
-        .min(0).max(200).step(1)
-        .name('Sun Light Width')
-        .onChange(() => sunLightHelper.update());
-
-    // Add height control
-    this.debugFolder
-        .add(this.sunLight, 'height')
-        .min(0).max(200).step(1)
-        .name('Sun Light Height')
-        .onChange(() => sunLightHelper.update());
-
-        }
+        // this.debugFolder
+        //     .add(this.sunLight.rotation, 'y')
+        //     .min(-Math.PI).max(Math.PI).step(0.01)
+        //     .name('Sun Rotation Y')
 
         // this.debugFolder
-        //     .add({ helperVisible: true }, 'helperVisible')
-        //     .name('Toggle Helper')
-        //     .onChange((value) => {
-        //         sunLightHelper.visible = value;
-        //     });
-    }
+        //     .add(this.sunLight.rotation, 'z')
+        //     .min(-Math.PI).max(Math.PI).step(0.01)
+        //     .name('Sun Rotation Z')
+
+        //     // Add width control
+        // this.debugFolder
+        // .add(this.sunLight, 'width')
+        // .min(0).max(200).step(1)
+        // .name('Sun Light Width')
+        // .onChange(() => sunLightHelper.update());
+
+    // Add height control
+    // this.debugFolder
+    //     .add(this.sunLight, 'height')
+    //     .min(0).max(200).step(1)
+    //     .name('Sun Light Height')
+    //     .onChange(() => sunLightHelper.update());
+
+    //     }
+
+    //     // this.debugFolder
+    //     //     .add({ helperVisible: true }, 'helperVisible')
+    //     //     .name('Toggle Helper')
+    //     //     .onChange((value) => {
+    //     //         sunLightHelper.visible = value;
+    //     //     });
+    // }
 
     // setEnvironmentMap(){
     //     this.environmentMap = {}
@@ -120,5 +120,5 @@ export default class Environment{
     //             .name('Intensity')
     //             .onChange(this.environmentMap.updateMaterial)
     //     }
-    // }
+    }
 }
