@@ -33,6 +33,7 @@ export default class Plane {
 
     setModel() {
         this.model = this.resource.scene
+        this.model.scale.set(1.2, 1.2, 1.2)
         this.scene.add(this.model)
         
     }

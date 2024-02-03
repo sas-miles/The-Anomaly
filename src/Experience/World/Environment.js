@@ -23,8 +23,8 @@ export default class Environment{
     }
 
     setSunLight(){
-        this.sunLight = new THREE.RectAreaLight('#FFD5C2', 1.45, 140, 50)
-        this.sunLight.position.set(1.642, 40, -33)
+        this.sunLight = new THREE.RectAreaLight('#FFE2D6', 7, 140, 50)
+        this.sunLight.position.set(1.642, 50, -33)
         this.sunLight.rotation.x = -1.89;
         this.scene.add(this.sunLight)
         
