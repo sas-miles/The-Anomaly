@@ -38,11 +38,11 @@ export default class Experience {
     this.animationConfig = animationConfig;
     this.scene = new THREE.Scene();
     this.resources = new Resources(sources);
-    this.camera = new Camera();
+    this.camera = new Camera(this.eventEmitter);
     this.renderer = new Renderer();
     this.postProcessing = new PostProcessing();
     this.controls = new Controls(this);
-    this.interface = new Interface();
+    this.interface = new Interface(this.eventEmitter);
     this.world = new World(this.renderer.instance);
     
     

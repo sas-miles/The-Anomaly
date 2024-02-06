@@ -42,7 +42,7 @@ export default class PostProcessing {
         const vignetteShader = {
             uniforms: {
                 tDiffuse: { value: null },
-                noiseIntensity: { value: 0.008 },
+                noiseIntensity: { value: 0.003 },
             },
             vertexShader: vignetteVertexShader,
             fragmentShader: vignetteFragmentShader

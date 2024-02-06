@@ -26,7 +26,7 @@ export default class ExperienceManager{
                     count: 619000,
                     size: 53,
                     radius: 14,
-                    branches: 10,
+                    branches: 8,
                     spin: 2,
                     randomness: 2,
                     randomnessPower:3,
@@ -49,7 +49,7 @@ export default class ExperienceManager{
             {
                 anomalyParams: { 
                     count: 410000,
-                    size: 103,
+                    size: 13,
                     radius: 30,
                     branches: 13,
                     spin: 1,
@@ -57,9 +57,9 @@ export default class ExperienceManager{
                     randomnessPower: 4.579,
                     insideColor: '#e5ad76',
                     outsideColor: '#9ba2d9',
-                    offsetX: -10,
-                    offsetY: 6.055,
-                    offsetZ: 0,
+                    offsetX: 4,
+                    offsetY: 30,
+                    offsetZ: 40,
                     vertexShader: wormholeVertexShader,
                     fragmentShader: wormholeFragmentShader
                     

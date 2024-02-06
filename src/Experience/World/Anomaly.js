@@ -192,7 +192,7 @@ export default class Anomaly {
                 this.parameters[key] = value;
     
                 // Check if this parameter requires regenerating the galaxy
-                if (['count', 'radius', 'branches', 'randomness', 'randomnessPower', 'insideColor', 'outsideColor'].includes(key)) {
+                if (['count', 'radius', 'branches', 'randomness', 'randomnessPower', 'insideColor', 'outsideColor', 'vertexShader', 'fragmentShader'].includes(key)) {
                     regenerateGalaxy = true;
                 }
     

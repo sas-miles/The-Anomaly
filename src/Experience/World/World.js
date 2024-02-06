@@ -24,12 +24,7 @@ export default class World {
             
             
             this.plane = new Plane()
-            // this.central = new Central()
-            // this.quandrantOne = new QuadrantOne()
-            // this.quandrantTwo = new QuadrantTwo()
-            // this.quandrantFour = new QuadrantFour()
             this.structures = new Structures()
-
             this.anomaly = new Anomaly(this.renderer)
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()

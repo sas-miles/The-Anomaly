@@ -14,8 +14,9 @@ void main()
     // Rotate
     float angle = atan(modelPosition.x, modelPosition.z);
     float distanceToCenter = length(modelPosition.xz);
-    float angleOffset = (1.0 / distanceToCenter) * uTime * 1.0; // Added a scaling factor to slow down the rotation effect.
+    float angleOffset = 1.0 / distanceToCenter; // Added a scaling factor to slow down the rotation effect.
     angle += angleOffset;
+    angle += uTime * 0.1;
     modelPosition.x = cos(angle) * distanceToCenter;
     modelPosition.z = sin(angle) * distanceToCenter;
 

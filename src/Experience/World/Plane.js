@@ -9,6 +9,9 @@ import planeFragmentShader1 from '../shaders/plane/1/fragment.glsl'
 
 export default class Plane {   
     constructor() {
+        if (Plane.instance) {
+            return Plane.instance;
+        }
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.time = this.experience.time
@@ -28,12 +31,14 @@ export default class Plane {
 
         this.setModel()
         
+        Plane.instance = this;
 
     }
 
     setModel() {
         this.model = this.resource.scene
         this.model.scale.set(1.2, 1.2, 1.2)
+        this.model.position.set(0, 0, 0)
         this.scene.add(this.model)
         
     }
@@ -49,18 +54,10 @@ export default class Plane {
             },
         })
 
-        //Debug
-        // if(this.debug.active){
-        //     this.debugFolder.addColor(this.planeParameters, 'planeColor').onChange(() => {
-        //         this.material.uniforms.uColor.value.set(this.planeParameters.planeColor)
-        //     })
-        // }
-
     }
 
     setMesh(){
         this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.rotation.x = - Math.PI * 0.5
         this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
     }
