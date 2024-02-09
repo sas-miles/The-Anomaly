@@ -16,17 +16,17 @@ import wormholeFragmentShader from './shaders/anomaly/wormhole/fragment.glsl'
 
 export default class ExperienceManager{
 
-    constructor(){
+    constructor(anomaly){
         this.experience = new Experience();
         this.worldInterface = this.experience.world.worldInterface;
         this.anomaly = this.experience.world.anomaly;
         this.plane = this.experience.world.plane;
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
-
-        this.chapterParams = {
-            'chapter1': {
-                anomalyParams: {
+        
+        this.chapters = [
+            {
+                anomalyParams: { 
                     count: 619000,
                     size: 53,
                     radius: 14,
@@ -41,11 +41,17 @@ export default class ExperienceManager{
                     offsetZ: 0,
                     vertexShader: galaxyVertexShader,
                     fragmentShader: galaxyFragmentShader
-                }
+                },
+
+                // planeShaders: {
+                //    vertexShader: planeVertexShader1,
+                //    fragmentShader: planeFragmentShader1,
+                // },
+                
             },
-            
-            'chapter2': {
-                anomalyParams: {
+
+            {
+                anomalyParams: { 
                     count: 410000,
                     size: 13,
                     radius: 30,
@@ -60,11 +66,17 @@ export default class ExperienceManager{
                     offsetZ: 40,
                     vertexShader: wormholeVertexShader,
                     fragmentShader: wormholeFragmentShader
-                }
-            }, 
+                    
+                },
+                // planeShaders: {
+                //     vertexShader: planeVertexShader2, 
+                //     fragmentShader: planeFragmentShader2, 
+                // },
+                
+            },
 
-            'chapter3': {
-                anomalyParams: {
+            {
+                anomalyParams: { 
                     count: 225700,
                     size: 55.748,
                     radius: 6.578,
@@ -77,48 +89,18 @@ export default class ExperienceManager{
                     offsetX: 1.322,
                     offsetY: 8.759,
                     offsetZ: 40,
-                }
+                },
+                // planeShaders: {
+                //     vertexShader: planeVertexShader2, 
+                //     fragmentShader: planeFragmentShader2, 
+                // },
+                
             },
-
-            'chapter4': {
-                anomalyParams: {
-                    count: 225700,
-                    size: 55.748,
-                    radius: 6.578,
-                    branches: 7,
-                    spin: 1,
-                    randomness: 0.033,
-                    randomnessPower: 10,
-                    insideColor: '#e5ad76',
-                    outsideColor: '#9ba2d9',
-                    offsetX: 1.322,
-                    offsetY: 8.759,
-                    offsetZ: 40,
-                }
-            },
-
-            'chapter5': {
-                anomalyParams: {
-                    count: 225700,
-                    size: 55.748,
-                    radius: 6.578,
-                    branches: 7,
-                    spin: 1,
-                    randomness: 0.033,
-                    randomnessPower: 10,
-                    insideColor: '#e5ad76',
-                    outsideColor: '#9ba2d9',
-                    offsetX: 1.322,
-                    offsetY: 8.759,
-                    offsetZ: 40,
-                }
-            },
-        }
+        ];
 
         this.setChapterCamera()
-        this.setAnomalyParams()
-    }
 
+    }
 
     setChapterCamera(){
         let page = sessionStorage.getItem('page');
@@ -171,38 +153,9 @@ export default class ExperienceManager{
 
     }
 
-    setAnomalyParams(){
-        let page = sessionStorage.getItem('page');
-
-        switch (page) 
-        {
-            case 'chapter1':
-                this.anomaly.updateParameters(this.chapterParams.chapter1.anomalyParams)
-                
-            break
-
-            case 'chapter2':
-                this.anomaly.updateParameters(this.chapterParams.chapter2.anomalyParams)
-            break
-
-            case 'chapter3':
-                this.anomaly.updateParameters(this.chapterParams.chapter3.anomalyParams)
-            break
-
-            case 'chapter4':
-                this.anomaly.updateParameters(this.chapterParams.chapter4.anomalyParams)
-            break
-
-            case 'chapter5':
-                this.anomaly.updateParameters(this.chapterParams.chapter5.anomalyParams)
-            break
-
-        }
-    }
-
     updateScene(){
         this.setChapterCamera()
-        this.setAnomalyParams()
     }
+
 
 }

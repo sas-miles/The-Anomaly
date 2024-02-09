@@ -35,6 +35,10 @@ export default class World {
 
     }
 
+    updateScene(){
+        this.experienceManager.updateScene()
+    }
+
     update() {
         // if(this.plane)
         // this.plane.update()

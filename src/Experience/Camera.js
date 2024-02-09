@@ -3,9 +3,8 @@ import * as THREE from 'three'
 import Experience from './Experience.js'
 
 export default class Camera{
-    constructor(eventEmitter) {
+    constructor() {
         this.experience = new Experience()
-        this.eventEmitter = eventEmitter;
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
         this.sizes = this.experience.sizes
@@ -76,19 +75,10 @@ export default class Camera{
 
         this.instance.position.set(startPosition.x, startPosition.y, startPosition.z)
 
-        this.animation.addAnimation(this.instance.position, {
-            duration: this.animationConfig.defaultDuration, 
-            ease: this.animationConfig.defaultEase,
-            x: 0, 
-            y: 20, 
-            z: 100
-        }, 
-        { emitEvents: true })
 
     }
 
     updateMarkerTargets() {
-        console.log('Updating marker targets');
 
         this.markerTargets = {}; // Reset marker targets
         const sphereContainers = document.querySelectorAll('.sphere-container');
@@ -103,25 +93,36 @@ export default class Camera{
             }
         });
 
-        console.log('Marker targets updated successfully');
 
     }
 
     animateToMarker(markerName) {
         if (!this.markerTargets[markerName]) {
-            console.warn(`No target set for marker ${markerName}`);
             return;
         }
 
         const target = this.markerTargets[markerName];
 
+        // Find the corresponding .marker-content_item div
+        const contentDiv = document.querySelector(`.marker-content_item[data-content="${markerName}"]`);
+        if (!contentDiv) {
+            console.warn(`No content div found for marker ${markerName}`);
+            return;
+        }
+
+        // Retrieve camera offset values from the div's attributes
+        const offsetX = parseFloat(contentDiv.getAttribute('camera-X')) || 0;
+        const offsetY = parseFloat(contentDiv.getAttribute('camera-Y')) || 0;
+        const offsetZ = parseFloat(contentDiv.getAttribute('camera-Z')) || 0;
+
+
         // Animate the camera's position
         this.animation.addAnimation(this.instance.position, {
             duration: this.animationConfig.defaultDuration,
             ease: this.animationConfig.defaultEase,
-            x: target.position.x,
-            y: target.position.y,
-            z: target.position.z
+            x: target.position.x + offsetX,
+            y: target.position.y + offsetY,
+            z: target.position.z + offsetZ
         }, { emitEvents: true });
     }
 

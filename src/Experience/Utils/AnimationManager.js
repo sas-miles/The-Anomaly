@@ -12,23 +12,23 @@ export default class AnimationManager extends EventEmitter{
 
     }
 
-     // Add a new animation
-     addAnimation(target, params, { emitEvents = false } = {}) {
-        const animation = gsap.to(target, params);
-    
-        if (emitEvents) {
-            animation.eventCallback("onStart", () => {
-                this.trigger('animationStart', [{ target, params }]);
-            });
-    
-            animation.eventCallback("onComplete", () => {
-                this.trigger('animationComplete', [{ target, params }]);
-            });
+        // Add a new animation
+        addAnimation(target, params, { emitEvents = false } = {}) {
+            const animation = gsap.to(target, params);
+        
+            if (emitEvents) {
+                animation.eventCallback("onStart", () => {
+                    this.trigger('animationStart', [{ target, params }]);
+                });
+        
+                animation.eventCallback("onComplete", () => {
+                    this.trigger('animationComplete', [{ target, params }]);
+                });
+            }
+        
+            this.animations.push(animation);
+            return animation;
         }
-    
-        this.animations.push(animation);
-        return animation;
-    }
     
 
     // Remove an animation

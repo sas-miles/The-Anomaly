@@ -42,9 +42,8 @@ export default class Experience {
     this.renderer = new Renderer();
     this.postProcessing = new PostProcessing();
     this.controls = new Controls(this);
-    this.interface = new Interface(this.eventEmitter);
+    this.interface = new Interface();
     this.world = new World(this.renderer.instance);
-    
     
 
     
@@ -60,15 +59,12 @@ export default class Experience {
     });
   }
 
-  getExperienceManager() {
-    return this.world ? this.world.experienceManager : null;
-}
-
 
   updateScene() {
-
-    this.resize();
-    this.update();
+    this.resize()
+    this.update()
+    this.interface.updateScene()
+    this.world.updateScene()
   }
 
   resize() {
@@ -76,7 +72,6 @@ export default class Experience {
     this.renderer.resize();
     this.postProcessing.resize();
     this.interface.resize();
-    
   }
 
   update() {
@@ -87,6 +82,10 @@ export default class Experience {
     this.animation.update();
     this.interface.update();
     this.postProcessing.update();
+  }
+
+  reInitializeComponents() {
+    this.interface.reset()
   }
 
 

@@ -112,25 +112,6 @@ export default class Controls {
     }
 
     update() {
-        if (this.isManuallyAdjusted) {
-            // Handle manual adjustment
-            this.isManuallyAdjusted = false; // Reset flag if needed
-        } else if (this.isCustomControlEnabled) {
-            // Handle custom controls (rotation-only)
-            
-            // Rotate around the marker
-            // You may need to adjust this logic based on how you want the rotation to behave
-            this.camera.position.sub(this.targetMarkerPosition); // Move camera to the origin
-            this.camera.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.currentRotationY - this.camera.rotation.y); // Rotate
-            this.camera.position.add(this.targetMarkerPosition); // Move camera back
-    
-            this.camera.rotation.y += (this.currentRotationY - this.camera.rotation.y) * this.damping;
-            
-            // Ensure there's no movement in the Z direction when custom controls are enabled
-            this.currentTargetPositionZ = 0;
-        } else {
-            // Default control scheme
-            // Update rotation with damping
             this.camera.rotation.y += (this.currentRotationY - this.camera.rotation.y) * this.damping;
 
             // Get the forward direction of the camera
@@ -146,6 +127,5 @@ export default class Controls {
             if (!this.isDragging) {
                 this.currentTargetPositionZ *= (1 - this.damping);
             }
-        }
     }
 }
