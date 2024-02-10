@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Experience from './Experience';
+import EventEmitter from './Utils/EventEmitter';
 
 
 export default class Controls {
@@ -24,13 +25,22 @@ export default class Controls {
         this.currentRotationY = 0;
         this.currentTargetPositionZ = 0;
 
-        // this.experience.eventEmitter.on('camera.rotationChanged', (rotation) => {
-        //     this.currentRotationY = rotation.y;
-        //     // You might want to set a flag indicating manual adjustment to handle logic in update method
-        //     this.isManuallyAdjusted = true;
-        // });
+        
 
         this.setControls();
+
+        this.experience.eventEmitter.on('controls:disable', () => {
+            this.isAnimationActive = true;
+        });
+    
+        this.experience.eventEmitter.on('controls:enable', () => {
+            this.isAnimationActive = false;
+             // Define the current state
+        this.currentRotationY = 0;
+        this.currentTargetPositionZ = 0;
+            console.log('Controls: Received enable event');
+
+        });
     }
 
     setControls() {
@@ -112,6 +122,7 @@ export default class Controls {
     }
 
     update() {
+        if(this.isAnimationActive) return;
             this.camera.rotation.y += (this.currentRotationY - this.camera.rotation.y) * this.damping;
 
             // Get the forward direction of the camera

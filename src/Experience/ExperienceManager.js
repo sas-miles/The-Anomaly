@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 
 import Experience from './Experience.js'
+import EventEmitter from './Utils/EventEmitter.js';
 
 
 import planeVertexShader1 from './shaders/plane/1/vertex.glsl'
@@ -18,6 +19,7 @@ export default class ExperienceManager{
 
     constructor(){
         this.experience = new Experience();
+        this.camera = this.experience.camera;
         this.worldInterface = this.experience.world.worldInterface;
         this.anomaly = this.experience.world.anomaly;
         this.plane = this.experience.world.plane;
@@ -62,7 +64,7 @@ export default class ExperienceManager{
                     fragmentShader: wormholeFragmentShader
                 }
             }, 
-
+    
             'chapter3': {
                 anomalyParams: {
                     count: 225700,
@@ -79,7 +81,7 @@ export default class ExperienceManager{
                     offsetZ: 40,
                 }
             },
-
+    
             'chapter4': {
                 anomalyParams: {
                     count: 225700,
@@ -96,7 +98,7 @@ export default class ExperienceManager{
                     offsetZ: 40,
                 }
             },
-
+    
             'chapter5': {
                 anomalyParams: {
                     count: 225700,
@@ -114,31 +116,68 @@ export default class ExperienceManager{
                 }
             },
         }
+        
 
         this.setChapterCamera()
         this.setAnomalyParams()
+       
     }
 
 
     setChapterCamera(){
-        let page = sessionStorage.getItem('page');
+        let page = sessionStorage.getItem('page')
         
-        let chapter1Tl = gsap.timeline({paused: true})
-        
+        this.experience.eventEmitter.trigger('controls:disable');
+        console.log('Controls disabled for animation');
+
+        let chapter1Tl = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
         .to(this.experience.camera.instance.position, {
             x: 0, 
             y: 20, 
             z: 100,
             duration: 2,
-            ease: 'power2.inOut',
-        })
+            ease: 'power2.inOut'
+        }, 0)
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+            duration: 2,
+            ease: 'power2.inOut'
+        }, 0);
 
-        let chapter2Tl = gsap.timeline({paused: true})
+
+
+        let chapter2Tl = gsap.timeline({paused: true, onComplete: () => {
+            // This ensures controls are enabled only after the entire timeline completes
+            console.log('Chapter 1 GSAP Timeline Completed');
+            this.experience.eventEmitter.trigger('controls:enable');
+        }})
+
         .to(this.experience.camera.instance.position, {
             x: 10,
+            y: 20, 
+            z: 100,
             duration: 2,
-            ease: 'power2.inOut',
-        })
+            ease: 'power2.inOut'
+        }, 0)
+
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+            duration: 2,
+            ease: 'power2.inOut'
+        }, 0)
+
+        
+
 
         switch (page)
         {
@@ -170,6 +209,8 @@ export default class ExperienceManager{
         }
 
     }
+
+    
 
     setAnomalyParams(){
         let page = sessionStorage.getItem('page');
@@ -203,6 +244,7 @@ export default class ExperienceManager{
     updateScene(){
         this.setChapterCamera()
         this.setAnomalyParams()
+        
     }
 
 }

@@ -35,13 +35,20 @@ window.Webflow.push(async () => {
       sync: false,
 
       once() {
+        gsap.to(".label-marker-heading", {
+          opacity: 1, 
+          y: -20,
+          duration: 1,
+          delay: 2,
+          ease: "power2.inOut"
+        })
       },
       
       leave(data) {
         gsap.fromTo(".chapter-page-title", 
         { opacity: 1, x: 0 }, { opacity: 0, x: -20, duration: 2 });
 
-        gsap.to("label-marker-heading", {
+        gsap.to(".label-marker-heading", {
           opacity: 0, 
           duration: 1,
           ease: "power2.inOut"
@@ -70,6 +77,11 @@ window.Webflow.push(async () => {
       enter(data) {
         gsap.fromTo(".chapter-page-title", { opacity: 0, y: 20, ease: "power4.out" }, { opacity: 1, y: 0, duration: 1, delay: 2 });
         gsap.fromTo(".chapter-main", { opacity: 0, x: -100, ease: "power4.out" }, { opacity: 1, x: 0, duration: 1, delay: 1});
+        gsap.to(".label-marker-heading", {
+          opacity: 1, 
+          duration: 1,
+          ease: "power2.inOut"
+        })
       },
 
       after(data) {

@@ -73,8 +73,8 @@ export default class Camera{
             z: 400
         }
 
-        this.instance.position.set(startPosition.x, startPosition.y, startPosition.z)
 
+        this.instance.position.set(startPosition.x, startPosition.y, startPosition.z)
 
     }
 

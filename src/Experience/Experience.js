@@ -77,8 +77,9 @@ export default class Experience {
   update() {
     this.camera.update();
     this.renderer.update();
-    this.world.update();
     this.controls.update();
+    this.world.update();
+    
     this.animation.update();
     this.interface.update();
     this.postProcessing.update();
