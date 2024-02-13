@@ -12,7 +12,7 @@ import galaxyVertexShader from './shaders/anomaly/galaxy/vertex.glsl'
 import galaxyFragmentShader from './shaders/anomaly/galaxy/fragment.glsl'
 import wormholeVertexShader from './shaders/anomaly/wormhole/vertex.glsl'
 import wormholeFragmentShader from './shaders/anomaly/wormhole/fragment.glsl'
-import cameraAnimate from './Animations/CameraAnimate.js'
+
 
 
 export default class ExperienceManager{
@@ -25,7 +25,7 @@ export default class ExperienceManager{
         this.plane = this.experience.world.plane;
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
-        this.cameraAnimate = new cameraAnimate()
+
         this.chapterParams = {
             'home': {
                 anomalyParams: {
@@ -135,8 +135,9 @@ export default class ExperienceManager{
             },
         }
         
-        // this.ExperienceTransitions()
-        // this.UITransitions()
+        this.ExperienceTransitions()
+        this.UITransitions()
+        this.ChapterCamera()
         
         this.setPageAnimation()
         this.setAnomalyParams()
@@ -273,65 +274,201 @@ export default class ExperienceManager{
 
     }
 
+    ChapterCamera(){
+
+        /**
+         * ENTER
+        */
+
+        this.chapterOneEnterCamera = gsap.timeline({
+            paused: true,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+
+        .to(this.experience.camera.instance.position, {
+            x: 0, 
+            y: 20, 
+            z: 100,
+        }, 0)
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+        }, 0);
+        
+
+
+        this.chapterTwoEnterCamera = gsap.timeline({
+            paused: true,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        }, 0)
+
+        .to(this.experience.camera.instance.position, {
+            x: 10,
+            y: 20, 
+            z: 40,
+            duration: 2,
+            ease: 'power2.inOut'
+        }, 0)
+
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+            duration: 2,
+            ease: 'power2.inOut'
+        }, 0)
+
+        
+        /**
+         * LEAVE
+        */
+
+        this.chapterLeaveCamera = gsap.timeline({
+            paused: true,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+        }, 1);
+    }
+
+    
 
     setPageAnimation() {
         this.pageEnter = sessionStorage.getItem('pageEnter')
-        
-
+        this.pageLeave = sessionStorage.getItem('pageLeave')
         /** 
             RUN ENTER  
         */
-
-        switch (this.pageEnter)
+            switch (this.pageEnter)
             {
                 case 'home':
-                    this.cameraAnimate.IntroCamera()
+                    console.log('home timeline')
+                    
                 break
     
                 case 'chapter1':
-                    this.cameraAnimate.ChapterOneCamera()
+                    console.log('chapter1 timeline')
+                    this.chapterEnterUI.play()
+
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterOneEnterCamera.play()
                 break
     
                 case 'chapter2':
-                    this.cameraAnimate.ChapterTwoCamera()
+                    console.log('chapter2 timeline')
+                    this.chapterEnterUI.play()
+
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterTwoEnterCamera.play()
                 break
                 
             }
-        
-    }
+    
 
-    setAnomalyParams(){
-        let pageEnter = sessionStorage.getItem('pageEnter');
+            /** 
+                RUN LEAVE  
+            */
+            switch (this.pageLeave)
+            {
+                case 'home':
+                    console.log('home timeline')
+                    
+                break
+    
+                case 'chapter1':
+                    console.log('chapter1 timeline')
+                    this.chapterLeaveUI.play()
 
-        switch (pageEnter) 
-        {
-            case 'home':
-                
-            break
+                    this.experience.eventEmitter.trigger('controls:disable')
+                    this.chapterLeaveCamera.play()
+                break
+    
+                case 'chapter2':
+                    console.log('chapter2 timeline')
+                    this.chapterLeaveUI.play()
 
-            case 'chapter1':
-                this.anomaly.updateParameters(this.chapterParams.chapter1.anomalyParams)
-                
-            break
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterLeaveCamera.play()
+                break
+    
+                case 'chapter3':
+                    console.log('chapter3 timeline')
+                    this.chapterLeaveUI.play()
 
-            case 'chapter2':
-                this.anomaly.updateParameters(this.chapterParams.chapter2.anomalyParams)
-            break
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterLeaveCamera.play()
+                    
+                break
+    
+                case 'chapter4':
+                    console.log('chapter4 timeline')
+                    this.chapterLeaveUI.play()
 
-            case 'chapter3':
-                this.anomaly.updateParameters(this.chapterParams.chapter3.anomalyParams)
-            break
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterLeaveCamera.play()
+                    
+                break
+    
+                case 'chapter5':
+                    console.log('chapter5 timeline')
+                    this.chapterLeaveUI.play()
 
-            case 'chapter4':
-                this.anomaly.updateParameters(this.chapterParams.chapter4.anomalyParams)
-            break
-
-            case 'chapter5':
-                this.anomaly.updateParameters(this.chapterParams.chapter5.anomalyParams)
-            break
-
+                    this.experience.eventEmitter.trigger('controls:disable');
+                    this.chapterLeaveCamera.play()
+                    
+                break
         }
+
     }
+        setAnomalyParams(){
+            let pageEnter = sessionStorage.getItem('pageEnter');
+
+            switch (pageEnter) 
+            {
+                case 'chapter1':
+                    this.anomaly.updateParameters(this.chapterParams.chapter1.anomalyParams)
+                    
+                break
+
+                case 'chapter2':
+                    this.anomaly.updateParameters(this.chapterParams.chapter2.anomalyParams)
+                break
+
+                case 'chapter3':
+                    this.anomaly.updateParameters(this.chapterParams.chapter3.anomalyParams)
+                break
+
+                case 'chapter4':
+                    this.anomaly.updateParameters(this.chapterParams.chapter4.anomalyParams)
+                break
+
+                case 'chapter5':
+                    this.anomaly.updateParameters(this.chapterParams.chapter5.anomalyParams)
+                break
+
+            }
+        }
+
+    
 
     updateScene(){
         this.setPageAnimation()
