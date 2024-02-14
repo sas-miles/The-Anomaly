@@ -13,6 +13,7 @@ import galaxyFragmentShader from './shaders/anomaly/galaxy/fragment.glsl'
 import wormholeVertexShader from './shaders/anomaly/wormhole/vertex.glsl'
 import wormholeFragmentShader from './shaders/anomaly/wormhole/fragment.glsl'
 import cameraAnimate from './Animations/CameraAnimate.js'
+// import UIAnimation from './Animations/UIAnimations.js'
 
 
 export default class ExperienceManager{
@@ -26,6 +27,7 @@ export default class ExperienceManager{
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
         this.cameraAnimate = new cameraAnimate()
+        // this.UIAnimation = new UIAnimation()  
         this.chapterParams = {
             'home': {
                 anomalyParams: {
@@ -283,21 +285,25 @@ export default class ExperienceManager{
         */
 
         switch (this.pageEnter)
-            {
-                case 'home':
-                    this.cameraAnimate.IntroCamera()
-                break
-    
-                case 'chapter1':
-                    this.cameraAnimate.ChapterOneCamera()
-                break
-    
-                case 'chapter2':
-                    this.cameraAnimate.ChapterTwoCamera()
-                break
+        {
+            case 'home':
+                this.cameraAnimate.IntroCamera()
+                console.log('home ENTER timeline')
                 
-            }
-        
+            break
+
+            case 'chapter1':
+                this.cameraAnimate.ChapterOneCamera()
+
+                
+            break
+
+            case 'chapter2':
+                this.cameraAnimate.ChapterTwoCamera()
+                
+            break
+            
+        }
     }
 
     setAnomalyParams(){

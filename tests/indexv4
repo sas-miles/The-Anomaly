@@ -1,5 +1,6 @@
 import barba from '@barba/core';
 import { gsap } from 'gsap';
+import { restartWebflow } from '@finsweet/ts-utils';
 
 import Experience from './Experience/Experience';
 
@@ -125,6 +126,9 @@ window.Webflow.push(async () => {
             duration: 2,
             ease: "power2.inOut"
           })
+        },
+        async after(data) {
+          await restartWebflow({ ix2: true });
         }
         
       }
@@ -142,6 +146,7 @@ window.Webflow.push(async () => {
           
         },
         beforeLeave() {
+          restartWebflow();
           clearPageContent();
         }
       },
