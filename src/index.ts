@@ -119,11 +119,42 @@ window.Webflow.push(async () => {
         to: {
           namespace: ['chapter1'],
         },
-        enter() {
-          gsap.to(".webgl", {
+        async leave(data) {
+          await gsap.timeline()
+          .to(".home-last", {
+            opacity: 0,
+            duration: 1,
+            y: 20,
+            ease: "power2.out"
+          })
+        },
+        enter(data) {
+          gsap.timeline()
+          .to(".webgl", {
             opacity: 1, 
             duration: 2,
             ease: "power2.inOut"
+          })
+          .to(".main-content_container", {
+            opacity: 1,
+            x: 0,
+            ease: "power2.out",
+            duration: 1
+          })
+          .to(".main-content-tab", {
+            opacity: 0,
+            ease: "power2.out"
+          })
+          .to(".main-content-tab", {
+            opacity: 1,
+            ease: "power2.out",
+            duration: .25
+          })
+          .to(data.next.container.querySelectorAll('.chapter-page-title'), {
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+            duration: .25
           })
         }
         
