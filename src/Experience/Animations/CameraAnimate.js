@@ -25,9 +25,9 @@ export default class CameraAnimate{
 
         .to(this.experience.camera.instance.position, {
             x: 0, 
-            y: 60, 
-            z: 200,
-            duration: 2,
+            y: 20, 
+            z: 150,
+            duration: 3,
             ease: 'power2.out',
         }, "sync1")
         .to(this.experience.camera.instance.rotation, {
@@ -35,14 +35,6 @@ export default class CameraAnimate{
             y: 0, 
             z: 0,
         }, "sync1")
-
-        .to(this.experience.camera.instance.position, {
-            x: 0, 
-            y: 20, 
-            z: 110,
-            duration: 2,
-            ease: 'power3.out',
-        },)
  
         chapterOneTL.play()
     }
@@ -59,10 +51,10 @@ export default class CameraAnimate{
         })
 
         .to(this.experience.camera.instance.position, {
-            x: 0, 
-            y: 60, 
-            z: 200,
-            duration: 2,
+            x: 36.09, 
+            y: 20, 
+            z: 63.57,
+            duration: 3,
             ease: 'power2.out',
         }, "=")
         .to(this.experience.camera.instance.rotation, {
@@ -70,14 +62,6 @@ export default class CameraAnimate{
             y: 0, 
             z: 0,
         }, "=")
-
-        .to(this.experience.camera.instance.position, {
-            x: 36.09, 
-            y: 20, 
-            z: 63.57,
-            duration: 2,
-            ease: 'power3.out',
-        },)
 
         chapterTwoTL.play()
     }

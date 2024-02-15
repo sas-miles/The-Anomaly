@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import gsap from 'gsap';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import Experience from './Experience.js';
 import Controls from './Controls';
