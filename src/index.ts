@@ -14,13 +14,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 sessionStorage.setItem('key', 'value');
 
+
+
+
 let experience = new Experience(document.querySelector('canvas.webgl'));
 let chapterUI = new ChapterUI()
 
 const chapterAnimation = new ChapterAnimations()
+// const audioManager = experience.AudioManager
 
 
 const nav = new Nav()
+
 
 
 // Define a clear function to handle DOM cleanup and Experience reset
@@ -47,6 +52,7 @@ function setExperience () {
       console.log('Experience updated');
       
     }
+
 }
 
 function homeScroll () {
@@ -100,6 +106,12 @@ barba.init({
   transitions: [
     {
       name: 'homeIntro',
+      from: {
+        namespace: [
+          'chapter1', 
+          'chapter2'
+        ]
+      },
       to: {
         namespace: ['home']
       },
@@ -177,8 +189,7 @@ barba.init({
   [
     {
       namespace: 'home',
-      beforeEnter() {
-        console.log('home BEFORE ENTER');
+      beforeEnter(data) {
         sessionStorage.setItem('pageEnter', 'home');
         homeScroll()
         
@@ -190,16 +201,15 @@ barba.init({
     
     {
       namespace: 'chapter1',
-      beforeEnter() {
-        console.log('chapter 1 BEFORE ENTER');
+      beforeEnter(data) {
         sessionStorage.setItem('pageEnter', 'chapter1')
         setExperience()
         
       }, 
-      beforeLeave() {
+      beforeLeave(data) {
         clearPageContent();
       },
-      afterEnter(){
+      afterEnter(data){
         chapterUI = new ChapterUI()
       }
     },
@@ -207,8 +217,7 @@ barba.init({
     {
       namespace: 'chapter2',
 
-      beforeEnter() {
-        console.log('chapter 2 BEFORE ENTER');
+      beforeEnter(data) {
         sessionStorage.setItem('pageEnter', 'chapter2')
         setExperience()
 

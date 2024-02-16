@@ -288,7 +288,6 @@ export default class ExperienceManager{
         {
             case 'home':
                 this.cameraAnimate.IntroCamera()
-                console.log('home ENTER timeline')
                 
             break
 

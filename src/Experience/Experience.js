@@ -14,6 +14,7 @@ import Sizes from './Utils/Sizes.js';
 import Time from './Utils/Time.js';
 import World from './World/World.js';
 import Interface from './Interface.js';
+// import AudioManager from './AudioManager.js'
 
 let instance = null;
 
@@ -30,6 +31,7 @@ export default class Experience {
     this.canvas = canvas;
 
     //Setup
+    
     this.debug = new Debug();
     this.sizes = new Sizes();
     this.time = new Time();
@@ -38,15 +40,13 @@ export default class Experience {
     this.animationConfig = animationConfig;
     this.scene = new THREE.Scene();
     this.resources = new Resources(sources);
+    
     this.camera = new Camera(this.eventEmitter);
     this.renderer = new Renderer();
     this.postProcessing = new PostProcessing();
     this.controls = new Controls(this);
     this.interface = new Interface();
     this.world = new World(this.renderer.instance);
-    
-
-    
 
     //Sizes Resize Event
     this.sizes.on('resize', () => {
@@ -58,6 +58,8 @@ export default class Experience {
       this.update();
     });
   }
+
+  
 
 
   updateScene() {

@@ -26,6 +26,7 @@ export default class Resources extends EventEmitter {
     this.loaders.gltfLoader.setDRACOLoader(this.DRACOLoader);
     this.loaders.textureLoader = new THREE.TextureLoader();
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
+    // this.loaders.audioLoader = new THREE.AudioLoader();
   }
 
   startLoading() {
@@ -49,6 +50,13 @@ export default class Resources extends EventEmitter {
           });
           break;
 
+          // Handle audio files
+        // case 'audio':
+        //   this.loaders.audioLoader.load(source.path, (file) => {
+        //     this.sourceLoaded(source, file);
+        // });
+        // break;
+
         default:
           console.log('Unknown type');
           break;
@@ -58,11 +66,16 @@ export default class Resources extends EventEmitter {
 
   sourceLoaded(source, file) {
     this.items[source.name] = file;
-
     this.loaded++;
 
+    // Calculate the loading progress as a percentage
+    const progress = (this.loaded / this.toLoad) * 100;
+    
+    // Emit a progress event with the calculated progress
+    this.trigger('progress', progress);
+
     if (this.loaded === this.toLoad) {
-      this.trigger('ready');
+        this.trigger('ready');
     }
   }
 }

@@ -8,7 +8,6 @@ export default class CameraAnimate{
     }
 
     IntroCamera() {
-        console.log('Intro ENTER timeline')
     }
 
     ChapterOneCamera() {

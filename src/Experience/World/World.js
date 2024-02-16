@@ -1,3 +1,4 @@
+
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Plane from './Plane.js'
@@ -8,31 +9,28 @@ import QuadrantFour from './QuadrantFour.js'
 import Structures from './Structures.js'
 import Anomaly  from './Anomaly.js'
 import ExperienceManager from '../ExperienceManager.js'
+import Loader from './Loader.js'
 
 export default class World {
     constructor(renderer) {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.loader = new Loader()
         this.renderer = renderer
         
 
         this.resources.on('ready', () => {
             console.log('Resources ready')
 
-            //Setup
-            
-            
             this.plane = new Plane()
             this.structures = new Structures()
             this.anomaly = new Anomaly(this.renderer)
             this.experienceManager = new ExperienceManager();
-            this.environment = new Environment()
-            
+            this.environment = new Environment()     
         }) 
 
         
-
     }
 
     updateScene(){

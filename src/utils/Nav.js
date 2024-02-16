@@ -6,7 +6,7 @@ export default class Nav {
       this.closeButton = document.querySelector('.menu-button_container.is-close');
       this.navOverlay = document.querySelector('.nav-overlay');
       this.links = document.querySelectorAll('[data-nav]');
-      console.log(this.links)
+
 
       this.initEvents()
     }
@@ -22,9 +22,6 @@ export default class Nav {
                 this.hideNav()
 
                 const targetUrl = link.getAttribute('href')
-                    // setTimeout(() => {
-                    //     window.location.href = targetUrl
-                    // }, 4000)
             })
             
         })
