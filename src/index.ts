@@ -20,8 +20,9 @@ sessionStorage.setItem('key', 'value');
 let experience = new Experience(document.querySelector('canvas.webgl'));
 let chapterUI = new ChapterUI()
 
+
+
 const chapterAnimation = new ChapterAnimations()
-// const audioManager = experience.AudioManager
 
 
 const nav = new Nav()
@@ -31,6 +32,7 @@ const nav = new Nav()
 // Define a clear function to handle DOM cleanup and Experience reset
 function clearPageContent() {
   document.querySelectorAll('.sphere-container').forEach(el => el.remove());
+  document.querySelectorAll('.label-container').forEach(el => el.remove());
   
   // Call the reset method on the interface to clear Three.js related content
   if (experience && experience.interface) {
@@ -44,11 +46,13 @@ function setExperience () {
 
     if (!experience || !canvas) {
     experience = new Experience(canvas);
+    experience.world.audio.initEvents()
     console.log('Experience set');
     
     } else {
       // Assuming you have an updateScene method or similar to adjust the scene
       experience.updateScene();
+      experience.world.audio.initEvents()
       console.log('Experience updated');
       
     }
@@ -56,8 +60,10 @@ function setExperience () {
 }
 
 function homeScroll () {
+  console.log('homeScroll')
   const trackHeight = document.querySelector('.intro-track').offsetHeight
   const containers = document.querySelectorAll(".intro-content_container")
+  
   
   gsap.fromTo(".intro-content_container:first-child", 
     { opacity: 0, y: 20, ease: "power2.out" }, // Starting state
@@ -80,14 +86,12 @@ function homeScroll () {
         }
       });
     } else {
-      // General ScrollTrigger for other containers
       gsap.timeline({
         scrollTrigger: {
           trigger: ".intro-track",
           start: () => (portionHeight * index) + "px",
           end: () => (portionHeight * (index + 1)) + "px",
           scrub: true,
-          //markers: true, // Helpful for debugging, remove for production
           onEnter: () => gsap.to(container, { opacity: 1 }),
           onLeave: () => gsap.to(container, { opacity: 0 }),
           onEnterBack: () => gsap.to(container, { opacity: 1 }),
@@ -98,14 +102,82 @@ function homeScroll () {
   })
 }
 
- 
+
 // Initialize Barba.js
 barba.init({
   prevent: ({ el }) => el.classList && el.classList.contains('barba-ignore'),
   
   transitions: [
     {
-      name: 'homeIntro',
+      name: 'home',
+      to: {
+        namespace: ['home'],
+      },
+        once(data) {
+          gsap.set(".home-logo", { opacity: 0 });
+          gsap.set(".home-cta_text", { opacity: 0 });
+          gsap.set(".home-intro_enter-line", { height: 0 });
+          gsap.set(".intro-sound_button-container", { opacity: 0 });
+          gsap.to(".home-logo", {
+            opacity: 1,
+            duration: 3,
+            ease: "power1.out",
+            delay: 1
+          })
+          gsap.timeline()
+          .to(".home-cta_text", {
+            opacity: 1,
+            duration: .5,
+            ease: "power2.out",
+            delay: 1.25
+          })
+          .to(".home-intro_enter-line", {
+            height: "4vh",
+            duration: .5,
+            ease: "power2.out"
+          })
+          .to(".intro-sound_button-container", {
+            opacity: 1,
+            duration: .1,
+            ease: "power4.in",
+            delay: -.1
+          })
+
+      },
+      enter(data) {
+        gsap.set(".home-logo", { opacity: 0 });
+        gsap.set(".home-cta_text", { opacity: 0 });
+        gsap.set(".home-intro_enter-line", { height: 0 });
+        gsap.set(".intro-sound_button-container", { opacity: 0 });
+        gsap.to(".home-logo", {
+          opacity: 1,
+          duration: 3,
+          ease: "power1.out",
+          delay: 1
+        })
+        gsap.timeline()
+        .to(".home-cta_text", {
+          opacity: 1,
+          duration: .5,
+          ease: "power2.out",
+          delay: 1.25
+        })
+        .to(".home-intro_enter-line", {
+          height: "4vh",
+          duration: .5,
+          ease: "power2.out"
+        })
+        .to(".intro-sound_button-container", {
+          opacity: 1,
+          duration: .1,
+          ease: "power4.in",
+          delay: -.1
+        })
+
+    },
+    },
+    {
+      name: 'intro',
       from: {
         namespace: [
           'chapter1', 
@@ -113,7 +185,7 @@ barba.init({
         ]
       },
       to: {
-        namespace: ['home']
+        namespace: ['intro']
       },
       beforeEnter(data) {
         gsap.timeline()
@@ -135,11 +207,13 @@ barba.init({
           duration: 2
         
         })
-        
+      },
+      async beforeLeave(data){
+       await chapterAnimation.setChapterLeave(data)
       }
     },
     {
-      name: 'WebglCanvasIntro',
+      name: 'WebglChapterCanvasIntro',
       to: {
         namespace: [
           'chapter1',
@@ -148,13 +222,15 @@ barba.init({
       },
       once(data) {
         chapterAnimation.setChapterEnter(data)
-      },
-
-      async leave(data) {
-        await chapterAnimation.setChapterLeave(data)
+        chapterAnimation.setLabels()
       },
       enter(data) {
         chapterAnimation.setChapterEnter(data)
+        chapterAnimation.setLabels()
+      },
+      async beforeLeave(data) {
+        await chapterAnimation.setChapterLeave(data)
+        clearPageContent();
       }
       
     },
@@ -162,7 +238,7 @@ barba.init({
     {
       name: 'chapterEnter',
       from: {
-        namespace: ['home']
+        namespace: ['intro']
       },
       to: {
         namespace: ['chapter1'],
@@ -191,44 +267,54 @@ barba.init({
       namespace: 'home',
       beforeEnter(data) {
         sessionStorage.setItem('pageEnter', 'home');
-        homeScroll()
-        
+        const namespace = data.next.namespace;
+        experience.world.audio.playSound(namespace);
       },
-      beforeLeave() {
+      beforeLeave(data) {
+        const namespace = data.current.namespace;
+        experience.world.audio.stopSound(namespace);
+      }
+    },
+    {
+      namespace: 'intro',
+      beforeEnter(data) {
+        sessionStorage.setItem('pageEnter', 'intro');
+        homeScroll();
+        setExperience();
+        experience.world.audio.transitionAudio('intro');
+      },
+      beforeLeave(data) {
+        const namespace = data.current.namespace;
+        experience.world.audio.stopSound(namespace);
         clearPageContent();
       }
     },
-    
     {
       namespace: 'chapter1',
       beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'chapter1')
-        setExperience()
-        
+        sessionStorage.setItem('pageEnter', 'chapter1');
+        setExperience();
+        experience.world.audio.transitionAudio('chapter1');
       }, 
-      beforeLeave(data) {
-        clearPageContent();
-      },
       afterEnter(data){
-        chapterUI = new ChapterUI()
+        chapterUI = new ChapterUI();
       }
-    },
 
+    },
     {
       namespace: 'chapter2',
-
       beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'chapter2')
-        setExperience()
+        sessionStorage.setItem('pageEnter', 'chapter2');
+        setExperience();
+        experience.world.audio.transitionAudio('chapter2');
 
-      },
-      beforeLeave() {
-        clearPageContent();
       },
       afterEnter(){
-        chapterUI = new ChapterUI()
+        chapterUI = new ChapterUI();
       }
+
     }
   ]
 
 });
+

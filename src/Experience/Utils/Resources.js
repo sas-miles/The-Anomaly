@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-
+import Experience from '../Experience.js';
 import EventEmitter from './EventEmitter.js';
 
 export default class Resources extends EventEmitter {
@@ -9,6 +9,7 @@ export default class Resources extends EventEmitter {
     super();
 
     this.sources = sources;
+    this.experience = new Experience();
 
     this.items = {};
     this.toLoad = this.sources.length;
@@ -26,7 +27,7 @@ export default class Resources extends EventEmitter {
     this.loaders.gltfLoader.setDRACOLoader(this.DRACOLoader);
     this.loaders.textureLoader = new THREE.TextureLoader();
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
-    // this.loaders.audioLoader = new THREE.AudioLoader();
+    this.loaders.audioLoader = new THREE.AudioLoader();
   }
 
   startLoading() {
@@ -49,13 +50,14 @@ export default class Resources extends EventEmitter {
             this.sourceLoaded(source, file);
           });
           break;
-
-          // Handle audio files
-        // case 'audio':
-        //   this.loaders.audioLoader.load(source.path, (file) => {
-        //     this.sourceLoaded(source, file);
-        // });
-        // break;
+          
+        case 'audio':
+          this.loaders.audioLoader.load(source.path, (buffer) => {
+            this.audio = new THREE.Audio(this.experience.camera.listener);
+        this.audio.setBuffer(buffer);
+        this.sourceLoaded(source, this.audio);
+        });
+        break;
 
         default:
           console.log('Unknown type');
@@ -69,13 +71,14 @@ export default class Resources extends EventEmitter {
     this.loaded++;
 
     // Calculate the loading progress as a percentage
-    const progress = (this.loaded / this.toLoad) * 100;
+    const progress = this.loaded / this.toLoad;
     
     // Emit a progress event with the calculated progress
-    this.trigger('progress', progress);
+    this.trigger('progress', [progress]);
 
     if (this.loaded === this.toLoad) {
         this.trigger('ready');
     }
-  }
+}
+
 }

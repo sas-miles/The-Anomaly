@@ -11,7 +11,7 @@ export default class Camera{
         this.scene = this.experience.scene
         this.canvas = this.experience.canvas
         this.debug = this.experience.debug
-
+        this.listener = new THREE.AudioListener();
         
         //Debug
         if(this.debug.active){
@@ -20,6 +20,7 @@ export default class Camera{
         
         
         this.setInstance()
+        this.instance.add(this.listener);
         this.setIntroAnimation()
 
         this.markerTargets = {};

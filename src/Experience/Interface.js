@@ -88,6 +88,7 @@ export default class Interface{
         this.labelRenderer.domElement.style.top = '0';
         this.labelRenderer.domElement.style.display = 'block';
         this.labelRenderer.domElement.style.pointerEvents = 'none';
+        this.labelRenderer.domElement.style.zIndex = '0';
         document.body.appendChild(this.labelRenderer.domElement);
     }
 

@@ -48,6 +48,7 @@ export default class Experience {
     this.interface = new Interface();
     this.world = new World(this.renderer.instance);
 
+
     //Sizes Resize Event
     this.sizes.on('resize', () => {
       this.resize();

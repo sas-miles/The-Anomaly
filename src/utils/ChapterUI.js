@@ -103,4 +103,6 @@ export default class ChapterUI {
             this.flag = !this.flag; // Toggle the flag to switch between show and hide
       
     }
+
+    
 }

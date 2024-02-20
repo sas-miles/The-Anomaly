@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import experience from '../Experience.js'
 import loadVertexShader from '../shaders/loader/vertex.glsl'
 import loadFragmentShader from '../shaders/loader/fragment.glsl'
+import EventEmitter from '../Utils/EventEmitter.js';
 
 export default class Loader{
     constructor(){
@@ -14,6 +15,14 @@ export default class Loader{
         this.debug = this.experience.debug
 
         this.loaderDiv = document.querySelector('.loader-wrapper')
+        this.loadingBar = document.querySelector('.loading-bar')
+        this.loadingCounter = document.querySelector('.loading-counter_text')
+
+        this.resources.on('progress', (progress) => {
+            console.log(`Loading progress: ${progress}%`);
+            this.loadingBar.style.transform = `translateX(${progress * 100 - 100}%)`;
+            this.loadingCounter.textContent = `${Math.round(progress * 100)}%`;
+        });
 
         this.setupGeometry()
         this.setupMaterial()
@@ -50,7 +59,7 @@ export default class Loader{
                 gsap.timeline({
                     onComplete: () => {
                         this.scene.remove(this.overlay)
-                        this.loaderDiv.style.display = 'none'
+                        this.loaderDiv.remove();
                     }
                 })
                 .to(this.overlayMaterial.uniforms.uAlpha, {
@@ -58,8 +67,15 @@ export default class Loader{
                     duration: 2,
                     ease: 'power2.out'
                 })
+                .to(this.loaderDiv, {
+                    opacity: 0, 
+                    duration: 1,
+                    ease: 'power2.out',
+                })
+                
         })    
+        
     }
 
-
 }
+

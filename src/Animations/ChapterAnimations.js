@@ -57,7 +57,36 @@ export default class ChapterAnimations {
             y: 20,
             duration: 1
         }, "sync1")
-        
+        .to('.label-marker-heading', {
+            opacity: 0,
+            duration: 1,
+        }, "sync1")
+        .to('.label-container',{
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out', 
+        }, "sync1")
        
+    }
+
+    setLabels() {
+        console.log('Setting labels...')
+        gsap.set('.label-container', {
+            opacity: 0,
+        })
+        gsap.set('.label-marker-heading', {
+            opacity: 0,
+        })
+        gsap.timeline({delay: 2})
+        .to('.label-container',{
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out', 
+        }, "sync1")
+        .to('.label-marker-heading', {
+            opacity: 1,
+            duration: 1
+        }, "sync1")
+            
     }
 }

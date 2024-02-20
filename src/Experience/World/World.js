@@ -9,6 +9,7 @@ import QuadrantFour from './QuadrantFour.js'
 import Structures from './Structures.js'
 import Anomaly  from './Anomaly.js'
 import ExperienceManager from '../ExperienceManager.js'
+import AudioManager from './AudioManager.js'
 import Loader from './Loader.js'
 
 export default class World {
@@ -22,15 +23,13 @@ export default class World {
 
         this.resources.on('ready', () => {
             console.log('Resources ready')
-
             this.plane = new Plane()
-            this.structures = new Structures()
             this.anomaly = new Anomaly(this.renderer)
+            this.structures = new Structures()
             this.experienceManager = new ExperienceManager();
-            this.environment = new Environment()     
+            this.environment = new Environment()    
+            this.audio = new AudioManager();
         }) 
-
-        
     }
 
     updateScene(){
