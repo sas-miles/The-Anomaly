@@ -286,7 +286,7 @@ export default class ExperienceManager{
 
         switch (this.pageEnter)
         {
-            case 'home':
+            case 'intro':
                 this.cameraAnimate.IntroCamera()
                 
             break
@@ -310,8 +310,9 @@ export default class ExperienceManager{
 
         switch (pageEnter) 
         {
-            case 'home':
-                
+            case 'intro':
+                this.anomaly.updateParameters(this.chapterParams.chapter1.anomalyParams)
+
             break
 
             case 'chapter1':

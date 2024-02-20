@@ -102,6 +102,7 @@ function homeScroll () {
   })
 }
 
+console.log('experience.camera', experience.camera)
 
 // Initialize Barba.js
 barba.init({
@@ -114,10 +115,14 @@ barba.init({
         namespace: ['home'],
       },
         once(data) {
+          
           gsap.set(".home-logo", { opacity: 0 });
           gsap.set(".home-cta_text", { opacity: 0 });
           gsap.set(".home-intro_enter-line", { height: 0 });
           gsap.set(".intro-sound_button-container", { opacity: 0 });
+          gsap.to(".home-intro", {
+            opacity: 1,
+          })
           gsap.to(".home-logo", {
             opacity: 1,
             duration: 3,
@@ -143,38 +148,25 @@ barba.init({
             delay: -.1
           })
 
+      }
+    },
+    {
+      name: 'webglCanvas Intro Page',
+      from: {
+        namespace: ['home', 'chapter1', 'chapter2'],
+      },
+      to: {
+        namespace: ['intro'],
       },
       enter(data) {
-        gsap.set(".home-logo", { opacity: 0 });
-        gsap.set(".home-cta_text", { opacity: 0 });
-        gsap.set(".home-intro_enter-line", { height: 0 });
-        gsap.set(".intro-sound_button-container", { opacity: 0 });
-        gsap.to(".home-logo", {
+        gsap.timeline()
+        .to(".webgl", {
           opacity: 1,
           duration: 3,
-          ease: "power1.out",
-          delay: 1
+          ease: "power2.out", 
+          delay: 1.5
         })
-        gsap.timeline()
-        .to(".home-cta_text", {
-          opacity: 1,
-          duration: .5,
-          ease: "power2.out",
-          delay: 1.25
-        })
-        .to(".home-intro_enter-line", {
-          height: "4vh",
-          duration: .5,
-          ease: "power2.out"
-        })
-        .to(".intro-sound_button-container", {
-          opacity: 1,
-          duration: .1,
-          ease: "power4.in",
-          delay: -.1
-        })
-
-    },
+      }
     },
     {
       name: 'intro',
@@ -190,9 +182,10 @@ barba.init({
       beforeEnter(data) {
         gsap.timeline()
         .to(".webgl", {
-          opacity: 0,
-          duration: 1,
-          ease: "power2.out"
+          opacity: 1,
+          duration: 3,
+          ease: "power2.out", 
+          delay: 1.5
         })
       },
       enter(data) {
