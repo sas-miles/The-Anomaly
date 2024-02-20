@@ -63,11 +63,15 @@ export default class IntroAnimations {
     }
 
     setCameraAnimation() {
-        // Ensure the ScrollTrigger plugin is registered
-        gsap.registerPlugin(ScrollTrigger);
     
         // Define the trigger element and the total scrollable height
         const track = document.querySelector('.intro-track');
+
+        const updateEnd = () => {
+            const trackHeight = track.offsetHeight - window.innerHeight;
+            return "+=" + trackHeight.toString();
+        };
+
         if (!track) {
             console.error('Track element not found');
             return;

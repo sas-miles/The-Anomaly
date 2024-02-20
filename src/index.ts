@@ -238,13 +238,17 @@ barba.init({
         sessionStorage.setItem('pageEnter', 'intro');
         setExperience();
         const introAnimations = new IntroAnimations(experience);
-
+        ScrollTrigger.refresh();
         experience.world.audio.transitionAudio('intro');
       },
       beforeLeave(data) {
         const namespace = data.current.namespace;
         experience.world.audio.stopSound(namespace);
         clearPageContent();
+      },
+      afterEnter(data){
+        // Now safe to initialize animations
+    const introAnimations = new IntroAnimations(experience);
       }
     },
     {
@@ -283,15 +287,6 @@ barba.hooks.once((data) => {
     // Code to run when the 'intro' namespace is loaded for the first time
     console.log("Entering the 'intro' namespace for the first time.");
     const introAnimations = new IntroAnimations(experience);
-        console.log('Intro page loaded');
-  }
-});
-
-barba.hooks.beforeEnter((data) => {
-  if (data.next.namespace === 'intro') {
-    // Code to run when the 'intro' namespace is loaded for the first time
-    console.log("Entering the 'intro' namespace for the first time.");
-    const introAnimations = new IntroAnimations(experience);
-        console.log('Intro page loaded');
+    console.log('Intro page loaded');
   }
 });
