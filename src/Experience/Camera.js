@@ -48,7 +48,7 @@ export default class Camera{
         if(this.debug.active){
             this.debugFolder.add(this.instance.position, 'x').step(0.01).min(-100).max(100).name('positionX')
             this.debugFolder.add(this.instance.position, 'y').step(0.01).min(-100).max(100).name('positionY')
-            this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(200).name('positionZ')
+            this.debugFolder.add(this.instance.position, 'z').step(0.01).min(-100).max(600).name('positionZ')
 
 
             this.debugFolder.add(this.instance.rotation, 'x').step(0.01).min(-Math.PI).max(Math.PI).name('rotationX').onChange(() => {

@@ -7,10 +7,6 @@ import Experience from './Experience/Experience';
 import ChapterAnimations from './Animations/ChapterAnimations';
 import ChapterUI from '$utils/ChapterUI';
 
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 
 sessionStorage.setItem('key', 'value');
 
@@ -18,14 +14,17 @@ sessionStorage.setItem('key', 'value');
 
 
 let experience = new Experience(document.querySelector('canvas.webgl'));
+
 let chapterUI = new ChapterUI()
 
+import IntroAnimations from './Animations/IntroAnimations';
 
 
 const chapterAnimation = new ChapterAnimations()
 
 
 const nav = new Nav()
+
 
 
 
@@ -59,50 +58,6 @@ function setExperience () {
 
 }
 
-function homeScroll () {
-  console.log('homeScroll')
-  const trackHeight = document.querySelector('.intro-track').offsetHeight
-  const containers = document.querySelectorAll(".intro-content_container")
-  
-  
-  gsap.fromTo(".intro-content_container:first-child", 
-    { opacity: 0, y: 20, ease: "power2.out" }, // Starting state
-    { opacity: 1, duration: 1 } // Ending state and duration of the animation
-  )
-
-
-  containers.forEach((container, index) => {
-    const portionHeight = trackHeight / containers.length;
-
-    if (index === 0) { // Special handling for the first container
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: "bottom bottom",
-          end: () => "+=" + portionHeight,
-          scrub: true,
-          onEnterBack: () => gsap.to(container, { opacity: 1 }),
-          onLeave: () => gsap.to(container, { opacity: 0 })
-        }
-      });
-    } else {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".intro-track",
-          start: () => (portionHeight * index) + "px",
-          end: () => (portionHeight * (index + 1)) + "px",
-          scrub: true,
-          onEnter: () => gsap.to(container, { opacity: 1 }),
-          onLeave: () => gsap.to(container, { opacity: 0 }),
-          onEnterBack: () => gsap.to(container, { opacity: 1 }),
-          onLeaveBack: () => gsap.to(container, { opacity: 0 }),
-        }
-      })
-    }
-  })
-}
-
-console.log('experience.camera', experience.camera)
 
 // Initialize Barba.js
 barba.init({
@@ -152,11 +107,20 @@ barba.init({
     },
     {
       name: 'webglCanvas Intro Page',
-      from: {
-        namespace: ['home', 'chapter1', 'chapter2'],
-      },
+      // from: {
+      //   namespace: ['home', 'chapter1', 'chapter2'],
+      // },
       to: {
         namespace: ['intro'],
+      },
+      once() {
+        gsap.timeline()
+        .to(".webgl", {
+          opacity: 1,
+          duration: 3,
+          ease: "power2.out", 
+          delay: 1.5
+        })
       },
       enter(data) {
         gsap.timeline()
@@ -272,8 +236,9 @@ barba.init({
       namespace: 'intro',
       beforeEnter(data) {
         sessionStorage.setItem('pageEnter', 'intro');
-        homeScroll();
         setExperience();
+        const introAnimations = new IntroAnimations(experience);
+
         experience.world.audio.transitionAudio('intro');
       },
       beforeLeave(data) {
@@ -288,6 +253,8 @@ barba.init({
         sessionStorage.setItem('pageEnter', 'chapter1');
         setExperience();
         experience.world.audio.transitionAudio('chapter1');
+        const introAnimations = new IntroAnimations(experience);
+        console.log('Intro page loaded');
       }, 
       afterEnter(data){
         chapterUI = new ChapterUI();
@@ -311,3 +278,20 @@ barba.init({
 
 });
 
+barba.hooks.once((data) => {
+  if (data.next.namespace === 'intro') {
+    // Code to run when the 'intro' namespace is loaded for the first time
+    console.log("Entering the 'intro' namespace for the first time.");
+    const introAnimations = new IntroAnimations(experience);
+        console.log('Intro page loaded');
+  }
+});
+
+barba.hooks.beforeEnter((data) => {
+  if (data.next.namespace === 'intro') {
+    // Code to run when the 'intro' namespace is loaded for the first time
+    console.log("Entering the 'intro' namespace for the first time.");
+    const introAnimations = new IntroAnimations(experience);
+        console.log('Intro page loaded');
+  }
+});
