@@ -17,6 +17,9 @@ dependencies:
   aws-sdk:
     specifier: ^2.1540.0
     version: 2.1540.0
+  draco3d:
+    specifier: ^1.5.7
+    version: 1.5.7
   esbuild-plugin-glsl:
     specifier: ^1.2.2
     version: 1.2.2(esbuild@0.19.5)
@@ -1224,6 +1227,10 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /draco3d@1.5.7:
+    resolution: {integrity: sha512-m6WCKt/erDXcw+70IJXnG7M3awwQPAsZvJGX5zY7beBqpELw6RDGkYVU0W43AFxye4pDZ5i2Lbyc/NNGqwjUVQ==}
+    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
