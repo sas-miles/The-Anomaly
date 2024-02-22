@@ -215,6 +215,7 @@ experience.world.on('ready', () => {
         },
         enter(data) {
           chapterAnimation.setChapterEnter(data)
+          chapterAnimation.setLabels()
         }
         
         
@@ -248,7 +249,6 @@ experience.world.on('ready', () => {
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
-          clearPageContent();
         },
         afterEnter(data){
           // Now safe to initialize animations
@@ -272,7 +272,6 @@ experience.world.on('ready', () => {
         beforeLeave(data) {
           const namespace = data.current.namespace;
           experience.world.audio.stopSound(namespace);
-         
         }
   
       },
@@ -292,7 +291,6 @@ experience.world.on('ready', () => {
         beforeLeave(data) {
           const namespace = data.current.namespace;
           experience.world.audio.stopSound(namespace);
-          
         }
   
       }
