@@ -15,15 +15,19 @@ export default class Resources extends EventEmitter {
     this.toLoad = this.sources.length;
     this.loaded = 0;
 
+    
     this.setLoaders();
     this.startLoading();
+
   }
 
   setLoaders() {
     this.loaders = {};
     this.loaders.gltfLoader = new GLTFLoader();
     this.DRACOLoader = new DRACOLoader();
-    this.DRACOLoader.setDecoderPath('https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/draco/');
+    this.DRACOLoader.setDecoderPath('https://unpkg.com/three@0.148.0/examples/jsm/libs/draco/');
+  
+
     this.loaders.gltfLoader.setDRACOLoader(this.DRACOLoader);
     this.loaders.textureLoader = new THREE.TextureLoader();
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -31,6 +35,7 @@ export default class Resources extends EventEmitter {
   }
 
   startLoading() {
+    
     const isMobileOrTablet = window.innerWidth <= 768;
     for (const source of this.sources) {
 
@@ -39,7 +44,7 @@ export default class Resources extends EventEmitter {
         this.loaded++; // Increment the loaded count to maintain the progress calculation
         continue; // Skip the current loop iteration
     }
-    
+
       switch (source.type) {
         case 'gltfModel':
           this.loaders.gltfLoader.load(source.path, (file) => {
@@ -86,6 +91,7 @@ export default class Resources extends EventEmitter {
 
     if (this.loaded === this.toLoad) {
         this.trigger('ready');
+        
     }
 }
 
