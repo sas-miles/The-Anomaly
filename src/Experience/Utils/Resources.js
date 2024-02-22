@@ -15,10 +15,8 @@ export default class Resources extends EventEmitter {
     this.toLoad = this.sources.length;
     this.loaded = 0;
 
-    
     this.setLoaders();
     this.startLoading();
-
   }
 
   setLoaders() {
@@ -26,8 +24,6 @@ export default class Resources extends EventEmitter {
     this.loaders.gltfLoader = new GLTFLoader();
     this.DRACOLoader = new DRACOLoader();
     this.DRACOLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
-  
-
     this.loaders.gltfLoader.setDRACOLoader(this.DRACOLoader);
     this.loaders.textureLoader = new THREE.TextureLoader();
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -36,15 +32,7 @@ export default class Resources extends EventEmitter {
 
   startLoading() {
     
-    const isMobileOrTablet = window.innerWidth <= 768;
     for (const source of this.sources) {
-
-      if (isMobileOrTablet && source.type === 'audio') {
-        console.log('Skipping audio load for mobile/tablet device.');
-        this.loaded++; // Increment the loaded count to maintain the progress calculation
-        continue; // Skip the current loop iteration
-    }
-
       switch (source.type) {
         case 'gltfModel':
           this.loaders.gltfLoader.load(source.path, (file) => {
@@ -91,7 +79,6 @@ export default class Resources extends EventEmitter {
 
     if (this.loaded === this.toLoad) {
         this.trigger('ready');
-        
     }
 }
 
