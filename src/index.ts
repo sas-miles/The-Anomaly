@@ -61,12 +61,27 @@ experience.world.on('ready', () => {
     transitions: [
       {
         name: 'home',
+        from: {
+          namespace: ['intro']
+        },
         to: {
           namespace: ['home'],
         },
-          once(data) {
-            
-            gsap.set(".home-logo", { opacity: 0 });
+        async leave(data) {
+          await gsap.timeline()
+          .to(".webgl", {
+            opacity: 0,
+            duration: .5,
+            ease: "power2.out"
+          })
+          .to(".intro-track",{
+            opacity: 0,
+            duration: .5,
+            ease: "power2.out"
+          })
+        },
+        async enter(data) {
+          gsap.set(".home-logo", { opacity: 0 });
             gsap.set(".home-cta_text", { opacity: 0 });
             gsap.set(".home-intro_enter-line", { height: 0 });
             gsap.set(".intro-sound_button-container", { opacity: 0 });
@@ -97,7 +112,51 @@ experience.world.on('ready', () => {
               ease: "power4.in",
               delay: -.1
             })
-  
+        }
+
+      },
+      {
+        name: 'ChaptersToHome', 
+        from: {
+          route: ['chapter1', 'chapter2']
+        },
+        to: {
+          namespace: ['home']
+        },
+        async beforeEnter(data) {
+          await chapterAnimation.setChapterLeave(data)
+        },
+        async enter(data) {
+          await gsap.timeline()
+          .to(".webgl", {
+            opacity: 0,
+            duration: .5,
+            ease: "power2.out"
+          })
+          .to(".home-intro", {
+            opacity: 1,
+          })
+          .to(".home-logo", {
+            opacity: 1,
+            duration: 3,
+            ease: "power1.out",
+          })
+          .to(".home-cta_text", {
+            opacity: 1,
+            duration: .5,
+            ease: "power2.out",
+          })
+          .to(".home-intro_enter-line", {
+            height: "4vh",
+            duration: .5,
+            ease: "power2.out"
+          })
+          .to(".intro-sound_button-container", {
+            opacity: 1,
+            duration: .1,
+            ease: "power4.in",
+            delay: -.1
+          })
         }
       },
       {
@@ -229,6 +288,7 @@ experience.world.on('ready', () => {
         namespace: 'home',
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'home');
+          setExperience();
           const namespace = data.next.namespace;
           
         },
@@ -299,6 +359,44 @@ experience.world.on('ready', () => {
   });
   
   barba.hooks.once((data) => {
+
+
+    if (data.next.namespace === 'home') {
+  
+      gsap.set(".home-logo", { opacity: 0 });
+            gsap.set(".home-cta_text", { opacity: 0 });
+            gsap.set(".home-intro_enter-line", { height: 0 });
+            gsap.set(".intro-sound_button-container", { opacity: 0 });
+  
+            
+            gsap.timeline()
+            .to(".home-intro", {
+              opacity: 1,
+            })
+            .to(".home-logo", {
+              opacity: 1,
+              duration: 3,
+              ease: "power1.out",
+            })
+            .to(".home-cta_text", {
+              opacity: 1,
+              duration: .5,
+              ease: "power2.out",
+            })
+            .to(".home-intro_enter-line", {
+              height: "4vh",
+              duration: .5,
+              ease: "power2.out"
+            })
+            .to(".intro-sound_button-container", {
+              opacity: 1,
+              duration: .1,
+              ease: "power4.in",
+              delay: -.1
+            })
+  
+    }
+    
   
     if (data.next.namespace === 'intro') {
   
