@@ -31,7 +31,15 @@ export default class Resources extends EventEmitter {
   }
 
   startLoading() {
+    const isMobileOrTablet = window.innerWidth <= 768;
     for (const source of this.sources) {
+
+      if (isMobileOrTablet && source.type === 'audio') {
+        console.log('Skipping audio load for mobile/tablet device.');
+        this.loaded++; // Increment the loaded count to maintain the progress calculation
+        continue; // Skip the current loop iteration
+    }
+    
       switch (source.type) {
         case 'gltfModel':
           this.loaders.gltfLoader.load(source.path, (file) => {
