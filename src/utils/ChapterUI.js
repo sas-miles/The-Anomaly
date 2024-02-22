@@ -98,7 +98,7 @@ export default class ChapterUI {
                     }
                 },)
                 .to(mainContent, {
-                    x: "-10%",
+                    x: "-108%",
                     opacity: 0,
                     duration: 1,
                     delay: -0.15

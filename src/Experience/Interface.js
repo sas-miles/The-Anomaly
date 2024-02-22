@@ -92,12 +92,23 @@ export default class Interface{
         document.body.appendChild(this.labelRenderer.domElement);
     }
 
-    setRaycaster() {   
+    setRaycaster() {
         const raycast = (event) => {
-            
+            // Prevent default behavior for touch events
+            // if (event.type.startsWith('touch')) {
+            //     event.preventDefault();
+            // }
     
-            const clientX = event.type === 'touchend' ? event.changedTouches[0].clientX : event.clientX;
-            const clientY = event.type === 'touchend' ? event.changedTouches[0].clientY : event.clientY;
+            let clientX, clientY;
+            if (event.type.includes('touch')) {
+                // Use the first touch point for the raycast
+                const touch = event.touches[0] || event.changedTouches[0];
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+            } else {
+                clientX = event.clientX;
+                clientY = event.clientY;
+            }
     
             this.mousePosition.x = (clientX / this.sizes.width) * 2 - 1;
             this.mousePosition.y = -(clientY / this.sizes.height) * 2 + 1;
@@ -107,19 +118,18 @@ export default class Interface{
     
             if (intersects.length > 0) {
                 const name = intersects[0].object.name;
-    
-                // Find the div with data-content attribute matching the sphere's name
                 const targetDiv = document.querySelector(`div[data-content="${name}"]`);
                 if (targetDiv) {
-                    // Add the is-active class to the div
                     targetDiv.classList.add('is-active');
                 }
             }
         };
     
+        // Listen for both touch and mouse events
         window.addEventListener('click', raycast);
-        window.addEventListener('touchend', raycast);
+        window.addEventListener('touchend', raycast, { passive: false }); // Use passive: false to allow preventDefault
     }
+    
 
     closeModal() {
         document.querySelectorAll('.marker-close').forEach((closeButton) => {
