@@ -19,7 +19,6 @@ export default class ChapterAnimations {
         },  "sync1")
         .to(data.next.container.querySelectorAll('.main-content_container'), {
         opacity: 1,
-        x: 0,
         duration: 1
         }, "sync2")
         .to(data.next.container.querySelectorAll('.main-content-tab'), {
@@ -42,7 +41,6 @@ export default class ChapterAnimations {
         }, "sync1")
         .to(data.current.container.querySelectorAll('.main-content_container'), {
             opacity: 0,
-            x: -20,
             duration: 1
         }, "sync1")
         .to(data.current.container.querySelectorAll('.main-content-tab'), {

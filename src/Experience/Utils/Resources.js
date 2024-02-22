@@ -66,9 +66,10 @@ export default class Resources extends EventEmitter {
           
         case 'audio':
           this.loaders.audioLoader.load(source.path, (buffer) => {
-            this.audio = new THREE.Audio(this.experience.camera.listener);
-        this.audio.setBuffer(buffer);
-        this.sourceLoaded(source, this.audio);
+          this.audio = new THREE.Audio(this.experience.camera.listener);
+          this.audio.setBuffer(buffer);
+          this.audio.setLoop(true)
+          this.sourceLoaded(source, this.audio);
         });
         break;
 
