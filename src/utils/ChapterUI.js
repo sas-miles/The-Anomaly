@@ -1,12 +1,17 @@
 import gsap from 'gsap';
 
 export default class ChapterUI {
-    constructor(){
-        this.mainContentTab = document.querySelector('.main-content-tab');
+    constructor(data){
+        this.data = data
+        this.mainContentTab = this.data.querySelector('.main-content-tab');
+        this.tabHide = this.data.querySelector('.main-content-tab_hide');
+        this.tabOpen = this.data.querySelector('.main-content-tab_open');
+    
         this.flag = false;
         this.initEvents()
     }
     initEvents() {
+        console.log('got em', this.data);
         document.body.addEventListener('click', (e) => {
           const mainContentTab = e.target.closest('.main-content-tab');
           if (mainContentTab) {
@@ -16,9 +21,7 @@ export default class ChapterUI {
       }
     toggleMainContent() {
         const mainContent = document.querySelector('.chapter-main');
-        const tabHide = document.querySelector('.main-content-tab_hide');
-        const tabOpen = document.querySelector('.main-content-tab_open');
-    
+        
         // Function to show main content
         const showMainContent = () => {
             console.log('Showing...');
@@ -28,12 +31,12 @@ export default class ChapterUI {
                     x: -10, 
                     duration: .25,
                 },"sync1")
-                .to(tabOpen, {
+                .to(this.tabOpen, {
                     opacity: 0, 
                     duration: .25,
                     onComplete: () => {
-                        tabOpen.style.display = 'none'
-                        tabHide.style.display = 'block'
+                        this.tabOpen.style.display = 'none'
+                        this.tabHide.style.display = 'block'
                     }
                 }, "sync1")
                 .to(mainContent, {
@@ -46,7 +49,7 @@ export default class ChapterUI {
                     x: 0,
                     duration: .25,
                 }, )
-                .to(tabHide, {
+                .to(this.tabHide, {
                     opacity: 1,
                     x: 0,
                     duration: 1,
@@ -56,18 +59,24 @@ export default class ChapterUI {
         // Function to hide main content
         const hideMainContent = () => {
             console.log('Hiding...');
-            gsap.timeline({ease: "power2.out"})
+            gsap.timeline({
+                ease: "power2.out", 
+                onStart: () => {
+                    this.tabOpen.style.display = 'none'
+                    this.tabHide.style.display = 'block'
+                }
+            },)
                 .to(this.mainContentTab, {
                     opacity: 0, 
                     x: -10,
                     duration: .25,
                 }, )
-                .to(tabHide, {
+                .to(this.tabHide, {
                     opacity: 0,
                     duration: 0.25,
                     onComplete: () => {
-                        tabHide.style.display = 'none'
-                        tabOpen.style.display = 'block'
+                        this.tabHide.style.display = 'none'
+                        this.tabOpen.style.display = 'block'
                     }
                 },)
                 .to(mainContent, {
@@ -86,7 +95,7 @@ export default class ChapterUI {
                     x: 0,
                     delay: -0.5,
                 }, "sync1")
-                .to(tabOpen, {
+                .to(this.tabOpen, {
                     opacity: 1,
                     x: 0,
                     delay: -0.5,

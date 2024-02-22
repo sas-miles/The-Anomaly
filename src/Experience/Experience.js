@@ -31,7 +31,6 @@ export default class Experience {
     this.canvas = canvas;
 
     //Setup
-    
     this.debug = new Debug();
     this.sizes = new Sizes();
     this.time = new Time();
@@ -47,6 +46,10 @@ export default class Experience {
     this.controls = new Controls(this);
     this.interface = new Interface();
     this.world = new World(this.renderer.instance);
+
+    this.world.on('ready', () => {
+      console.log('World is ready');
+    });
 
 
     //Sizes Resize Event

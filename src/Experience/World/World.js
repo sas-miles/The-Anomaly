@@ -11,14 +11,17 @@ import Anomaly  from './Anomaly.js'
 import ExperienceManager from '../ExperienceManager.js'
 import AudioManager from './AudioManager.js'
 import Loader from './Loader.js'
+import EventEmitter from '../Utils/EventEmitter.js'
 
-export default class World {
+export default class World extends EventEmitter{
     constructor(renderer) {
+        super()
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.loader = new Loader()
         this.renderer = renderer
+        this.eventEmitter = new EventEmitter()
         
 
         this.resources.on('ready', () => {
@@ -29,6 +32,9 @@ export default class World {
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()    
             this.audio = new AudioManager();
+
+            this.trigger('ready');
+
         }) 
     }
 

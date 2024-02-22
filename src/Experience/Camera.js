@@ -71,7 +71,7 @@ export default class Camera{
         const startPosition = {
             x: 0, 
             y: 100, 
-            z: 400
+            z: 700
         }
 
 

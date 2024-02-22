@@ -11,11 +11,8 @@ import ChapterUI from '$utils/ChapterUI';
 sessionStorage.setItem('key', 'value');
 
 
-
-
 let experience = new Experience(document.querySelector('canvas.webgl'));
 
-let chapterUI = new ChapterUI()
 
 import IntroAnimations from './Animations/IntroAnimations';
 
@@ -45,248 +42,288 @@ function setExperience () {
 
     if (!experience || !canvas) {
     experience = new Experience(canvas);
-    experience.world.audio.initEvents()
     console.log('Experience set');
     
     } else {
       // Assuming you have an updateScene method or similar to adjust the scene
       experience.updateScene();
-      experience.world.audio.initEvents()
       console.log('Experience updated');
       
     }
-
 }
 
 
-// Initialize Barba.js
-barba.init({
-  prevent: ({ el }) => el.classList && el.classList.contains('barba-ignore'),
+experience.world.on('ready', () => {
+
+  barba.init({
+    prevent: ({ el }) => el.classList && el.classList.contains('barba-ignore'),
+    
+    transitions: [
+      {
+        name: 'home',
+        to: {
+          namespace: ['home'],
+        },
+          once(data) {
+            
+            gsap.set(".home-logo", { opacity: 0 });
+            gsap.set(".home-cta_text", { opacity: 0 });
+            gsap.set(".home-intro_enter-line", { height: 0 });
+            gsap.set(".intro-sound_button-container", { opacity: 0 });
   
-  transitions: [
-    {
-      name: 'home',
-      to: {
-        namespace: ['home'],
+            
+            gsap.timeline()
+            .to(".home-intro", {
+              opacity: 1,
+            })
+            .to(".home-logo", {
+              opacity: 1,
+              duration: 3,
+              ease: "power1.out",
+            })
+            .to(".home-cta_text", {
+              opacity: 1,
+              duration: .5,
+              ease: "power2.out",
+            })
+            .to(".home-intro_enter-line", {
+              height: "4vh",
+              duration: .5,
+              ease: "power2.out"
+            })
+            .to(".intro-sound_button-container", {
+              opacity: 1,
+              duration: .1,
+              ease: "power4.in",
+              delay: -.1
+            })
+  
+        }
       },
-        once(data) {
-          
-          gsap.set(".home-logo", { opacity: 0 });
-          gsap.set(".home-cta_text", { opacity: 0 });
-          gsap.set(".home-intro_enter-line", { height: 0 });
-          gsap.set(".intro-sound_button-container", { opacity: 0 });
-          gsap.to(".home-intro", {
-            opacity: 1,
+      {
+        name: 'Home to Intro',
+        from: {
+          namespace: ['home']
+        },
+        to: {
+          namespace: ['intro']
+        },
+        async beforeLeave(data) {
+          await gsap.timeline()
+          .to(".home-intro", {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
           })
-          gsap.to(".home-logo", {
+          
+        },
+        async enter(data) {
+          
+          await gsap.timeline()
+          .to('.intro-text_first', {
+            opacity: 1, 
+            duration: 1,
+            ease: "power2.out"
+          })
+          .to(".webgl", {
             opacity: 1,
             duration: 3,
-            ease: "power1.out",
+            ease: "power2.out", 
+          })
+          
+        }
+        
+      },
+      {
+        name: 'Chapters to Intro',
+        from: {
+          namespace: [
+            'chapter1', 
+            'chapter2'
+          ]
+        },
+        to: {
+          namespace: ['intro']
+        },
+        async beforeLeave(data){
+          await chapterAnimation.setChapterLeave(data)
+          await gsap.timeline()
+          .to(".webgl", {
+            opacity: 0,
+            duration: 3,
+            ease: "power2.out"
+          })
+          
+         },
+        enter(data) {
+          gsap.timeline()
+          .to(".webgl", {
+            opacity: 1,
+            duration: 3,
+            ease: "power2.out", 
             delay: 1
           })
-          gsap.timeline()
-          .to(".home-cta_text", {
-            opacity: 1,
-            duration: .5,
-            ease: "power2.out",
-            delay: 1.25
+          
+            
+        }
+      },
+      
+      {
+        name: 'WebglChapterCanvasIntro',
+        to: {
+          namespace: [
+            'chapter1',
+            'chapter2'
+          ]
+        },
+        once(data) {
+          chapterAnimation.setChapterEnter(data)
+          chapterAnimation.setLabels()
+        },
+        enter(data) {
+          chapterAnimation.setChapterEnter(data)
+          chapterAnimation.setLabels()
+        },
+        async beforeLeave(data) {
+          await chapterAnimation.setChapterLeave(data)
+          clearPageContent();
+        }
+        
+      },
+  
+      {
+        name: 'chapterEnter',
+        from: {
+          namespace: ['intro']
+        },
+        to: {
+          namespace: ['chapter1'],
+        },
+        async leave(data) {
+          await gsap.timeline()
+          .to(".intro-last", {
+            opacity: 0,
+            duration: 1,
+            y: 20,
+            ease: "power2.out"
           })
-          .to(".home-intro_enter-line", {
-            height: "4vh",
+          .to(".webgl", {
+            opacity: 0,
             duration: .5,
             ease: "power2.out"
           })
-          .to(".intro-sound_button-container", {
-            opacity: 1,
-            duration: .1,
-            ease: "power4.in",
-            delay: -.1
-          })
-
-      }
-    },
-    {
-      name: 'webglCanvas Intro Page',
-      // from: {
-      //   namespace: ['home', 'chapter1', 'chapter2'],
-      // },
-      to: {
-        namespace: ['intro'],
-      },
-      once() {
-        gsap.timeline()
-        .to(".webgl", {
-          opacity: 1,
-          duration: 3,
-          ease: "power2.out", 
-          delay: 1.5
-        })
-      },
-      enter(data) {
-        gsap.timeline()
-        .to(".webgl", {
-          opacity: 1,
-          duration: 3,
-          ease: "power2.out", 
-          delay: 1.5
-        })
-      }
-    },
-    {
-      name: 'intro',
-      from: {
-        namespace: [
-          'chapter1', 
-          'chapter2'
-        ]
-      },
-      to: {
-        namespace: ['intro']
-      },
-      beforeEnter(data) {
-        gsap.timeline()
-        .to(".webgl", {
-          opacity: 1,
-          duration: 3,
-          ease: "power2.out", 
-          delay: 1.5
-        })
-      },
-      enter(data) {
-        gsap.fromTo(".home-intro-text",{
-          opacity: 0,
-          y: 20,
-          ease: "power2.out"
         },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 2
+        enter(data) {
+          chapterAnimation.setChapterEnter(data)
+        }
         
-        })
-      },
-      async beforeLeave(data){
-       await chapterAnimation.setChapterLeave(data)
+        
       }
-    },
-    {
-      name: 'WebglChapterCanvasIntro',
-      to: {
-        namespace: [
-          'chapter1',
-          'chapter2'
-        ]
+  
+    ],
+  
+    views: 
+    [
+      {
+        namespace: 'home',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'home');
+          const namespace = data.next.namespace;
+          
+        },
+        beforeLeave(data) {
+          const namespace = data.current.namespace;
+          experience.world.audio.stopSound(namespace);
+        }
       },
-      once(data) {
-        chapterAnimation.setChapterEnter(data)
-        chapterAnimation.setLabels()
+      {
+        namespace: 'intro',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'intro');
+          setExperience();
+          const namespace = data.next.namespace;
+          experience.world.audio.playSound(namespace);
+          // experience.world.audio.transitionAudio('intro');
+          const introAnimations = new IntroAnimations(experience);
+          ScrollTrigger.refresh();
+          
+        },
+        beforeLeave(data) {
+          const namespace = data.current.namespace;
+          clearPageContent();
+        },
+        afterEnter(data){
+          // Now safe to initialize animations
+          experience.world.audio.updateButtonVisibility();
+          const introAnimations = new IntroAnimations(experience);
+        }
       },
-      enter(data) {
-        chapterAnimation.setChapterEnter(data)
-        chapterAnimation.setLabels()
+      {
+        namespace: 'chapter1',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'chapter1');
+          setExperience();
+          const namespace = data.next.namespace;
+          experience.world.audio.playSound(namespace);
+        }, 
+        afterEnter(data){
+          const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audio.updateButtonVisibility();
+          experience.world.audio.bindButtonEvents();
+        },
+        beforeLeave(data) {
+          const namespace = data.current.namespace;
+          experience.world.audio.stopSound(namespace);
+        }
+  
       },
-      async beforeLeave(data) {
-        await chapterAnimation.setChapterLeave(data)
-        clearPageContent();
+      {
+        namespace: 'chapter2',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'chapter2');
+          setExperience();
+          const namespace = data.next.namespace;
+          experience.world.audio.playSound(namespace);
+  
+        },
+        afterEnter(data){
+          const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audio.updateButtonVisibility();
+        },
+        beforeLeave(data) {
+          const namespace = data.current.namespace;
+          experience.world.audio.stopSound(namespace);
+        }
+  
       }
+    ]
+  
+  });
+  
+  barba.hooks.once((data) => {
+  
+    if (data.next.namespace === 'intro') {
+  
+      const introAnimations = new IntroAnimations(experience);
       
-    },
-
-    {
-      name: 'chapterEnter',
-      from: {
-        namespace: ['intro']
-      },
-      to: {
-        namespace: ['chapter1'],
-      },
-      async leave(data) {
-        await gsap.timeline()
-        .to(".home-last", {
-          opacity: 0,
-          duration: 1,
-          y: 20,
-          ease: "power2.out"
-        })
-      },
-      enter(data) {
-        chapterAnimation.setChapterEnter(data)
-      }
+      gsap.set(".intro-text_first", { opacity: 0, y: 20 });
+      gsap.timeline()
       
-      
+      .to(".intro-text_first", {
+        opacity: 1, 
+        y: 0,
+        duration: 2,
+        ease: "power2.out",
+        delay: 3
+      })
+      .to(".webgl", {
+        opacity: 1, 
+        duration: 2,
+        delay: 1,
+      })
+  
     }
+  
+  });
 
-  ],
-
-  views: 
-  [
-    {
-      namespace: 'home',
-      beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'home');
-        const namespace = data.next.namespace;
-        experience.world.audio.playSound(namespace);
-      },
-      beforeLeave(data) {
-        const namespace = data.current.namespace;
-        experience.world.audio.stopSound(namespace);
-      }
-    },
-    {
-      namespace: 'intro',
-      beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'intro');
-        setExperience();
-        const introAnimations = new IntroAnimations(experience);
-        ScrollTrigger.refresh();
-        experience.world.audio.transitionAudio('intro');
-      },
-      beforeLeave(data) {
-        const namespace = data.current.namespace;
-        experience.world.audio.stopSound(namespace);
-        clearPageContent();
-      },
-      afterEnter(data){
-        // Now safe to initialize animations
-    const introAnimations = new IntroAnimations(experience);
-      }
-    },
-    {
-      namespace: 'chapter1',
-      beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'chapter1');
-        setExperience();
-        experience.world.audio.transitionAudio('chapter1');
-        const introAnimations = new IntroAnimations(experience);
-        console.log('Intro page loaded');
-      }, 
-      afterEnter(data){
-        chapterUI = new ChapterUI();
-      }
-
-    },
-    {
-      namespace: 'chapter2',
-      beforeEnter(data) {
-        sessionStorage.setItem('pageEnter', 'chapter2');
-        setExperience();
-        experience.world.audio.transitionAudio('chapter2');
-
-      },
-      afterEnter(){
-        chapterUI = new ChapterUI();
-      }
-
-    }
-  ]
-
-});
-
-barba.hooks.once((data) => {
-  if (data.next.namespace === 'intro') {
-    // Code to run when the 'intro' namespace is loaded for the first time
-    console.log("Entering the 'intro' namespace for the first time.");
-    const introAnimations = new IntroAnimations(experience);
-    console.log('Intro page loaded');
-  }
-});
+})

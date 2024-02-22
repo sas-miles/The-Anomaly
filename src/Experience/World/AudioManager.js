@@ -1,17 +1,15 @@
 import gsap from "gsap";
+import barba from "@barba/core";
 import * as THREE from "three";
 import Experience from "../Experience";
 export default class AudioManager {
     constructor() {
-        console.log("AudioManager initialized");
         this.experience = new Experience();
         this.resources = this.experience.resources;
         this.camera = this.experience.camera.instance;
         this.audioLoader = new THREE.AudioLoader();
 
-        this.isPlaying = false;
-        this.currentSound = null;
-        this.soundEnabled = true; // Sound is enabled by default
+        this.soundEnabled = true
 
         this.audioFiles = {
             'home': this.experience.resources.items.IntroAudio,
@@ -20,53 +18,106 @@ export default class AudioManager {
             'chapter2': this.experience.resources.items.Chapter2Audio,
         };
 
-        this.initEvents();
+        
+        this.isPlaying = false;
+        this.currentSound = null;
+
+        this.bindButtonEvents()
+
+        this.initBarbaHooks();
+
+        
     }
 
-    initEvents() {
-        // Attach the event listener to the body
-        document.body.addEventListener('click', (event) => {
-            // Check if the clicked element is the play button
-            if (event.target.classList.contains('play-sound')) {
-                // Logic to handle play button click
-                const namespace = this.currentNamespace || 'home'; // Adjust based on your logic
-                this.playSound(namespace);
-            } 
-            // Check if the clicked element is the stop button
-            else if (event.target.classList.contains('stop-sound')) {
-                // Logic to handle stop button click
-                if (this.currentSound) {
-                    this.stopSound(this.currentNamespace); // Adjust based on your implementation
-                }
-            }
+    initBarbaHooks() {
+        console.log('initBarbaHooks called');
+        barba.hooks.afterEnter((data) => {
+            this.bindButtonEvents();
+            // Optionally, also check and update the button visibility state here
+            this.updateButtonVisibility();
         });
     }
 
-    updateGlobalSoundState() {
-        if (!this.soundEnabled && this.currentSound) {
-            // If sound is currently playing, stop it
-            this.currentSound.stop();
-            this.isPlaying = false;
-        } else if (this.soundEnabled && this.currentNamespace) {
-            // Optionally, resume playback for the current namespace if sound is re-enabled
-            this.playSound(this.currentNamespace);
-        }
-        this.updateSoundButtonState(); // Reflect the change in UI
+    setCurrentNamespace(namespace) {
+        this.currentNamespace = namespace;
     }
 
-    playSound(namespace) {
-        if (!this.soundEnabled) return; // Do not play if sound is globally disabled
+    bindButtonEvents() {
+    // This method should be safe to call multiple times
+    const playButton = document.querySelector('.play-sound');
+    const stopButton = document.querySelector('.stop-sound');
 
+    // Clear existing listeners to avoid duplicates
+    playButton?.removeEventListener('click', this.handlePlayClick);
+    stopButton?.removeEventListener('click', this.handleStopClick);
+
+    // Bind listeners
+    this.handlePlayClick = () => this.updateGlobalSoundState(true); // Assuming this method starts playing
+    this.handleStopClick = () => this.updateGlobalSoundState(false); // Assuming this method stops playing
+
+    playButton?.addEventListener('click', this.handlePlayClick);
+    stopButton?.addEventListener('click', this.handleStopClick);
+  }
+
+    
+    
+
+      updateGlobalSoundState() {
+        console.log('updateGlobalSoundState called');
+    
+        // Update UI buttons first based on soundEnabled state
+        const playButton = document.querySelector('.play-sound');
+        const stopButton = document.querySelector('.stop-sound');
+    
+        if (this.soundEnabled) {
+            // Sound is enabled
+            if (playButton) playButton.style.display = 'none';
+            if (stopButton) stopButton.style.display = 'block';
+            // Check if there's a sound already playing, if not, attempt to play the currentNamespace sound
+            if (!this.isPlaying && this.currentNamespace) {
+                console.log('Attempting to play sound for namespace', this.currentNamespace);
+                this.playSound(this.currentNamespace);
+            }
+        } else {
+            // Sound is disabled
+            if (playButton) playButton.style.display = 'block';
+            if (stopButton) stopButton.style.display = 'none';
+            if (this.currentSound && this.isPlaying) {
+                // Stop the current sound if it's playing
+                this.currentSound.stop();
+                this.isPlaying = false;
+                this.currentSound = null;
+            }
+        }
+    }
+    
+    playSound(namespace) {
+        // Immediately update UI to reflect action intention
+        this.updateSoundButtonState(true); // Assume playing
+        if (!this.soundEnabled) return;
+    
         const sound = this.audioFiles[namespace];
         if (sound) {
             if (this.currentSound) {
-                this.currentSound.stop(); // Stop currently playing sound
+                this.currentSound.stop();
             }
-            sound.play(); // Start the new sound
+            sound.play();
             this.isPlaying = true;
             this.currentSound = sound;
-            this.currentNamespace = namespace; // Track the current namespace
+            this.currentNamespace = namespace;
+        } else {
+            // If sound not found or failed to play, revert UI state
+            this.updateSoundButtonState(false);
         }
+    }
+    
+    stopSound() {
+        if (this.currentSound) {
+            this.currentSound.stop();
+        }
+        this.isPlaying = false;
+        this.currentSound = null;
+        this.updateSoundButtonState(); // Reflect this change immediately in UI
     }
 
     transitionAudio(newNamespace) {
@@ -91,21 +142,30 @@ export default class AudioManager {
         this.updateSoundButtonState(); // Update button visibility based on audio state
     }
 
-    updateSoundButtonState() {
-        console.log(`Updating sound button state, isPlaying: ${this.isPlaying}`);
-
-        const soundOnButton = document.body.querySelector('.play-sound.sound-button_on');
-        const soundOffButton = document.body.querySelector('.stop-sound.sound-button_off');
+    updateButtonVisibility() {
+        console.log('updateButtonVisibility called');
+        const isPlaying = this.isPlaying;
+        const playButton = document.querySelector('.play-sound');
+        const stopButton = document.querySelector('.stop-sound');
     
-        // Use gsap to animate the visibility of sound buttons based on the isPlaying state
-        gsap.to(this.isPlaying ? soundOnButton : soundOffButton, {
-            opacity: 0,
-            onComplete: () => {
-                (this.isPlaying ? soundOnButton : soundOffButton).style.display = 'none';
-                (this.isPlaying ? soundOffButton : soundOnButton).style.display = 'block';
-                gsap.to(this.isPlaying ? soundOffButton : soundOnButton, { opacity: 1 });
-            },
-        });
+        if (playButton && stopButton) {
+            playButton.style.display = isPlaying ? 'none' : 'block';
+            stopButton.style.display = isPlaying ? 'block' : 'none';
+        }
     }
+    
+    updateSoundButtonState(isPlaying = this.isPlaying) {
+        const playButton = document.querySelector('.play-sound');
+        const stopButton = document.querySelector('.stop-sound');
+    
+        if (isPlaying) {
+            playButton.style.display = 'none';
+            stopButton.style.display = 'block';
+        } else {
+            playButton.style.display = 'block';
+            stopButton.style.display = 'none';
+        }
+    }
+    
     
 }

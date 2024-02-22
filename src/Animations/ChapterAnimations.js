@@ -35,10 +35,7 @@ export default class ChapterAnimations {
     async setChapterLeave(data){
        
        await gsap.timeline({ ease: "power2.out",})
-        .to(".webgl", {
-            opacity: 0, 
-            duration: 2,
-        }, "sync1")
+        
         .to(data.current.container.querySelectorAll('.main-content_container'), {
             opacity: 0,
             x: -20,

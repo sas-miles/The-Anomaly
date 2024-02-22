@@ -8,11 +8,34 @@ export default class CameraAnimate{
     }
 
     IntroCamera() {
+        this.experience.eventEmitter.trigger('controls:disable');
+        const IntroTL = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+
+        .to(this.experience.camera.instance.position, {
+            x: 0, 
+            y: 100, 
+            z: 700,
+            duration: 3,
+            ease: 'power2.out',
+        }, "sync1")
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+        }, "sync1")
+ 
+        IntroTL.play()
+        
     }
 
     ChapterOneCamera() {
 
-        console.log('chapter 1 ENTER timeline')
         this.experience.eventEmitter.trigger('controls:disable');
         const chapterOneTL = gsap.timeline({
             paused: true,
@@ -39,7 +62,6 @@ export default class CameraAnimate{
     }
 
     ChapterTwoCamera(){
-        console.log('chapter 2 ENTER timeline')
         this.experience.eventEmitter.trigger('controls:disable');
         const chapterTwoTL = gsap.timeline({
             paused: true,
