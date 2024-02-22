@@ -4,8 +4,8 @@ export default class ChapterAnimations {
         this.gsap = gsap;
     }
 
-    setChapterEnter (data){
-        gsap.timeline({ease: "power2.out"})
+    async setChapterEnter (data){
+     await gsap.timeline({ease: "power2.out"})
         .to(data.next.container.querySelectorAll('.chapter-page-title'), {
             opacity: 1,
             y: 0,
@@ -35,7 +35,11 @@ export default class ChapterAnimations {
     async setChapterLeave(data){
        
        await gsap.timeline({ ease: "power2.out",})
-        
+        .to(".webgl", {
+            opacity: 0,
+            duration: 2,
+            ease: "power2.out", 
+        }, "sync1")
         .to(data.current.container.querySelectorAll('.main-content_container'), {
             opacity: 0,
             x: -20,
@@ -66,7 +70,7 @@ export default class ChapterAnimations {
        
     }
 
-    setLabels() {
+   async setLabels() {
         console.log('Setting labels...')
         gsap.set('.label-container', {
             opacity: 0,
@@ -74,7 +78,7 @@ export default class ChapterAnimations {
         gsap.set('.label-marker-heading', {
             opacity: 0,
         })
-        gsap.timeline({delay: 2})
+        await gsap.timeline({delay: 2})
         .to('.label-container',{
             opacity: 1,
             duration: 1,

@@ -27,6 +27,7 @@ export default class IntroAnimations {
     setContentScroller() {
           
         console.log('scroll animation here...')
+        
        
     }
     

@@ -117,18 +117,18 @@ experience.world.on('ready', () => {
           })
           
         },
-        async enter(data) {
-          
-          await gsap.timeline()
-          .to('.intro-text_first', {
+        enter(data) {
+          gsap.set(".intro-text_first", { y: 20 });
+          gsap.timeline()
+          .to(".intro-text_first", {
             opacity: 1, 
-            duration: 1,
-            ease: "power2.out"
+            y: 0,
+            duration: 2,
+            ease: "power2.out",
           })
           .to(".webgl", {
-            opacity: 1,
-            duration: 3,
-            ease: "power2.out", 
+            opacity: 1, 
+            duration: 2,
           })
           
         }
@@ -180,9 +180,9 @@ experience.world.on('ready', () => {
           chapterAnimation.setChapterEnter(data)
           chapterAnimation.setLabels()
         },
-        enter(data) {
-          chapterAnimation.setChapterEnter(data)
-          chapterAnimation.setLabels()
+        async enter(data) {
+          await chapterAnimation.setChapterEnter(data)
+          await chapterAnimation.setLabels()
         },
         async beforeLeave(data) {
           await chapterAnimation.setChapterLeave(data)
@@ -243,8 +243,6 @@ experience.world.on('ready', () => {
           setExperience();
           const namespace = data.next.namespace;
           experience.world.audio.playSound(namespace);
-          // experience.world.audio.transitionAudio('intro');
-          const introAnimations = new IntroAnimations(experience);
           ScrollTrigger.refresh();
           
         },
@@ -274,6 +272,7 @@ experience.world.on('ready', () => {
         beforeLeave(data) {
           const namespace = data.current.namespace;
           experience.world.audio.stopSound(namespace);
+         
         }
   
       },
@@ -293,6 +292,7 @@ experience.world.on('ready', () => {
         beforeLeave(data) {
           const namespace = data.current.namespace;
           experience.world.audio.stopSound(namespace);
+          
         }
   
       }
@@ -306,7 +306,7 @@ experience.world.on('ready', () => {
   
       const introAnimations = new IntroAnimations(experience);
       
-      gsap.set(".intro-text_first", { opacity: 0, y: 20 });
+      gsap.set(".intro-text_first", { y: 20 });
       gsap.timeline()
       
       .to(".intro-text_first", {
