@@ -93,56 +93,32 @@ export default class Interface{
     }
 
     setRaycaster() {   
-        window.addEventListener('mousemove', (event) => {
-            this.mousePosition.x = (event.clientX / this.sizes.width) * 2 - 1;
-            this.mousePosition.y = -(event.clientY / this.sizes.height) * 2 + 1;
-        
-            this.raycaster.setFromCamera(this.mousePosition, this.experience.camera.instance)
+        const raycast = (event) => {
+            
     
-            const intersects = this.raycaster.intersectObjects(this.group.children)
-        
-             // Hide all labels initially
-            Object.values(this.labels).forEach(label => {
-                if (label.element) {
-                    label.element.style.display = 'none'; // Hide the label
-                }
-            });
+            const clientX = event.type === 'touchend' ? event.changedTouches[0].clientX : event.clientX;
+            const clientY = event.type === 'touchend' ? event.changedTouches[0].clientY : event.clientY;
     
-            // Show only the labels for intersected spheres
-            if (intersects.length > 0) {
-                intersects.forEach(intersect => {
-                    const name = intersect.object.name;
-                    const label = this.labels[name];
-                    if (label && label.element) {
-                        label.element.style.display = 'block'; // Show the label
-                        // Optional: Update label position here if needed
-                    }
-                });
-            }
-        
-        })
-
-
-        window.addEventListener('click', (event) => {
-            this.mousePosition.x = (event.clientX / this.sizes.width) * 2 - 1;
-            this.mousePosition.y = -(event.clientY / this.sizes.height) * 2 + 1;
-        
+            this.mousePosition.x = (clientX / this.sizes.width) * 2 - 1;
+            this.mousePosition.y = -(clientY / this.sizes.height) * 2 + 1;
+    
             this.raycaster.setFromCamera(this.mousePosition, this.experience.camera.instance);
             const intersects = this.raycaster.intersectObjects(this.group.children);
-        
+    
             if (intersects.length > 0) {
                 const name = intersects[0].object.name;
-        
+    
                 // Find the div with data-content attribute matching the sphere's name
                 const targetDiv = document.querySelector(`div[data-content="${name}"]`);
                 if (targetDiv) {
                     // Add the is-active class to the div
                     targetDiv.classList.add('is-active');
-                    
                 }
             }
-        });
-        
+        };
+    
+        window.addEventListener('click', raycast);
+        window.addEventListener('touchend', raycast);
     }
 
     closeModal() {
@@ -199,11 +175,6 @@ export default class Interface{
     
 
     updateScene() {
-        // Properly setup or reset the CSS2DRenderer
-        // this.setLabelRenderer();
-        
-        // Clear previous spheres and labels to prepare for new content
-        // this.reset(); 
 
         // Re-setup spheres and labels based on new content
         this.setSphereGroup();

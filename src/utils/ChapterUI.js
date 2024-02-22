@@ -21,7 +21,25 @@ export default class ChapterUI {
       }
     toggleMainContent() {
         const mainContent = document.querySelector('.chapter-main');
-        
+        const viewportWidth = window.innerWidth;
+
+        const breakpointTablet = 991;
+        // let mainContentValue; 
+        // if (viewportWidth <= breakpointTablet) {
+        //     mainContentValue = "-54vw";
+        // } else {
+        //     mainContentValue = "-37vw";
+        // }
+
+        const breakpointMobile = 760;
+        // if (viewportWidth <= breakpointMobile) {
+        //     mainContentValue = "-64.5vw";
+        // } else {
+        //     mainContentValue = "-37vw";
+        // }
+
+
+
         // Function to show main content
         const showMainContent = () => {
             console.log('Showing...');
@@ -40,7 +58,7 @@ export default class ChapterUI {
                     }
                 }, "sync1")
                 .to(mainContent, {
-                    x: "0vw",
+                    x: "0%",
                     opacity: 1,
                     duration: 1
                 })
@@ -80,7 +98,7 @@ export default class ChapterUI {
                     }
                 },)
                 .to(mainContent, {
-                    x: '-37vw',
+                    x: "-10%",
                     opacity: 0,
                     duration: 1,
                     delay: -0.15
@@ -104,11 +122,19 @@ export default class ChapterUI {
     
         
     
-            if (this.flag) {
-                showMainContent();
-            } else {
-                hideMainContent();
-            }
+           if (viewportWidth <= breakpointTablet) {
+        if (this.flag) {
+            hideMainContent();
+        } else {
+            showMainContent();
+        }
+    } else {
+        if (this.flag) {
+            showMainContent();
+        } else {
+            hideMainContent();
+        }
+    }
             this.flag = !this.flag; // Toggle the flag to switch between show and hide
       
     }
