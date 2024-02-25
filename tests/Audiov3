@@ -1,0 +1,97 @@
+import * as THREE from "three";
+import Experience from "../Experience";
+export default class AudioManager {
+    constructor() {
+        this.experience = new Experience();
+        this.resources = this.experience.resources;
+        this.camera = this.experience.camera.instance;
+        this.audioLoader = new THREE.AudioLoader();
+
+        this.soundEnabled = false;
+        this.isPlaying = false;
+        this.currentSound = null;
+
+        this.audioFiles = {
+            'home': this.experience.resources.items.IntroAudio,
+            'intro': this.experience.resources.items.IntroAudio,
+            'chapter1': this.experience.resources.items.Chapter1Audio,
+            'chapter2': this.experience.resources.items.Chapter2Audio,
+            'chapter3': this.experience.resources.items.Chapter3Audio,
+            'chapter4': this.experience.resources.items.Chapter4Audio,
+            'chapter5': this.experience.resources.items.Chapter5Audio,
+        };
+
+        console.log('hheyyyy',this.audioFiles["chapter1"])
+
+        this.setupEventDelegation()
+
+        
+    }
+
+
+    setupEventDelegation() {
+        document.addEventListener('click', (event) => {
+    
+            // Don't follow the link
+            event.preventDefault();
+    
+            // Call the appropriate function
+            if (event.target.matches('.play-sound')) {
+                this.playSound(namespace)
+            } else if (event.target.matches('.stop-sound')) {
+               this.stopSound()
+            }
+        }, false);
+    }
+
+    playSound(namespace) {
+        console.log(namespace)
+        console.log(this.audioFiles[namespace])
+        // Stop any currently playing sound
+        if (this.currentSound && this.isPlaying) {
+            this.currentSound.stop();
+            this.soundEnabled = false;
+            this.isPlaying = false;
+        }
+
+        // Access the prepared audio instance from the resources
+        const audioInstance = this.resources.items[this.audioFiles[namespace]];
+        if (audioInstance) {
+            this.currentSound = audioInstance; // Directly use the prepared audio instance
+            this.currentSound.play(); // No need to set buffer or loop properties
+            this.soundEnabled = true;
+            this.isPlaying = true;
+        } else {
+            console.warn(`No audio instance available for namespace: ${namespace}`);
+        }
+        this.updateButtonState();
+    }
+
+    stopSound(){
+        console.log('Stop Method: Stop sound clicked');
+        
+        if (this.currentSound) {
+            this.currentSound.stop();
+            this.isPlaying = false;
+            this.updateButtonState();
+        }
+
+        this.updateButtonState()
+    }
+
+    updateButtonState(){
+        const playButton = document.querySelector('.play-sound.sound-button_on');
+        const stopButton = document.querySelector('.stop-sound.sound-button_off');
+        const playIntroButton = document.querySelector('.play-sound.is-intro');
+        const stopIntroButton = document.querySelector('.stop-sound.is-intro');
+
+        if (this.isPlaying) {
+            playButton.style.display = 'none';
+            stopButton.style.display = 'block';
+        } else {
+            playButton.style.display = 'block';
+            stopButton.style.display = 'none';
+        }
+    }
+    
+}

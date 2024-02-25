@@ -2,9 +2,12 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 
 
-export default class Plane {
+export default class PowerStation {
 
     constructor() {
+        if (PowerStation.instance) {
+            return PowerStation.instance;
+        }
 
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -12,7 +15,7 @@ export default class Plane {
         
 
         //Setup
-        this.resource = this.resources.items.Ground
+        this.resource = this.resources.items.PowerStation
         this.setTextures()
         this.setMaterial()
 
@@ -22,17 +25,15 @@ export default class Plane {
 
     setTextures(){
         this.textures = {}
-        this.textures.color = this.resources.items.GroundTexture
+        this.textures.color = this.resources.items.PowerStationTexture
         this.textures.color.colorSpace = THREE.SRGBColorSpace
-        this.textures.color.flipY = false
-        this.textures.normal = this.resources.items.GroundNormal
+        // this.textures.color.flipY = false
 
     }
 
     setMaterial(){
-        this.material = new THREE.MeshStandardMaterial({
-            map: this.textures.color,
-            normalMap: this.textures.normal,
+        this.material = new THREE.MeshBasicMaterial({
+            map: this.textures.color
         })
     }
 

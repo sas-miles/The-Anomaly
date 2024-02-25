@@ -1,5 +1,3 @@
-import gsap from "gsap";
-import barba from "@barba/core";
 import * as THREE from "three";
 import Experience from "../Experience";
 export default class AudioManager {
@@ -7,158 +5,134 @@ export default class AudioManager {
         this.experience = new Experience();
         this.resources = this.experience.resources;
         this.camera = this.experience.camera.instance;
-        this.audioLoader = new THREE.AudioLoader();
+        this.soundEnabled = false;
+        this.isPlaying = false;
+        this.lastAudioKey = null; // Add this line
 
-        this.soundEnabled = true
 
         this.audioFiles = {
-            'home': this.experience.resources.items.IntroAudio,
+            'home': this.experience.resources.items.HomeAudio,
             'intro': this.experience.resources.items.IntroAudio,
             'chapter1': this.experience.resources.items.Chapter1Audio,
             'chapter2': this.experience.resources.items.Chapter2Audio,
+            'chapter3': this.experience.resources.items.Chapter1Audio,
+            'chapter4': this.experience.resources.items.Chapter2Audio,
+            'chapter5': this.experience.resources.items.Chapter1Audio,
         };
 
         
-        this.isPlaying = false;
-        this.currentSound = null;
 
-        this.bindButtonEvents()
-
-        this.initBarbaHooks();
+        this.setupEventDelegation()
+        this.setAudioFromSession();
 
         
     }
 
-    initBarbaHooks() {
-        console.log('initBarbaHooks called');
-        barba.hooks.afterEnter((data) => {
-            this.bindButtonEvents();
-            // Optionally, also check and update the button visibility state here
-            this.updateButtonVisibility();
-        });
+    enableSound() {
+        this.soundEnabled = true;
     }
 
-    setCurrentNamespace(namespace) {
-        this.currentNamespace = namespace;
+
+    setupEventDelegation() {
+        document.addEventListener('click', (event) => {
+    
+            // Don't follow the link
+            event.preventDefault();
+    
+            // Call the appropriate function
+            if (event.target.matches('.play-sound')) {
+                this.enableSound();
+                console.log('Play sound clicked');
+                this.playSound()
+            } else if (event.target.matches('.stop-sound')) {
+               this.stopSound()
+            }
+        }, false);
     }
 
-    bindButtonEvents() {
-    // This method should be safe to call multiple times
-    const playButton = document.querySelector('.play-sound');
-    const stopButton = document.querySelector('.stop-sound');
-
-    // Clear existing listeners to avoid duplicates
-    playButton?.removeEventListener('click', this.handlePlayClick);
-    stopButton?.removeEventListener('click', this.handleStopClick);
-
-    // Bind listeners
-    this.handlePlayClick = () => this.updateGlobalSoundState(true); // Assuming this method starts playing
-    this.handleStopClick = () => this.updateGlobalSoundState(false); // Assuming this method stops playing
-
-    playButton?.addEventListener('click', this.handlePlayClick);
-    stopButton?.addEventListener('click', this.handleStopClick);
-  }
-
+    setAudioFromSession() {
+        this.pageEnter = sessionStorage.getItem('pageEnter')
     
+        switch (this.pageEnter)
+        {
+            case 'intro':
+                this.setAudio('intro');
+                break;
     
-
-      updateGlobalSoundState() {
-        console.log('updateGlobalSoundState called');
+            case 'chapter1':
+                this.setAudio('chapter1');
+                break;
     
-        // Update UI buttons first based on soundEnabled state
-        const playButton = document.querySelector('.play-sound');
-        const stopButton = document.querySelector('.stop-sound');
+            case 'chapter2':
+                this.setAudio('chapter2');
+                break;
     
-        if (this.soundEnabled) {
-            // Sound is enabled
-            if (playButton) playButton.style.display = 'none';
-            if (stopButton) stopButton.style.display = 'block';
-            // Check if there's a sound already playing, if not, attempt to play the currentNamespace sound
-            if (!this.isPlaying && this.currentNamespace) {
-                console.log('Attempting to play sound for namespace', this.currentNamespace);
-                this.playSound(this.currentNamespace);
-            }
-        } else {
-            // Sound is disabled
-            if (playButton) playButton.style.display = 'block';
-            if (stopButton) stopButton.style.display = 'none';
-            if (this.currentSound && this.isPlaying) {
-                // Stop the current sound if it's playing
-                this.currentSound.stop();
-                this.isPlaying = false;
-                this.currentSound = null;
-            }
+            case 'chapter3':
+                this.setAudio('chapter3');
+                break;
+    
+            case 'chapter4':
+                this.setAudio('chapter4');
+                break;
+    
+            case 'chapter5':
+                this.setAudio('chapter5');
+                break;
         }
     }
     
-    playSound(namespace) {
-        // Immediately update UI to reflect action intention
-        this.updateSoundButtonState(true); // Assume playing
-        if (!this.soundEnabled) return;
-    
-        const sound = this.audioFiles[namespace];
-        if (sound) {
-            if (this.currentSound) {
-                this.currentSound.stop();
-            }
-            sound.play();
-            this.isPlaying = true;
-            this.currentSound = sound;
-            this.currentNamespace = namespace;
-        } else {
-            // If sound not found or failed to play, revert UI state
-            this.updateSoundButtonState(false);
+    setAudio(audioKey) {
+        // Access the audio resource through the audioFiles mapping
+        const audioResource = this.audioFiles[audioKey];
+        
+        if (!audioResource) {
+            console.log(`Audio key '${audioKey}' not found in audioFiles or is undefined.`);
+            return;
         }
+        
+        // Assign the retrieved audio resource to currentSound
+        this.currentSound = audioResource;
+        console.log(`Audio set for key '${audioKey}':`, this.currentSound);
     }
+
+
+    playSound() {
+        // Set the audio based on session before attempting to play
+        this.setAudioFromSession();
     
+        console.log('Current Sound:', this.currentSound);
+        if (!this.soundEnabled || this.isPlaying || !this.currentSound) {
+            return;
+        }
+    
+        // Play the audio
+        this.currentSound.play();
+    
+        this.isPlaying = true;
+        this.updateButtonState();
+        console.log('Play Method: Play sound clicked');
+    }
+
     stopSound() {
-        if (this.currentSound) {
+        console.log('Attempting to stop sound:', this.currentSound, 'Is Playing:', this.isPlaying);
+        if (this.currentSound && this.isPlaying) {
             this.currentSound.stop();
+            this.isPlaying = false;
+            this.currentSound = null;
+            console.log('Sound stopped');
+        } else {
+            console.log('No sound to stop or sound is not playing.');
         }
-        this.isPlaying = false;
-        this.currentSound = null;
-        this.updateSoundButtonState(); // Reflect this change immediately in UI
+        this.updateButtonState();
     }
 
-    transitionAudio(newNamespace) {
-        console.log(`Transitioning audio for namespace: ${newNamespace}`);
-        const newSound = this.audioFiles[newNamespace];
-        if (newSound) {
-            // If there is a currently playing sound, stop it
-            if (this.currentSound) {
-                this.currentSound.stop();
-            }
-    
-            // If sound is enabled, start the new sound
-            if (this.soundEnabled) {
-                newSound.play();
-                this.isPlaying = true;
-                this.currentSound = newSound;
-            } else {
-                this.isPlaying = false;
-                this.currentSound = null;
-            }
-        }
-        this.updateSoundButtonState(); // Update button visibility based on audio state
-    }
+    updateButtonState(){
+        const playButton = document.querySelector('.play-sound.sound-button_on');
+        const stopButton = document.querySelector('.stop-sound.sound-button_off');
+        const playIntroButton = document.querySelector('.play-sound.is-intro');
+        const stopIntroButton = document.querySelector('.stop-sound.is-intro');
 
-    updateButtonVisibility() {
-        console.log('updateButtonVisibility called');
-        const isPlaying = this.isPlaying;
-        const playButton = document.querySelector('.play-sound');
-        const stopButton = document.querySelector('.stop-sound');
-    
-        if (playButton && stopButton) {
-            playButton.style.display = isPlaying ? 'none' : 'block';
-            stopButton.style.display = isPlaying ? 'block' : 'none';
-        }
-    }
-    
-    updateSoundButtonState(isPlaying = this.isPlaying) {
-        const playButton = document.querySelector('.play-sound');
-        const stopButton = document.querySelector('.stop-sound');
-    
-        if (isPlaying) {
+        if (this.isPlaying) {
             playButton.style.display = 'none';
             stopButton.style.display = 'block';
         } else {
@@ -166,6 +140,5 @@ export default class AudioManager {
             stopButton.style.display = 'none';
         }
     }
-    
     
 }

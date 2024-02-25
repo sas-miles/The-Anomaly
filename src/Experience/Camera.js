@@ -21,6 +21,9 @@ export default class Camera{
         
         this.setInstance()
         this.instance.add(this.listener);
+
+        console.log('my camera instance listener',this.instance.children)
+
         this.setIntroAnimation()
 
         this.markerTargets = {};

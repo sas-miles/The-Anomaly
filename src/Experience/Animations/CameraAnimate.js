@@ -12,7 +12,7 @@ export default class CameraAnimate{
         const IntroTL = gsap.timeline({
             paused: true,
             onComplete: () => {
-                console.log('Controls enabled for animation');
+                // console.log('Controls enabled for animation');
                 this.experience.eventEmitter.trigger('controls:enable');
             }
         })
@@ -40,7 +40,7 @@ export default class CameraAnimate{
         const chapterOneTL = gsap.timeline({
             paused: true,
             onComplete: () => {
-                console.log('Controls enabled for animation');
+                // console.log('Controls enabled for animation');
                 this.experience.eventEmitter.trigger('controls:enable');
             }
         })
@@ -66,7 +66,7 @@ export default class CameraAnimate{
         const chapterTwoTL = gsap.timeline({
             paused: true,
             onComplete: () => {
-                console.log('Controls enabled for animation');
+                // console.log('Controls enabled for animation');
                 this.experience.eventEmitter.trigger('controls:enable');
             }
         })

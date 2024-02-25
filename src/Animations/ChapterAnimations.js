@@ -29,6 +29,10 @@ export default class ChapterAnimations {
             opacity: 1,
             duration: 1
         }, "sync2")
+        .to(data.next.container.querySelectorAll('.sound-container'), {
+            opacity: 1,
+            duration: 1
+        }, "sync2")
     }
 
     async setChapterLeave(data){
@@ -51,6 +55,10 @@ export default class ChapterAnimations {
             opacity: 0,
             duration: 1
         }, "sync1")
+        .to(data.current.container.querySelectorAll('.sound-container'), {
+            opacity: 0,
+            duration: 1
+        }, "sync1")
         .to(data.current.container.querySelectorAll('.chapter-page-title'), {
             opacity: 0,
             y: 20,
@@ -68,7 +76,7 @@ export default class ChapterAnimations {
        
     }
 
-   async setLabels() {
+   setLabels() {
         console.log('Setting labels...')
         gsap.set('.label-container', {
             opacity: 0,
@@ -76,7 +84,7 @@ export default class ChapterAnimations {
         gsap.set('.label-marker-heading', {
             opacity: 0,
         })
-        await gsap.timeline({delay: 2})
+        gsap.timeline({delay: 2})
         .to('.label-container',{
             opacity: 1,
             duration: 1,

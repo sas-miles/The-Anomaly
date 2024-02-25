@@ -38,7 +38,7 @@ export default class Controls {
              // Define the current state
         this.currentRotationY = 0;
         this.currentTargetPositionZ = 0;
-            console.log('Controls: Received enable event');
+        // console.log('Controls: Received enable event');
 
         });
     }
@@ -61,7 +61,7 @@ export default class Controls {
                 }
 
                 if (!this.isCustomControlEnabled) {
-                    console.log('Custom controls disabled');
+                    // console.log('Custom controls disabled');
                     const deltaY = clientY - this.dragStart.y;
                     // Forward and Backward Movement (disabled in custom control mode)
                     this.currentTargetPositionZ += deltaY * this.moveSpeed;

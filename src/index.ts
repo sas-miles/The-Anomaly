@@ -6,19 +6,17 @@ import Nav from "$utils/Nav";
 import Experience from './Experience/Experience';
 import ChapterAnimations from './Animations/ChapterAnimations';
 import ChapterUI from '$utils/ChapterUI';
-
-
+import IntroAnimations from './Experience/Animations/IntroAnimations';
+import AudioManager from './Experience/World/AudioManager';
 sessionStorage.setItem('key', 'value');
 
 
 let experience = new Experience(document.querySelector('canvas.webgl'));
 
 
-import IntroAnimations from './Animations/IntroAnimations';
 
 
 const chapterAnimation = new ChapterAnimations()
-
 
 const nav = new Nav()
 
@@ -241,7 +239,7 @@ experience.world.on('ready', () => {
         },
         async enter(data) {
           await chapterAnimation.setChapterEnter(data)
-          await chapterAnimation.setLabels()
+          chapterAnimation.setLabels()
         },
         async beforeLeave(data) {
           await chapterAnimation.setChapterLeave(data)
@@ -289,12 +287,10 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'home');
           setExperience();
-          const namespace = data.next.namespace;
-          
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
-          experience.world.audio.stopSound(namespace);
+          console.log('Cleaning up listeners before leaving the current page.');
         }
       },
       {
@@ -302,36 +298,29 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'intro');
           setExperience();
-          const namespace = data.next.namespace;
-          experience.world.audio.playSound(namespace);
-          ScrollTrigger.refresh();
+          const intro = new IntroAnimations();
           
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
-        },
-        afterEnter(data){
-          // Now safe to initialize animations
-          experience.world.audio.updateButtonVisibility();
-          const introAnimations = new IntroAnimations(experience);
+          console.log('Cleaning up listeners before leaving the current page.');
+          experience.world.audioManager.stopSound()
         }
+        
       },
       {
         namespace: 'chapter1',
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'chapter1');
           setExperience();
-          const namespace = data.next.namespace;
-          experience.world.audio.playSound(namespace);
         }, 
         afterEnter(data){
-          const chapterUI = new ChapterUI(data.next.container);
-          experience.world.audio.updateButtonVisibility();
-          experience.world.audio.bindButtonEvents();
+          chapterUI = new ChapterUI(data.next.container);
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
-          experience.world.audio.stopSound(namespace);
+          console.log('Cleaning up listeners before leaving the current page.');
+          experience.world.audioManager.stopSound()
         }
   
       },
@@ -340,19 +329,16 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'chapter2');
           setExperience();
-          const namespace = data.next.namespace;
-          experience.world.audio.playSound(namespace);
-  
         },
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
-          experience.world.audio.updateButtonVisibility();
+          
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
-          experience.world.audio.stopSound(namespace);
+          console.log('Cleaning up listeners before leaving the current page.');
+          experience.world.audioManager.stopSound()
         }
-  
       }
     ]
   
@@ -400,7 +386,6 @@ experience.world.on('ready', () => {
   
     if (data.next.namespace === 'intro') {
   
-      const introAnimations = new IntroAnimations(experience);
       
       gsap.set(".intro-text_first", { y: 20 });
       gsap.timeline()
@@ -423,3 +408,4 @@ experience.world.on('ready', () => {
   });
 
 })
+

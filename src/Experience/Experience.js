@@ -14,7 +14,6 @@ import Sizes from './Utils/Sizes.js';
 import Time from './Utils/Time.js';
 import World from './World/World.js';
 import Interface from './Interface.js';
-// import AudioManager from './AudioManager.js'
 
 let instance = null;
 

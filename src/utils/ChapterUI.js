@@ -11,7 +11,6 @@ export default class ChapterUI {
         this.initEvents()
     }
     initEvents() {
-        console.log('got em', this.data);
         document.body.addEventListener('click', (e) => {
           const mainContentTab = e.target.closest('.main-content-tab');
           if (mainContentTab) {

@@ -2,16 +2,13 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Plane from './Plane.js'
-import Central from './Central.js'
-import QuadrantOne from './QuadrantOne.js'
-import QuadrantTwo from './QuadrantTwo.js'
-import QuadrantFour from './QuadrantFour.js'
-import Structures from './Structures.js'
+import CentralCommand from './CentralCommand.js'
+import PowerStation from './PowerStation.js'
 import Anomaly  from './Anomaly.js'
 import ExperienceManager from '../ExperienceManager.js'
-import AudioManager from './AudioManager.js'
 import Loader from './Loader.js'
 import EventEmitter from '../Utils/EventEmitter.js'
+import AudioManager from './AudioManager.js'
 
 export default class World extends EventEmitter{
     constructor(renderer) {
@@ -24,14 +21,17 @@ export default class World extends EventEmitter{
         this.eventEmitter = new EventEmitter()
         
 
+        
         this.resources.on('ready', () => {
             console.log('Resources ready')
             this.plane = new Plane()
+            this.audioManager = new AudioManager()
             this.anomaly = new Anomaly(this.renderer)
-            this.structures = new Structures()
+            this.centralCommand = new CentralCommand()
+            this.powerStation = new PowerStation()
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()    
-            this.audio = new AudioManager();
+            
 
             this.trigger('ready');
 

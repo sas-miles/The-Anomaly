@@ -27,6 +27,8 @@ export default class ExperienceManager{
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
         this.cameraAnimate = new cameraAnimate()
+        this.resources = this.experience.resources
+
         // this.UIAnimation = new UIAnimation()  
         this.chapterParams = {
             'intro': {
@@ -174,6 +176,7 @@ export default class ExperienceManager{
             
         }
     }
+
 
     setAnomalyParams(){
         let pageEnter = sessionStorage.getItem('pageEnter');
