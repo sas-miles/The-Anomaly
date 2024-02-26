@@ -70,21 +70,98 @@ export default class CameraAnimate{
                 this.experience.eventEmitter.trigger('controls:enable');
             }
         })
-
         .to(this.experience.camera.instance.position, {
-            x: 36.09, 
+            x: 20, 
             y: 20, 
-            z: 63.57,
+            z: 100,
             duration: 3,
             ease: 'power2.out',
-        }, "=")
+        }, "sync1")
         .to(this.experience.camera.instance.rotation, {
             x: 0, 
             y: 0, 
             z: 0,
-        }, "=")
+        }, "sync1")
 
         chapterTwoTL.play()
+    }
+
+    ChapterThreeCamera(){
+        this.experience.eventEmitter.trigger('controls:disable');
+        const chapterThreeTL = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                // console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+
+        .to(this.experience.camera.instance.position, {
+            x: 0, 
+            y: 20, 
+            z: 200,
+            duration: 3,
+            ease: 'power2.out',
+        }, "sync1")
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+        }, "sync1")
+
+        chapterThreeTL.play()
+    }
+
+    ChapterFourCamera(){
+        this.experience.eventEmitter.trigger('controls:disable');
+        const chapterFourTL = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                // console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+
+        .to(this.experience.camera.instance.position, {
+            x: 0, 
+            y: 20, 
+            z: 80,
+            duration: 3,
+            ease: 'power2.out',
+        }, "sync1")
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0}, "sync1")
+
+        chapterFourTL.play()
+    }
+
+    ChapterFiveCamera(){
+        this.experience.eventEmitter.trigger('controls:disable');
+        const chapterFiveTL = gsap.timeline({
+            paused: true,
+            onComplete: () => {
+                // console.log('Controls enabled for animation');
+                this.experience.eventEmitter.trigger('controls:enable');
+            }
+        })
+
+
+        .to(this.experience.camera.instance.position, {
+            x: 0, 
+            y: 20, 
+            z: 300,
+            duration: 3,
+            ease: 'power2.out',
+        }, "sync1")
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 0, 
+            z: 0,
+        }, "sync1")
+
+        chapterFiveTL.play()
     }
 
 }

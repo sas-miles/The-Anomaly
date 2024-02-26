@@ -107,7 +107,7 @@ export default class ExperienceManager{
             'chapter4': {
                 anomalyParams: {
                     count: 225700,
-                    size: 55.748,
+                    size: 100,
                     radius: 6.578,
                     branches: 7,
                     spin: 1,
@@ -126,15 +126,15 @@ export default class ExperienceManager{
                     count: 225700,
                     size: 55.748,
                     radius: 6.578,
-                    branches: 7,
+                    branches: 2,
                     spin: 1,
-                    randomness: 0.033,
-                    randomnessPower: 10,
+                    randomness: 23,
+                    randomnessPower: 4,
                     insideColor: '#e5ad76',
                     outsideColor: '#9ba2d9',
                     offsetX: 1.322,
-                    offsetY: 8.759,
-                    offsetZ: 40,
+                    offsetY: 3.759,
+                    offsetZ: 10,
                 }
             },
         }
@@ -171,6 +171,21 @@ export default class ExperienceManager{
 
             case 'chapter2':
                 this.cameraAnimate.ChapterTwoCamera()
+                
+            break
+
+            case 'chapter3':
+                this.cameraAnimate.ChapterThreeCamera()
+                
+            break
+
+            case 'chapter4':
+                this.cameraAnimate.ChapterFourCamera()
+                
+            break
+
+            case 'chapter5':
+                this.cameraAnimate.ChapterFiveCamera()
                 
             break
             

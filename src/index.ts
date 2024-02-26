@@ -116,7 +116,7 @@ experience.world.on('ready', () => {
       {
         name: 'ChaptersToHome', 
         from: {
-          route: ['chapter1', 'chapter2']
+          route: ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5']
         },
         to: {
           namespace: ['home']
@@ -199,10 +199,7 @@ experience.world.on('ready', () => {
       {
         name: 'Chapters to Intro',
         from: {
-          namespace: [
-            'chapter1', 
-            'chapter2'
-          ]
+          namespace: ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5']
         },
         to: {
           namespace: ['intro']
@@ -242,10 +239,7 @@ experience.world.on('ready', () => {
       {
         name: 'Chapters to Home',
         from: {
-          namespace: [
-            'chapter1', 
-            'chapter2'
-          ]
+          namespace: ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5']
         },
         to: {
           namespace: ['home']
@@ -293,10 +287,7 @@ experience.world.on('ready', () => {
       {
         name: 'WebglChapterCanvasIntro',
         to: {
-          namespace: [
-            'chapter1',
-            'chapter2'
-          ]
+          namespace: ['chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5']
         },
         once(data) {
           chapterAnimation.setChapterEnter(data)
@@ -399,9 +390,48 @@ experience.world.on('ready', () => {
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
+        },
+      },
+      {
+        namespace: 'chapter3',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'chapter3');
+          setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
           
-
+        },
+        afterEnter(data){
+          const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audioManager.updateButtonState();
+        },
+      },
+      {
+        namespace: 'chapter4',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'chapter4');
+          setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
           
+        },
+        afterEnter(data){
+          const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audioManager.updateButtonState();
+        },
+      },
+      {
+        namespace: 'chapter5',
+        beforeEnter(data) {
+          sessionStorage.setItem('pageEnter', 'chapter5');
+          setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
+          
+        },
+        afterEnter(data){
+          const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audioManager.updateButtonState();
         },
       }
     ]
