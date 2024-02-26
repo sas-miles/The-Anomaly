@@ -34,20 +34,21 @@ export default class IntroAnimations {
             ScrollTrigger.create({
                 trigger: element,
                 start: "center center", // Start when the center of the element hits the center of the viewport
-                end: "bottom top", // End when the bottom of the element hits the top of the viewport
+                end: "bottom -100%", // End when the bottom of the element hits the top of the viewport
                 pin: true,
                 // markers: true,
-                onEnter: () => this.gsap.to(element, { opacity: 1, duration: 2 }),
-                onLeaveBack: () => this.gsap.to(element, { opacity: 0, duration: 2 }),
+                onEnter: () => this.gsap.to(element, { opacity: 1, duration: 2, ease: "power2.out", overwrite: "auto"}),
+                onLeaveBack: () => this.gsap.to(element, { opacity: 0, duration: 1, ease: "power2.out", overwrite: "auto"}),
             });
     
             // Create a ScrollTrigger for the fade out animation
             ScrollTrigger.create({
                 trigger: element,
-                start: "center center", // Start when the center of the element hits the center of the viewport
-                end: "center 20%", // End when the center of the element hits the top of the viewport
-                onEnterBack: () => this.gsap.to(element, { opacity: 1, duration: 1 }),
-                onLeave: () => this.gsap.to(element, { opacity: 0, duration: 1 }),
+                start: "center bottom", // Start when the prop1 of the element hits the prop2 of the viewport
+                end: "bottom top", // End when the center of the element hits the top of the viewport
+                onEnterBack: () => this.gsap.to(element, { opacity: 1, duration: 1,ease: "power2.out", overwrite: "auto" }),
+                onLeave: () => this.gsap.to(element, { opacity: 0, duration: .5, ease: "power2.out", overwrite: "auto"}),
+                // markers: true
             });
         });
     }

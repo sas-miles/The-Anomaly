@@ -187,6 +187,11 @@ experience.world.on('ready', () => {
             opacity: 1, 
             duration: 2,
           })
+          .to(".sound-container", {
+            opacity: 1,
+            duration: .1,
+            ease: "power4.in",
+          })
           
         }
         
@@ -214,15 +219,75 @@ experience.world.on('ready', () => {
          },
         enter(data) {
           gsap.timeline()
+          .to(".intro-text_first", {
+            opacity: 1, 
+            y: 0,
+            duration: 2,
+            ease: "power2.out",
+          })
           .to(".webgl", {
             opacity: 1,
             duration: 3,
             ease: "power2.out", 
             delay: 1
           })
+          .to('.sound-container', {
+            opacity: 1,
+            duration: 1
+          })
           
             
         }
+      },
+      {
+        name: 'Chapters to Home',
+        from: {
+          namespace: [
+            'chapter1', 
+            'chapter2'
+          ]
+        },
+        to: {
+          namespace: ['home']
+        },
+        async beforeLeave(data){
+          await chapterAnimation.setChapterLeave(data)
+          
+         },
+         async enter(data) {
+          gsap.set(".home-logo", { opacity: 0 });
+            gsap.set(".home-cta_text", { opacity: 0 });
+            gsap.set(".home-intro_enter-line", { height: 0 });
+            gsap.set(".intro-sound_button-container", { opacity: 0 });
+  
+            
+            gsap.timeline()
+            .to(".home-intro", {
+              opacity: 1,
+            })
+            .to(".home-logo", {
+              opacity: 1,
+              duration: 3,
+              ease: "power1.out",
+            })
+            .to(".home-cta_text", {
+              opacity: 1,
+              duration: .5,
+              ease: "power2.out",
+            })
+            .to(".home-intro_enter-line", {
+              height: "4vh",
+              duration: .5,
+              ease: "power2.out"
+            })
+            .to(".intro-sound_button-container", {
+              opacity: 1,
+              duration: .1,
+              ease: "power4.in",
+              delay: -.1
+            })
+        }
+
       },
       
       {
@@ -299,11 +364,8 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'intro');
           setExperience();
           const intro = new IntroAnimations();
-          
-        },
-        beforeLeave(data) {
-          const namespace = data.current.namespace;
-          console.log('Cleaning up listeners before leaving the current page.');
+          experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('intro');
           
         }
         
@@ -314,16 +376,14 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter1');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('chapter1');
           
         }, 
         afterEnter(data){
-          chapterUI = new ChapterUI(data.next.container);
+          const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
-        },
-        beforeLeave(data) {
-          const namespace = data.current.namespace;
-          console.log('Cleaning up listeners before leaving the current page.');
           
+
         }
   
       },
@@ -333,18 +393,16 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter2');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
+          experience.world.audioManager.changeAudioByKey('chapter2');
           
         },
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
           
-        },
-        beforeLeave(data) {
-          const namespace = data.current.namespace;
-          console.log('Cleaning up listeners before leaving the current page.');
+
           
-        }
+        },
       }
     ]
   
@@ -408,10 +466,13 @@ experience.world.on('ready', () => {
         duration: 2,
         delay: 1,
       })
+      .to('.sound-container', {
+        opacity: 1,
+        duration: 1
+      })
   
     }
   
   });
 
 })
-

@@ -2,9 +2,6 @@ import * as THREE from "three";
 import Experience from "../Experience";
 export default class AudioManager {
     constructor() {
-        if (AudioManager.instance) {
-            return AudioManager.instance;
-        }
         this.experience = new Experience();
         this.resources = this.experience.resources;
         this.camera = this.experience.camera.instance;
@@ -26,6 +23,7 @@ export default class AudioManager {
         
 
         this.setupEventDelegation()
+        this.setAudioFromSession();
         this.checkAudioStateAndPlay()
         
 
@@ -56,11 +54,11 @@ export default class AudioManager {
             event.preventDefault();
     
             // Call the appropriate function
-            if (event.target.matches('.play-sound') || event.target.matches('.play-sound.is-intro')) {
+            if (event.target.matches('.play-sound')) {
                 this.enableSound();
                 console.log('Play sound clicked');
                 this.playSound()
-            } else if (event.target.matches('.stop-sound') || event.target.matches('.stop-sound.is-intro')) {
+            } else if (event.target.matches('.stop-sound')) {
                this.stopSound()
             }
         }, false);
@@ -108,37 +106,29 @@ export default class AudioManager {
         
         // Assign the retrieved audio resource to currentSound
         this.currentSound = audioResource;
-        console.log(`Audio set for key '${audioKey}':`);
+        console.log(`Audio set for key '${audioKey}':`, this.currentSound);
     }
 
     changeAudioByKey(audioKey) {
-
-        sessionStorage.setItem('pageEnter', audioKey);
-
+        console.log('Changing audio by key started');
         // Check if the desired audio key exists in your audioFiles mapping
         if (this.audioFiles[audioKey]) {
-            // Remember the current playing state before stopping the current sound
-            const wasPlaying = this.isPlaying;
-            
-            
-            // Set the new audio
-            console.log(`Changing audio to key: ${audioKey}`);
+            // Set the new audio without automatically playing it
             this.setAudio(audioKey);
+            console.log(`Audio set for key '${audioKey}':`, this.currentSound);
             
-            // If audio was playing before, and sound is enabled, play the new sound
-            if (wasPlaying && this.soundEnabled) {
-                this.stopSound();
+            // Only play the new sound if soundEnabled is true and soundState is 'playing'
+            const soundState = sessionStorage.getItem('soundState');
+            if (this.soundEnabled && soundState === 'playing') {
                 this.playSound();
             } else {
-                console.log('Audio changed but not played automatically due to previous state or sound being disabled.');
+                // If soundState is 'stopped', ensure we don't play the sound
+                console.log('Sound is stopped by user choice, not playing automatically.');
             }
         } else {
             console.log(`Audio key '${audioKey}' not found.`);
         }
-
-        console.log('Audio change method complete');
     }
-    
 
 
     playSound() {
@@ -174,7 +164,8 @@ export default class AudioManager {
         });
     
         // After stopping all sounds, update the state accordingly
-        this.isPlaying = false; 
+        this.isPlaying = false;
+        this.currentSound = null; // Consider if you need to reset this
         sessionStorage.setItem('soundState', 'stopped'); // Optionally update session storage
         this.updateButtonState(); // Update the button state to reflect changes
     }
