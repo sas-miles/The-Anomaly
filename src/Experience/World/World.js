@@ -11,6 +11,7 @@ import EventEmitter from '../Utils/EventEmitter.js'
 import AudioManager from './AudioManager.js'
 import GreenHouse from './GreenHouse.js'
 
+
 export default class World extends EventEmitter{
     constructor(renderer) {
         super()
@@ -33,7 +34,6 @@ export default class World extends EventEmitter{
             this.greenHouse = new GreenHouse()
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()    
-            
 
             this.trigger('ready');
 

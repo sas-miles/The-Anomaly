@@ -1,6 +1,8 @@
 import { gsap } from 'gsap';
 import Experience from '../Experience.js'
 
+
+
 export default class CameraAnimate{
     constructor(){
         this.experience = new Experience()
@@ -66,20 +68,20 @@ export default class CameraAnimate{
         const chapterTwoTL = gsap.timeline({
             paused: true,
             onComplete: () => {
-                // console.log('Controls enabled for animation');
                 this.experience.eventEmitter.trigger('controls:enable');
+                this.experience.controls.currentRotationY = this.experience.camera.instance.rotation.y;
             }
         })
         .to(this.experience.camera.instance.position, {
-            x: 20, 
-            y: 20, 
-            z: 100,
+            x: 87.71, 
+            y: 11.5, 
+            z: 40.75,
             duration: 3,
             ease: 'power2.out',
         }, "sync1")
         .to(this.experience.camera.instance.rotation, {
             x: 0, 
-            y: 0, 
+            y: Math.PI / 4, // 45 degrees in radians
             z: 0,
         }, "sync1")
 
@@ -129,9 +131,15 @@ export default class CameraAnimate{
             duration: 3,
             ease: 'power2.out',
         }, "sync1")
+        
         .to(this.experience.camera.instance.rotation, {
             x: 0, 
             y: 0, 
+            z: 0}, "sync1")
+
+        .to(this.experience.camera.instance.rotation, {
+            x: 0, 
+            y: 20, 
             z: 0}, "sync1")
 
         chapterFourTL.play()

@@ -14,7 +14,7 @@ import wormholeVertexShader from './shaders/anomaly/wormhole/vertex.glsl'
 import wormholeFragmentShader from './shaders/anomaly/wormhole/fragment.glsl'
 import cameraAnimate from './Animations/CameraAnimate.js'
 // import UIAnimation from './Animations/UIAnimations.js'
-
+import MovingObj from './World/MovingObj.js';
 
 export default class ExperienceManager{
 
@@ -27,8 +27,10 @@ export default class ExperienceManager{
         this.animation = this.experience.animation
         this.animationConfig = this.experience.animationConfig
         this.cameraAnimate = new cameraAnimate()
+        this.time = this.experience.time
+        
         this.resources = this.experience.resources
-
+        
         // this.UIAnimation = new UIAnimation()  
         this.chapterParams = {
             'intro': {
@@ -150,45 +152,42 @@ export default class ExperienceManager{
 
     setPageAnimation() {
         this.pageEnter = sessionStorage.getItem('pageEnter')
-        
-
-        /** 
-            RUN ENTER  
-        */
-
+    
+        if (this.MovingObj && this.pageEnter !== 'chapter1') {
+            this.MovingObj.removeMovingObj();
+            this.MovingObj = null;
+        }
+    
         switch (this.pageEnter)
         {
             case 'intro':
                 this.cameraAnimate.IntroCamera()
-                
             break
-
+    
             case 'chapter1':
+                
                 this.cameraAnimate.ChapterOneCamera()
-
-                
+                if (!this.MovingObj) {
+                    this.MovingObj = new MovingObj()
+                }
             break
-
+    
             case 'chapter2':
-                this.cameraAnimate.ChapterTwoCamera()
                 
+                this.cameraAnimate.ChapterTwoCamera()
             break
-
+    
             case 'chapter3':
                 this.cameraAnimate.ChapterThreeCamera()
-                
             break
-
+    
             case 'chapter4':
                 this.cameraAnimate.ChapterFourCamera()
-                
             break
-
+    
             case 'chapter5':
                 this.cameraAnimate.ChapterFiveCamera()
-                
             break
-            
         }
     }
 

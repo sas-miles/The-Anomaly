@@ -123,7 +123,9 @@ export default class Controls {
 
     update() {
         if(this.isAnimationActive) return;
+        if (!this.isAnimationActive) {
             this.camera.rotation.y += (this.currentRotationY - this.camera.rotation.y) * this.damping;
+        }
 
             // Get the forward direction of the camera
             const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(this.camera.quaternion);

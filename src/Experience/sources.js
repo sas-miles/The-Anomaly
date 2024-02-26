@@ -1,5 +1,10 @@
 export default [
   {
+    name: 'Ship',
+    type: 'gltfModel',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ship.glb',
+  },
+  {
     name: 'Ground',
     type: 'gltfModel',
     path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ground.glb',
