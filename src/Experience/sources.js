@@ -7,12 +7,12 @@ export default [
   {
     name: 'GroundTexture',
     type: 'texture',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ground-texture.jpg',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ground-texture.webp',
   },
   {
     name: 'GroundNormal',
     type: 'texture',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ground-normal.jpg',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/ground-normal.webp',
   },
   {
     name: 'CentralCommand',
@@ -22,7 +22,7 @@ export default [
   {
     name: 'CentralCommandTexture',
     type: 'texture',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/cc-texture.jpg',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/cc-texture.webp',
   },
   {
     name: 'PowerStation',
@@ -32,7 +32,17 @@ export default [
   {
     name: 'PowerStationTexture',
     type: 'texture',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/power-station-texture.jpg',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/power-station-texture.webp',
+  },
+  {
+    name: 'GreenHouse',
+    type: 'gltfModel',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/green-house.glb',
+  },
+  {
+    name: 'GreenHouseTexture',
+    type: 'texture',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/green-house-texture.webp',
   },
   
   

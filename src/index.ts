@@ -304,7 +304,7 @@ experience.world.on('ready', () => {
         beforeLeave(data) {
           const namespace = data.current.namespace;
           console.log('Cleaning up listeners before leaving the current page.');
-          experience.world.audioManager.stopSound()
+          
         }
         
       },
@@ -313,14 +313,17 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'chapter1');
           setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
+          
         }, 
         afterEnter(data){
           chapterUI = new ChapterUI(data.next.container);
+          experience.world.audioManager.updateButtonState();
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
           console.log('Cleaning up listeners before leaving the current page.');
-          experience.world.audioManager.stopSound()
+          
         }
   
       },
@@ -329,15 +332,18 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'chapter2');
           setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
+          
         },
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
+          experience.world.audioManager.updateButtonState();
           
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;
           console.log('Cleaning up listeners before leaving the current page.');
-          experience.world.audioManager.stopSound()
+          
         }
       }
     ]

@@ -29,7 +29,7 @@ export default class ChapterAnimations {
             opacity: 1,
             duration: 1
         }, "sync2")
-        .to(data.next.container.querySelectorAll('.sound-container'), {
+        .to('.sound-container', {
             opacity: 1,
             duration: 1
         }, "sync2")
@@ -55,7 +55,7 @@ export default class ChapterAnimations {
             opacity: 0,
             duration: 1
         }, "sync1")
-        .to(data.current.container.querySelectorAll('.sound-container'), {
+        .to('.sound-container', {
             opacity: 0,
             duration: 1
         }, "sync1")

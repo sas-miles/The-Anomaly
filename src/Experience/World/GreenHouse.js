@@ -2,11 +2,11 @@ import * as THREE from 'three'
 import Experience from '../Experience.js'
 
 
-export default class PowerStation {
+export default class GreenHouse {
 
     constructor() {
-        if (PowerStation.instance) {
-            return PowerStation.instance;
+        if (GreenHouse.instance) {
+            return GreenHouse.instance;
         }
 
         this.experience = new Experience()
@@ -15,7 +15,7 @@ export default class PowerStation {
         
 
         //Setup
-        this.resource = this.resources.items.PowerStation
+        this.resource = this.resources.items.GreenHouse
         this.setTextures()
         this.setMaterial()
 
@@ -25,7 +25,7 @@ export default class PowerStation {
 
     setTextures(){
         this.textures = {}
-        this.textures.color = this.resources.items.PowerStationTexture
+        this.textures.color = this.resources.items.GreenHouseTexture
         this.textures.color.colorSpace = THREE.SRGBColorSpace
         this.textures.color.flipY = false
 

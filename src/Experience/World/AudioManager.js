@@ -24,7 +24,20 @@ export default class AudioManager {
 
         this.setupEventDelegation()
         this.setAudioFromSession();
+        this.checkAudioStateAndPlay()
 
+        
+    }
+
+    checkAudioStateAndPlay() {
+        const soundState = sessionStorage.getItem('soundState');
+        if(soundState === 'playing') {
+            this.playSound();
+            this.updateButtonState();
+        } else if(soundState === 'stopped') {
+            this.updateButtonState();
+            // Optionally handle stopped state explicitly, if needed
+        }
         
     }
 
@@ -111,34 +124,49 @@ export default class AudioManager {
         this.isPlaying = true;
         this.updateButtonState();
         console.log('Play Method: Play sound clicked');
+        sessionStorage.setItem('soundState', 'playing');
     }
 
     stopSound() {
-        console.log('Attempting to stop sound:', this.currentSound, 'Is Playing:', this.isPlaying);
-        if (this.currentSound && this.isPlaying) {
-            this.currentSound.stop();
-            this.isPlaying = false;
-            this.currentSound = null;
-            console.log('Sound stopped');
-        } else {
-            console.log('No sound to stop or sound is not playing.');
-        }
-        this.updateButtonState();
+        // Log the attempt to stop all sounds
+        console.log('Attempting to stop all sounds');
+    
+        // Iterate over all audio keys in the audioFiles object
+        Object.keys(this.audioFiles).forEach((key) => {
+            const audio = this.audioFiles[key];
+            if (audio && typeof audio.stop === 'function') {
+                // Stop the audio if it has a stop method
+                audio.stop();
+                console.log(`Stopped sound for key: ${key}`);
+            }
+        });
+    
+        // After stopping all sounds, update the state accordingly
+        this.isPlaying = false;
+        this.currentSound = null; // Consider if you need to reset this
+        sessionStorage.setItem('soundState', 'stopped'); // Optionally update session storage
+        this.updateButtonState(); // Update the button state to reflect changes
     }
+    
 
-    updateButtonState(){
+    updateButtonState() {
+        // Re-query the elements to ensure fresh references
         const playButton = document.querySelector('.play-sound.sound-button_on');
         const stopButton = document.querySelector('.stop-sound.sound-button_off');
-        const playIntroButton = document.querySelector('.play-sound.is-intro');
-        const stopIntroButton = document.querySelector('.stop-sound.is-intro');
-
-        if (this.isPlaying) {
-            playButton.style.display = 'none';
-            stopButton.style.display = 'block';
+    
+        // Check if elements exist before attempting to update state
+        if (playButton && stopButton) {
+            if (this.isPlaying) {
+                playButton.style.display = 'none';
+                stopButton.style.display = 'block';
+            } else {
+                playButton.style.display = 'block';
+                stopButton.style.display = 'none';
+            }
         } else {
-            playButton.style.display = 'block';
-            stopButton.style.display = 'none';
+            console.log('Button elements not found, may need to re-query or the page does not contain audio controls.');
         }
     }
+    
     
 }

@@ -9,6 +9,7 @@ import ExperienceManager from '../ExperienceManager.js'
 import Loader from './Loader.js'
 import EventEmitter from '../Utils/EventEmitter.js'
 import AudioManager from './AudioManager.js'
+import GreenHouse from './GreenHouse.js'
 
 export default class World extends EventEmitter{
     constructor(renderer) {
@@ -29,6 +30,7 @@ export default class World extends EventEmitter{
             this.anomaly = new Anomaly(this.renderer)
             this.centralCommand = new CentralCommand()
             this.powerStation = new PowerStation()
+            this.greenHouse = new GreenHouse()
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()    
             
