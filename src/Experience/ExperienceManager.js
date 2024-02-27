@@ -91,17 +91,17 @@ export default class ExperienceManager{
     
             'chapter3': {
                 anomalyParams: {
-                    count: 225700,
-                    size: 55.748,
-                    radius: 6.578,
-                    branches: 7,
+                    count: 582100,
+                    size: 66,
+                    radius: 85,
+                    branches: 20,
                     spin: 1,
-                    randomness: 0.033,
-                    randomnessPower: 10,
-                    insideColor: '#e5ad76',
-                    outsideColor: '#9ba2d9',
-                    offsetX: 1.322,
-                    offsetY: 8.759,
+                    randomness: 1.5,
+                    randomnessPower: 3,
+                    insideColor: '#80643a',
+                    outsideColor: '#891414',
+                    offsetX: 14,
+                    offsetY: 30,
                     offsetZ: 40,
                 }
             },

@@ -73,9 +73,9 @@ export default class CameraAnimate{
             }
         })
         .to(this.experience.camera.instance.position, {
-            x: 11.5, 
-            y: 2, 
-            z: 10,
+            x: -100, 
+            y: 18.87, 
+            z: 83.72,
             duration: 3,
             ease: 'power2.out',
         }, "sync1")
