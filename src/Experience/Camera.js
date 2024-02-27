@@ -39,7 +39,7 @@ export default class Camera{
 
         const aspectRatio = this.experience.sizes.width / this.experience.sizes.height;
         const nearPlane = 0.1;
-        const farPlane = 1000;
+        const farPlane = 2000;
 
 
         this.instance = new THREE.PerspectiveCamera(fovDegrees, aspectRatio, nearPlane, farPlane)

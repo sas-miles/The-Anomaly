@@ -12,14 +12,15 @@ export default class MovingObj {
         this.renderer = this.experience.renderer 
 
         this.points = [
-            new THREE.Vector3(-4, 10, 200),
-            new THREE.Vector3(10, 8, 0),
-            new THREE.Vector3(12, 5, -20),
-            new THREE.Vector3(20, 0, -50)
+            new THREE.Vector3(30, 15, 120),
+            new THREE.Vector3(30, 12, 0),
+            new THREE.Vector3(30, 10, -20),
+            new THREE.Vector3(30, 0, -100),
+            new THREE.Vector3(30, 0, -100)
         ]
 
         this.path = new THREE.CatmullRomCurve3(this.points)
-        this.duration = 10000
+        this.duration = 20000
         this.resource = this.resources.items.Ship
 
         // this.setTextures()
@@ -56,11 +57,8 @@ export default class MovingObj {
 
     setModel() {
         this.model = this.resource.scene
+        this.model.position.set(50, 0, 0);
         this.scene.add(this.model)
-        this.model.traverse((child) => {
-            child.material = this.material
-        })
-
         
     }
 
@@ -83,3 +81,4 @@ export default class MovingObj {
         this.scene.remove(this.pathObject);
     }
 }
+

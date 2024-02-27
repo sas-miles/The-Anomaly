@@ -13,18 +13,10 @@ export default class Test{
 
         //Setup
         this.resource = this.resources.items.Test
-        this.setGH1()
+     
         this.setMaterial()
 
         this.setModel()
-
-    }
-
-    setGH1(){
-        this.textures = { }
-        this.textures.color = this.resources.items.GH1
-        this.textures.color.colorSpace = THREE.SRGBColorSpace
-        this.textures.color.flipY = false
 
     }
 
