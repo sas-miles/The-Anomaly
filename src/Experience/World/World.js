@@ -2,14 +2,16 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Plane from './Plane.js'
-import CentralCommand from './CentralCommand.js'
-import PowerStation from './PowerStation.js'
 import Anomaly  from './Anomaly.js'
 import ExperienceManager from '../ExperienceManager.js'
 import Loader from './Loader.js'
 import EventEmitter from '../Utils/EventEmitter.js'
 import AudioManager from './AudioManager.js'
-import GreenHouse from './GreenHouse.js'
+// import CentralCommand from './CentralCommand.js'
+// import PowerStation from './PowerStation.js'
+// import GreenHouse from './GreenHouse.js'
+
+import Test from './Test.js'
 
 
 export default class World extends EventEmitter{
@@ -29,11 +31,13 @@ export default class World extends EventEmitter{
             this.plane = new Plane()
             this.audioManager = new AudioManager()
             this.anomaly = new Anomaly(this.renderer)
-            this.centralCommand = new CentralCommand()
-            this.powerStation = new PowerStation()
-            this.greenHouse = new GreenHouse()
             this.experienceManager = new ExperienceManager();
             this.environment = new Environment()    
+            // this.centralCommand = new CentralCommand()
+            // this.powerStation = new PowerStation()
+            // this.greenHouse = new GreenHouse()
+
+            this.test = new Test()
 
             this.trigger('ready');
 
@@ -43,6 +47,7 @@ export default class World extends EventEmitter{
     updateScene(){
         this.experienceManager.updateScene()
     }
+
 
     update() {
         // if(this.plane)

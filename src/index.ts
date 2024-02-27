@@ -343,6 +343,7 @@ experience.world.on('ready', () => {
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'home');
           setExperience();
+          experience.world.audioManager.checkAudioStateAndPlay();
         },
         beforeLeave(data) {
           const namespace = data.current.namespace;

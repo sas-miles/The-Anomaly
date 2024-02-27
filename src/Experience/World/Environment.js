@@ -21,25 +21,25 @@ export default class Environment{
             this.debugFolder = this.debug.gui.addFolder('Rect Light')
         }
 
-        // this.setSunLight()
-        this.setAmbientLight()
+        this.setSunLight()
+        // this.setAmbientLight()
         // this.setDebug()
 
     }
 
     setAmbientLight(){
-        this.ambientLight = new THREE.AmbientLight('#FFFFFF', 5)
+        this.ambientLight = new THREE.AmbientLight('#FFFFFF', 1)
         this.scene.add(this.ambientLight)
     }
 
     setSunLight(){
-        this.sunLight = new THREE.RectAreaLight('#FFD2B3', 15, 50, 50)
+        this.sunLight = new THREE.RectAreaLight('#FFD2B3', 8, 30, 30)
         this.sunLight.position.set(-13, 40, -37)
         this.sunLight.rotation.x = -1.9;
         
 
         this.sunLightHelper = new RectAreaLightHelper(this.sunLight)
-        this.scene.add(this.sunLight, this.sunLightHelper)
+        this.scene.add(this.sunLight)
     }
 
     setDebug() {

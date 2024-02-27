@@ -71,6 +71,10 @@ export default class AudioManager {
     
         switch (this.pageEnter)
         {
+            case 'home':
+                this.setAudio('intro');
+                break;
+
             case 'intro':
                 this.setAudio('intro');
                 break;

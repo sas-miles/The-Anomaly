@@ -12,10 +12,10 @@ export default class MovingObj {
         this.renderer = this.experience.renderer 
 
         this.points = [
-            new THREE.Vector3(-10, 20, 100),
-            new THREE.Vector3(0, 10, 0),
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0, 10)
+            new THREE.Vector3(-4, 10, 200),
+            new THREE.Vector3(10, 8, 0),
+            new THREE.Vector3(12, 5, -20),
+            new THREE.Vector3(20, 0, -50)
         ]
 
         this.path = new THREE.CatmullRomCurve3(this.points)
@@ -26,7 +26,6 @@ export default class MovingObj {
         this.setMaterial()
         this.setModel()
         this.setPathAnimation()
-        console.log('MovingObj.js')
         //Time Tick Event
         this.time.on('tick', () => {
         this.update();
@@ -51,7 +50,7 @@ export default class MovingObj {
 
     setMaterial(){
         this.material = new THREE.MeshStandardMaterial({
-            color: 0x0000ff
+            color: 0xDEBB86
         })
     }
 
@@ -69,7 +68,7 @@ export default class MovingObj {
         this.path = new THREE.CatmullRomCurve3(this.points)
         this.pathGeometry = new THREE.BufferGeometry().setFromPoints(this.path.getPoints(50))
         this.pathObject = new THREE.Line(this.pathGeometry, new THREE.LineBasicMaterial({color: 0xff0000})) 
-        this.scene.add(this.pathObject)
+        // this.scene.add(this.pathObject)
 
     }   
 

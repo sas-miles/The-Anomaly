@@ -1,4 +1,18 @@
 export default [
+  //Testing
+  {
+    name: 'Test',
+    type: 'gltfModel',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/test/the-anomaly-previews-new-materials-packed.glb',
+  },
+
+  {
+    name: 'GH1',
+    type: 'texture',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/test/GH-1_Bake1_CyclesBake_COMBINED.jpg',
+  },
+
+  //Production
   {
     name: 'Ship',
     type: 'gltfModel',

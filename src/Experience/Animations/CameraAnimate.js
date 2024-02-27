@@ -73,15 +73,15 @@ export default class CameraAnimate{
             }
         })
         .to(this.experience.camera.instance.position, {
-            x: 87.71, 
-            y: 11.5, 
-            z: 40.75,
+            x: 11.5, 
+            y: 2, 
+            z: 10,
             duration: 3,
             ease: 'power2.out',
         }, "sync1")
         .to(this.experience.camera.instance.rotation, {
             x: 0, 
-            y: Math.PI / 4, // 45 degrees in radians
+            y: Math.PI / -4, // 45 degrees in radians
             z: 0,
         }, "sync1")
 
