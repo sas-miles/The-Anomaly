@@ -51,7 +51,7 @@ export default class CameraAnimate{
             x: 0, 
             y: 20, 
             z: 150,
-            duration: 3,
+            duration: 4,
             ease: 'power2.out',
         }, "sync1")
         .to(this.experience.camera.instance.rotation, {
