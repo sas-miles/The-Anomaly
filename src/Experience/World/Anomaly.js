@@ -149,7 +149,7 @@ export default class Anomaly {
                 this.material.uniforms.uSize.value = this.parameters.size * this.renderer.getPixelRatio();
                 // Potentially re-render or regenerate the galaxy if necessary.
             })
-            this.debugFolder.add(this.parameters, 'radius').min(0).max(100).step(0.001).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'radius').min(0).max(1000).step(0.001).onFinishChange(() => {
                 this.generateGalaxy()
             })
             this.debugFolder.add(this.parameters, 'branches').min(0).max(100).step(1).onFinishChange(() => {
@@ -173,7 +173,7 @@ export default class Anomaly {
             this.debugFolder.add(this.parameters, 'offsetX').min(-100).max(100).step(1).onFinishChange(() => {
                 this.updateParameters({ offsetX: this.parameters.offsetX });
             })
-            this.debugFolder.add(this.parameters, 'offsetY').min(-100).max(100).step(1).onFinishChange(() => {
+            this.debugFolder.add(this.parameters, 'offsetY').min(-100).max(300).step(1).onFinishChange(() => {
                 this.updateParameters({ offsetY: this.parameters.offsetY });
             })
             this.debugFolder.add(this.parameters, 'offsetZ').min(-100).max(100).step(1).onFinishChange(() => {

@@ -88,7 +88,7 @@ export default [
   {
     name: 'Chapter3Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/mellifera-1.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/chapter3.mp3',
   },
   {
     name: 'Chapter4Audio',
@@ -98,7 +98,7 @@ export default [
   {
     name: 'Chapter5Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/mellifera-1.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/evening.mp3',
   }
 
 ];

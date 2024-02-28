@@ -62,8 +62,6 @@ export default class Experience {
     });
   }
 
-  
-
 
   updateScene() {
     this.resize()

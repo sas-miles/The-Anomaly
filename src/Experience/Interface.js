@@ -12,7 +12,12 @@ export default class Interface{
         this.sizes = this.experience.sizes
         this.time = this.experience.time
         this.renderer = this.experience.renderer
+        this.debug = this.experience.debug
 
+        //Debug
+        if(this.debug.active){
+            this.debugFolder = this.debug.gui.addFolder('Markers')
+        }
 
         this.group = new THREE.Group()
         this.experience.scene.add(this.group);
@@ -30,6 +35,8 @@ export default class Interface{
         this.setLabelRenderer();
         this.setLabels()
         this.updateScene()
+        this.setDebug()
+
     }
 
     setSphereGroup() {
@@ -205,6 +212,17 @@ export default class Interface{
 
     resize() {
         this.labelRenderer.setSize(this.sizes.width, this.sizes.height);
+    }
+
+    setDebug() {
+        if (this.debug.active) {
+            this.spheres.forEach((sphere, index) => {
+                const folder = this.debugFolder.addFolder(`Sphere ${index}`);
+                folder.add(sphere.position, 'x', -80, 80, 0.1);
+                folder.add(sphere.position, 'y', -80, 80, 0.1);
+                folder.add(sphere.position, 'z', -80, 80, 0.1);
+            });
+        }
     }
 
 }

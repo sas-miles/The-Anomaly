@@ -399,7 +399,7 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter3');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
-          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
+          experience.world.audioManager.changeAudioByKey('chapter3');//Change this when file is ready in s3
           
         },
         afterEnter(data){
@@ -413,7 +413,7 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter4');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
-          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
+          experience.world.audioManager.changeAudioByKey('chapter1');//Change this when file is ready in s3
           
         },
         afterEnter(data){
@@ -427,7 +427,7 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter5');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
-          experience.world.audioManager.changeAudioByKey('intro');//Change this when file is ready in s3
+          experience.world.audioManager.changeAudioByKey('chapter5');//Change this when file is ready in s3
           
         },
         afterEnter(data){

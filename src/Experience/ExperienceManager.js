@@ -35,18 +35,18 @@ export default class ExperienceManager{
         this.chapterParams = {
             'intro': {
                 anomalyParams: {
-                    count: 23000,
-                    size: 300,
-                    radius: 36,
-                    branches: 4,
-                    spin: 1,
-                    randomness: 4.5,
-                    randomnessPower:2,
-                    insideColor: '#ffc994',
-                    outsideColor: '#373c81',
-                    offsetX: -50.25,
-                    offsetY: 60.13,
-                    offsetZ: 10.56,
+                    count: 238000,
+                    size: 742,
+                    radius: 274.822,
+                    branches: 19,
+                    spin: -5,
+                    randomness: 2,
+                    randomnessPower:2.92,
+                    insideColor: '#654622',
+                    outsideColor: '#463623',
+                    offsetX: 100,
+                    offsetY: 231,
+                    offsetZ: -200,
                     vertexShader: galaxyVertexShader,
                     fragmentShader: galaxyFragmentShader
                 }
@@ -108,35 +108,35 @@ export default class ExperienceManager{
     
             'chapter4': {
                 anomalyParams: {
-                    count: 225700,
-                    size: 100,
-                    radius: 6.578,
+                    count: 827900,
+                    size: 66,
+                    radius: 913.962,
                     branches: 7,
                     spin: 1,
-                    randomness: 0.033,
-                    randomnessPower: 10,
+                    randomness: 0.23,
+                    randomnessPower: 9.336,
                     insideColor: '#e5ad76',
-                    outsideColor: '#9ba2d9',
-                    offsetX: 1.322,
-                    offsetY: 8.759,
-                    offsetZ: 40,
+                    outsideColor: '#373c81',
+                    offsetX: 19,
+                    offsetY: 15,
+                    offsetZ: -28,
                 }
             },
     
             'chapter5': {
                 anomalyParams: {
-                    count: 225700,
-                    size: 55.748,
-                    radius: 6.578,
-                    branches: 2,
+                    count: 754200,
+                    size: 176,
+                    radius: 65.873,
+                    branches: 100,
                     spin: 1,
-                    randomness: 23,
-                    randomnessPower: 4,
+                    randomness: 0.328,
+                    randomnessPower: 5.796,
                     insideColor: '#e5ad76',
                     outsideColor: '#9ba2d9',
-                    offsetX: 1.322,
-                    offsetY: 3.759,
-                    offsetZ: 10,
+                    offsetX: 0,
+                    offsetY: 0,
+                    offsetZ: 19,
                 }
             },
         }
@@ -150,6 +150,7 @@ export default class ExperienceManager{
     }
 
 
+    
     setPageAnimation() {
         this.pageEnter = sessionStorage.getItem('pageEnter')
     

@@ -119,28 +119,24 @@ export default class CameraAnimate{
         const chapterFourTL = gsap.timeline({
             paused: true,
             onComplete: () => {
-                // console.log('Controls enabled for animation');
                 this.experience.eventEmitter.trigger('controls:enable');
+                this.experience.controls.currentRotationY = this.experience.camera.instance.rotation.y;
             }
         })
 
         .to(this.experience.camera.instance.position, {
-            x: 0, 
-            y: 20, 
-            z: 80,
+            x: 100, 
+            y: 18.88, 
+            z: 32.15,
             duration: 3,
             ease: 'power2.out',
         }, "sync1")
-        
-        .to(this.experience.camera.instance.rotation, {
-            x: 0, 
-            y: 0, 
-            z: 0}, "sync1")
 
         .to(this.experience.camera.instance.rotation, {
             x: 0, 
-            y: 20, 
-            z: 0}, "sync1")
+            y: Math.PI / 3, 
+            z: 0,
+        duration: 2},"sync1" )
 
         chapterFourTL.play()
     }
