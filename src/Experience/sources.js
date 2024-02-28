@@ -93,7 +93,7 @@ export default [
   {
     name: 'Chapter4Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/mellifera-2.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/chapter4.mp3',
   },
   {
     name: 'Chapter5Audio',

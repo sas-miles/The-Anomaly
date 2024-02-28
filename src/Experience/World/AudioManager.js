@@ -19,7 +19,7 @@ export default class AudioManager {
             'chapter1': this.experience.resources.items.Chapter1Audio,
             'chapter2': this.experience.resources.items.Chapter2Audio,
             'chapter3': this.experience.resources.items.Chapter3Audio,
-            'chapter4': this.experience.resources.items.Chapter2Audio,
+            'chapter4': this.experience.resources.items.Chapter4Audio,
             'chapter5': this.experience.resources.items.Chapter5Audio,
         };
 

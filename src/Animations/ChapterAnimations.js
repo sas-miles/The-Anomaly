@@ -83,6 +83,7 @@ export default class ChapterAnimations {
         })
         gsap.set('.label-marker-heading', {
             opacity: 0,
+            
         })
         gsap.timeline({delay: 2})
         .to('.label-container',{

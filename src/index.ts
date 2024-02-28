@@ -375,7 +375,9 @@ experience.world.on('ready', () => {
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
           
-
+        },
+        beforeLeave(data) {
+          clearPageContent();//Remove this after gsap timing fix
         }
   
       },
@@ -392,6 +394,9 @@ experience.world.on('ready', () => {
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
         },
+        beforeLeave(data) {
+          clearPageContent();
+        }
       },
       {
         namespace: 'chapter3',
@@ -406,6 +411,9 @@ experience.world.on('ready', () => {
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
         },
+        beforeLeave(data) {
+          clearPageContent();
+        }
       },
       {
         namespace: 'chapter4',
@@ -413,13 +421,16 @@ experience.world.on('ready', () => {
           sessionStorage.setItem('pageEnter', 'chapter4');
           setExperience();
           experience.world.audioManager.checkAudioStateAndPlay();
-          experience.world.audioManager.changeAudioByKey('chapter1');//Change this when file is ready in s3
+          experience.world.audioManager.changeAudioByKey('chapter4');//Change this when file is ready in s3
           
         },
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
         },
+        beforeLeave(data) {
+          clearPageContent();
+        }
       },
       {
         namespace: 'chapter5',
@@ -434,6 +445,9 @@ experience.world.on('ready', () => {
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
         },
+        beforeLeave(data) {
+          clearPageContent();
+        }
       }
     ]
   
