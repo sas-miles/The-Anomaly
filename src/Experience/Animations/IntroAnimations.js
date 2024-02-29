@@ -31,7 +31,7 @@ export default class IntroAnimations {
       ScrollTrigger.create({
         trigger: element,
         start: 'center center', // Start when the center of the element hits the center of the viewport
-        end: 'bottom center', // End when the bottom of the element hits the top of the viewport
+        end: 'bottom -100%', // End when the bottom of the element hits the top of the viewport
         pin: true,
         // markers: true,
         onEnter: () =>
