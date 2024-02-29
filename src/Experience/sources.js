@@ -63,42 +63,40 @@ export default [
     type: 'texture',
     path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/green-house-texture.webp',
   },
-  
-  
+
   {
     name: 'HomeAudio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/long_mixdown_Stereo.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/intro.mp3',
   },
   {
     name: 'IntroAudio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/long_mixdown_Stereo.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/intro.mp3',
   },
   {
     name: 'Chapter1Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/mellifera-1.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/chapter1.mp3',
   },
   {
     name: 'Chapter2Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/mellifera-2.mp4',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/chapter2.mp3',
   },
   {
     name: 'Chapter3Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/chapter3.mp3',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/chapter3.mp3',
   },
   {
     name: 'Chapter4Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/chapter4.mp3',
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/chapter4.mp3',
   },
   {
     name: 'Chapter5Audio',
     type: 'audio',
-    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/models/evening.mp3',
-  }
-
+    path: 'https://webflow-public-assets.s3.amazonaws.com/three-projects/the-anomaly/audio/chapter5.mp3',
+  },
 ];
