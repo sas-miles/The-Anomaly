@@ -11,6 +11,9 @@ dependencies:
   '@finsweet/ts-utils':
     specifier: ^0.40.0
     version: 0.40.0
+  '@frsource/light-scrollbar':
+    specifier: ^1.4.169
+    version: 1.4.169
   '@use-gesture/vanilla':
     specifier: ^10.3.0
     version: 10.3.0
@@ -29,6 +32,9 @@ dependencies:
   lil-gui:
     specifier: ^0.19.1
     version: 0.19.1
+  swiper:
+    specifier: ^11.0.7
+    version: 11.0.7
   three:
     specifier: ^0.160.1
     version: 0.160.1
@@ -556,6 +562,17 @@ packages:
     dependencies:
       typescript: 5.2.2
     dev: true
+
+  /@frsource/frs-hide-scrollbar@2.0.14:
+    resolution: {integrity: sha512-0s/wQWWUO9cg1WS4kBQ1tUnMUgSDiF2hWt9fB1JU56QTsVAnkY3wWowBC91TG1C5/ztV5VgiQWv5GfigqhMPkA==}
+    dev: false
+
+  /@frsource/light-scrollbar@1.4.169:
+    resolution: {integrity: sha512-yX3NvjDUHrKGRKNay+Gr0VQL0XDy+Dd/XFLueuSLuew45GqmpK0dEcPEsczGxK0+gKvYdViUkyHvHo69xUlnjg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@frsource/frs-hide-scrollbar': 2.0.14
+    dev: false
 
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
@@ -2964,6 +2981,11 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /swiper@11.0.7:
+    resolution: {integrity: sha512-cDfglW1B6uSmB6eB6pNmzDTNLmZtu5bWWa1vak0RU7fOI9qHjMzl7gVBvYSl34b0RU2N11HxxETJqQ5LeqI1cA==}
+    engines: {node: '>= 4.7.0'}
+    dev: false
 
   /synckit@0.8.5:
     resolution: {integrity: sha512-L1dapNV6vu2s/4Sputv8xGsCdAVlb5nRDMFU/E27D44l5U6cw1g0dGd45uLc+OXjNMmF4ntiMdCimzcjFKQI8Q==}

@@ -1,5 +1,7 @@
 import barba from '@barba/core';
 import { gsap } from 'gsap';
+import Swiper from 'swiper';
+import 'swiper/css';
 
 import Nav from "$utils/Nav";
 
@@ -7,10 +9,9 @@ import Experience from './Experience/Experience';
 import ChapterAnimations from './Animations/ChapterAnimations';
 import ChapterUI from '$utils/ChapterUI';
 import IntroAnimations from './Experience/Animations/IntroAnimations';
-import AudioManager from './Experience/World/AudioManager';
+
+
 sessionStorage.setItem('key', 'value');
-
-
 
 let experience = new Experience(document.querySelector('canvas.webgl'));
 
@@ -20,6 +21,7 @@ let experience = new Experience(document.querySelector('canvas.webgl'));
 const chapterAnimation = new ChapterAnimations()
 
 const nav = new Nav()
+
 
 
 
@@ -50,6 +52,8 @@ function setExperience () {
       
     }
 }
+
+
 
 
 experience.world.on('ready', () => {
@@ -176,14 +180,14 @@ experience.world.on('ready', () => {
           
         },
         enter(data) {
-          gsap.set(".intro-text_first", { y: 20 });
+          // gsap.set(".intro-text_first", { y: 20 });
           gsap.timeline()
-          .to(".intro-text_first", {
-            opacity: 1, 
-            y: 0,
-            duration: 2,
-            ease: "power2.out",
-          })
+          // .to(".intro-text_first", {
+          //   opacity: 1, 
+          //   y: 0,
+          //   duration: 2,
+          //   ease: "power2.out",
+          // })
           .to(".webgl", {
             opacity: 1, 
             duration: 2,
@@ -217,12 +221,12 @@ experience.world.on('ready', () => {
          },
         enter(data) {
           gsap.timeline()
-          .to(".intro-text_first", {
-            opacity: 1, 
-            y: 0,
-            duration: 2,
-            ease: "power2.out",
-          })
+          // .to(".intro-text_first", {
+          //   opacity: 1, 
+          //   y: 0,
+          //   duration: 2,
+          //   ease: "power2.out",
+          // })
           .to(".webgl", {
             opacity: 1,
             duration: 3,
@@ -360,6 +364,10 @@ experience.world.on('ready', () => {
           experience.world.audioManager.checkAudioStateAndPlay();
           experience.world.audioManager.changeAudioByKey('intro');
           
+        },
+
+        beforeLeave(data) {
+          clearPageContent();//Remove this after gsap timing fix
         }
         
       },
@@ -495,30 +503,38 @@ experience.world.on('ready', () => {
     
   
     if (data.next.namespace === 'intro') {
-  
       
-      gsap.set(".intro-text_first", { y: 20 });
-      gsap.timeline()
       
-      .to(".intro-text_first", {
-        opacity: 1, 
-        y: 0,
-        duration: 2,
-        ease: "power2.out",
-        delay: 3
-      })
-      .to(".webgl", {
-        opacity: 1, 
-        duration: 2,
-        delay: 1,
-      })
-      .to('.sound-container', {
-        opacity: 1,
-        duration: 1
-      })
+      // gsap.set(".intro-text_first", { y: 20 });
+      // gsap.timeline()
+      
+      // .to(".intro-text_first", {
+      //   opacity: 1, 
+      //   y: 0,
+      //   duration: 2,
+      //   ease: "power2.out",
+      //   delay: 3
+      // })
+      // .to(".webgl", {
+      //   opacity: 1, 
+      //   duration: 2,
+      //   delay: 1,
+      // })
+      // .to('.sound-container', {
+      //   opacity: 1,
+      //   duration: 1
+      // })
   
     }
   
   });
 
 })
+
+barba.hooks.beforeEnter((data) => {
+if(data.next.namespace === 'intro') {
+  
+
+
+}
+});

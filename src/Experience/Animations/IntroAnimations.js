@@ -16,54 +16,43 @@ export default class IntroAnimations {
       { x: 0, y: 100, z: 300 }, // Ending position
     ];
 
-    this.track = document.querySelector('.intro-track');
+    this.track = document.querySelectorAll('.intro-track');
+    this.introWrapper = document.querySelector('.intro-wrapper');
+    this.canvas = document.querySelector('.webgl');
+
     this.setContentScroller();
     this.setCameraAnimation();
   }
 
   setContentScroller() {
-    // Select all .intro-text elements
-    const introTextElements = document.querySelectorAll('.intro-text');
+    // Initially hide all .intro-item elements except the first one
+    gsap.set('.intro-item:not(:first-child)', { autoAlpha: 0 });
 
-    // Iterate over each .intro-text element
-    introTextElements.forEach((element) => {
-      // Create a ScrollTrigger for the pinning and the fade in animation
-      ScrollTrigger.create({
-        trigger: element,
-        start: 'center center', // Start when the center of the element hits the center of the viewport
-        end: 'bottom -100%', // End when the bottom of the element hits the top of the viewport
-        pin: true,
-        // markers: true,
-        onEnter: () =>
-          this.gsap.to(element, { opacity: 1, duration: 2, ease: 'power2.out', overwrite: 'auto' }),
-        onLeaveBack: () =>
-          this.gsap.to(element, { opacity: 0, duration: 1, ease: 'power2.out', overwrite: 'auto' }),
-      });
+    this.track.forEach((track, index) => {
+      let introItem = track.querySelector('.intro-item');
 
-      // Create a ScrollTrigger for the fade out animation
+      // Fade out the intro-item a bit before the intro-sticky reaches the end of intro-track
       ScrollTrigger.create({
-        trigger: element,
-        start: 'center bottom', // Start when the prop1 of the element hits the prop2 of the viewport
-        end: 'bottom top', // End when the center of the element hits the top of the viewport
-        onEnterBack: () =>
-          this.gsap.to(element, { opacity: 1, duration: 1, ease: 'power2.out', overwrite: 'auto' }),
-        onLeave: () =>
-          this.gsap.to(element, {
-            opacity: 0,
-            duration: 0.5,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          }),
-        // markers: true
+        trigger: track,
+        start: 'top -50%',
+        end: 'bottom 200%', // Adjust this to control when the fade-out starts
+        onEnter: () => gsap.to(introItem, { autoAlpha: 1, duration: 0.5 }),
+        onLeave: () => gsap.to(introItem, { autoAlpha: 0, duration: 0.5 }), // Fades out before the end
+        onEnterBack: () => gsap.to(introItem, { autoAlpha: 1, duration: 0.5 }),
+        onLeaveBack: () => gsap.to(introItem, { autoAlpha: 0, duration: 0.5 }),
+        // markers: true, // For debugging, remove in production
+        // scrub: true,
       });
     });
   }
 
   setCameraAnimation() {
+    this.canvas.style.opacity = 1;
+    this.canvas.style.zIndex = -1;
     ScrollTrigger.create({
-      trigger: this.track,
+      trigger: this.introWrapper,
       start: 'top top',
-      end: () => `+=${this.track.offsetHeight}px`, // Adjusted to track's full height
+      end: () => `+=${this.introWrapper.offsetHeight}px`, // Adjusted to introWrapper's full height
       scrub: true,
       onUpdate: (self) => {
         const progress = self.progress; // Progress from 0 to 1
@@ -77,10 +66,19 @@ export default class IntroAnimations {
         const startPos = this.cameraPositions[currentSegment];
         const endPos = this.cameraPositions[currentSegment + 1];
 
-        // Interpolating camera positions based on the current scroll progress
-        this.cameraPosition.x = gsap.utils.interpolate(startPos.x, endPos.x, localProgress);
-        this.cameraPosition.y = gsap.utils.interpolate(startPos.y, endPos.y, localProgress);
-        this.cameraPosition.z = gsap.utils.interpolate(startPos.z, endPos.z, localProgress);
+        // Calculate the new camera positions
+        const newX = gsap.utils.interpolate(startPos.x, endPos.x, localProgress);
+        const newY = gsap.utils.interpolate(startPos.y, endPos.y, localProgress);
+        const newZ = gsap.utils.interpolate(startPos.z, endPos.z, localProgress);
+
+        // Animate the camera position over time
+        gsap.to(this.cameraPosition, {
+          x: newX,
+          y: newY,
+          z: newZ,
+          duration: 1, // Adjust this to control the speed of the damping effect
+          overwrite: 'auto',
+        });
       },
       // markers: true
     });
