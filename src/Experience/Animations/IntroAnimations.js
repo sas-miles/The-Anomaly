@@ -21,7 +21,7 @@ export default class IntroAnimations {
     this.canvas = document.querySelector('.webgl');
 
     this.setContentScroller();
-    this.setCameraAnimation();
+    // this.setCameraAnimation();
   }
 
   setContentScroller() {
@@ -47,8 +47,6 @@ export default class IntroAnimations {
   }
 
   setCameraAnimation() {
-    this.canvas.style.opacity = 1;
-    this.canvas.style.zIndex = -1;
     ScrollTrigger.create({
       trigger: this.introWrapper,
       start: 'top top',

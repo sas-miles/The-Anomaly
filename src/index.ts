@@ -182,12 +182,12 @@ experience.world.on('ready', () => {
         enter(data) {
           // gsap.set(".intro-text_first", { y: 20 });
           gsap.timeline()
-          // .to(".intro-text_first", {
-          //   opacity: 1, 
-          //   y: 0,
-          //   duration: 2,
-          //   ease: "power2.out",
-          // })
+          .to(".intro-text_first", {
+            opacity: 1, 
+            y: 0,
+            duration: 2,
+            ease: "power2.out",
+          })
           .to(".webgl", {
             opacity: 1, 
             duration: 2,
