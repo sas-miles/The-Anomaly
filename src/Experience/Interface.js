@@ -92,11 +92,6 @@ export default class Interface {
 
   setRaycaster() {
     const raycast = (event) => {
-      // Prevent default behavior for touch events
-      // if (event.type.startsWith('touch')) {
-      //     event.preventDefault();
-      // }
-
       let clientX, clientY;
       if (event.type.includes('touch')) {
         // Use the first touch point for the raycast

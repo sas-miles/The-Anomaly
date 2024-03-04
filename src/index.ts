@@ -8,14 +8,13 @@ import Nav from "$utils/Nav";
 import Experience from './Experience/Experience';
 import ChapterAnimations from './Animations/ChapterAnimations';
 import ChapterUI from '$utils/ChapterUI';
-import IntroAnimations from './Experience/Animations/IntroAnimations';
+import IntroAnimations from './Experience/Animations/IntroAnimations.js';
 
 
 sessionStorage.setItem('key', 'value');
 
 let experience = new Experience(document.querySelector('canvas.webgl'));
-
-
+let introAnimations = new IntroAnimations()
 
 
 const chapterAnimation = new ChapterAnimations()
@@ -180,14 +179,7 @@ experience.world.on('ready', () => {
           
         },
         enter(data) {
-          // gsap.set(".intro-text_first", { y: 20 });
           gsap.timeline()
-          .to(".intro-text_first", {
-            opacity: 1, 
-            y: 0,
-            duration: 2,
-            ease: "power2.out",
-          })
           .to(".webgl", {
             opacity: 1, 
             duration: 2,
@@ -217,16 +209,13 @@ experience.world.on('ready', () => {
             duration: 3,
             ease: "power2.out"
           })
+      
+
           
          },
         enter(data) {
+          console.log('entering intro')
           gsap.timeline()
-          // .to(".intro-text_first", {
-          //   opacity: 1, 
-          //   y: 0,
-          //   duration: 2,
-          //   ease: "power2.out",
-          // })
           .to(".webgl", {
             opacity: 1,
             duration: 3,
@@ -359,15 +348,18 @@ experience.world.on('ready', () => {
         namespace: 'intro',
         beforeEnter(data) {
           sessionStorage.setItem('pageEnter', 'intro');
+          
           setExperience();
-          const intro = new IntroAnimations();
+          introAnimations = new IntroAnimations()
+          introAnimations.resetCamera()
+          introAnimations.reinitializeAnimations()
+          
           experience.world.audioManager.checkAudioStateAndPlay();
           experience.world.audioManager.changeAudioByKey('intro');
           
         },
-
         beforeLeave(data) {
-          clearPageContent();//Remove this after gsap timing fix
+          introAnimations.clearAnimations();
         }
         
       },
@@ -505,36 +497,20 @@ experience.world.on('ready', () => {
     if (data.next.namespace === 'intro') {
       
       
-      // gsap.set(".intro-text_first", { y: 20 });
-      // gsap.timeline()
+      gsap.timeline()
       
-      // .to(".intro-text_first", {
-      //   opacity: 1, 
-      //   y: 0,
-      //   duration: 2,
-      //   ease: "power2.out",
-      //   delay: 3
-      // })
-      // .to(".webgl", {
-      //   opacity: 1, 
-      //   duration: 2,
-      //   delay: 1,
-      // })
-      // .to('.sound-container', {
-      //   opacity: 1,
-      //   duration: 1
-      // })
+      .to(".webgl", {
+        opacity: 1, 
+        duration: 2,
+        delay: 1,
+      })
+      .to('.sound-container', {
+        opacity: 1,
+        duration: 1
+      })
   
     }
   
   });
 
 })
-
-barba.hooks.beforeEnter((data) => {
-if(data.next.namespace === 'intro') {
-  
-
-
-}
-});

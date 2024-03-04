@@ -10,6 +10,8 @@ export default class IntroAnimations {
     this.cameraRotation = this.experience.camera.instance.rotation;
     this.gsap.registerPlugin(ScrollTrigger);
 
+    this.cameraAnimationTrigger = null;
+
     this.cameraPositions = [
       { x: 0, y: 100, z: 700 }, // Starting position
       { x: 0, y: 100, z: 400 },
@@ -19,15 +21,9 @@ export default class IntroAnimations {
     this.track = document.querySelectorAll('.intro-track');
     this.introWrapper = document.querySelector('.intro-wrapper');
     this.canvas = document.querySelector('.webgl');
-
-    this.setContentScroller();
-    // this.setCameraAnimation();
   }
 
   setContentScroller() {
-    // Initially hide all .intro-item elements except the first one
-    gsap.set('.intro-item:not(:first-child)', { autoAlpha: 0 });
-
     this.track.forEach((track, index) => {
       let introItem = track.querySelector('.intro-item');
 
@@ -47,7 +43,10 @@ export default class IntroAnimations {
   }
 
   setCameraAnimation() {
-    ScrollTrigger.create({
+    this.experience.eventEmitter.trigger('controls:disable');
+    this.cameraPosition.set(0, 100, 700); // Set the initial camera position
+    this.canvas.style.opacity = 1;
+    this.cameraAnimationTrigger = ScrollTrigger.create({
       trigger: this.introWrapper,
       start: 'top top',
       end: () => `+=${this.introWrapper.offsetHeight}px`, // Adjusted to introWrapper's full height
@@ -80,5 +79,25 @@ export default class IntroAnimations {
       },
       // markers: true
     });
+  }
+
+  // Add this method to clear the animations
+  clearAnimations() {
+    if (this.cameraAnimationTrigger) {
+      this.cameraAnimationTrigger.kill();
+      this.cameraAnimationTrigger = null;
+    }
+  }
+
+  resetCamera() {
+    this.cameraPosition.set(0, 100, 700); // Set the initial camera position
+    this.cameraRotation.set(0, 0, 0); // Set the initial camera rotation
+  }
+
+  reinitializeAnimations() {
+    this.resetCamera();
+    this.setContentScroller();
+    this.setCameraAnimation();
+    console.log('Reinitialized');
   }
 }
