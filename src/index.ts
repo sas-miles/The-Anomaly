@@ -376,9 +376,6 @@ experience.world.on('ready', () => {
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
           
-        },
-        beforeLeave(data) {
-          clearPageContent();//Remove this after gsap timing fix
         }
   
       },
@@ -394,9 +391,6 @@ experience.world.on('ready', () => {
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
-        },
-        beforeLeave(data) {
-          clearPageContent();
         }
       },
       {
@@ -411,9 +405,6 @@ experience.world.on('ready', () => {
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
-        },
-        beforeLeave(data) {
-          clearPageContent();
         }
       },
       {
@@ -428,9 +419,6 @@ experience.world.on('ready', () => {
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
-        },
-        beforeLeave(data) {
-          clearPageContent();
         }
       },
       {
@@ -445,9 +433,6 @@ experience.world.on('ready', () => {
         afterEnter(data){
           const chapterUI = new ChapterUI(data.next.container);
           experience.world.audioManager.updateButtonState();
-        },
-        beforeLeave(data) {
-          clearPageContent();
         }
       }
     ]
