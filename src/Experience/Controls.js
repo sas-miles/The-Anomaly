@@ -70,6 +70,9 @@ export default class Controls {
     };
 
     this.renderer.domElement.addEventListener('mousedown', (event) => {
+      if (event.target.tagName.toLowerCase() === 'a') {
+        return;
+      }
       handleMouseDown(event.clientX, event.clientY);
     });
 
@@ -86,6 +89,9 @@ export default class Controls {
     this.renderer.domElement.addEventListener(
       'touchstart',
       (event) => {
+        if (event.target.tagName.toLowerCase() === 'a') {
+          return;
+        }
         // Prevent the window from scrolling
         event.preventDefault();
 

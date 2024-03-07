@@ -92,6 +92,9 @@ export default class Interface {
 
   setRaycaster() {
     const raycast = (event) => {
+      if (event.target.tagName.toLowerCase() === 'a') {
+        return;
+      }
       let clientX, clientY;
       if (event.type.includes('touch')) {
         // Use the first touch point for the raycast

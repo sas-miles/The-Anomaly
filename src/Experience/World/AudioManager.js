@@ -46,7 +46,7 @@ export default class AudioManager {
       'click',
       (event) => {
         // Don't follow the link
-        event.preventDefault();
+        // event.preventDefault();
 
         // Call the appropriate function
         if (event.target.matches('.play-sound') || event.target.matches('.play-sound.is-intro')) {
