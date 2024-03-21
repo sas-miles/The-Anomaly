@@ -32,6 +32,9 @@ dependencies:
   lil-gui:
     specifier: ^0.19.1
     version: 0.19.1
+  scroll-js:
+    specifier: ^3.5.2
+    version: 3.5.2
   swiper:
     specifier: ^11.0.7
     version: 11.0.7
@@ -2765,6 +2768,12 @@ packages:
 
   /sax@1.2.1:
     resolution: {integrity: sha512-8I2a3LovHTOpm7NV5yOyO8IHqgVsfK4+UuySrXU8YXkSRX7k6hCV9b3HrkKCr3nMpgj+0bmocaJJWpvp1oc7ZA==}
+    dev: false
+
+  /scroll-js@3.5.2:
+    resolution: {integrity: sha512-pKBDFwm/fSVH1StlOliH5+oSAFhhz90pqHFYp3WmKlpjCQ9r7yRoyqZGxLqsw7JUoyuqgFTvYvJ3TSNBG911uA==}
+    engines: {node: '>=16'}
+    deprecated: scroll-js package has been deprecated in favor of scrollIntoView, please use that going forward. More information of scrollIntoView can be found at https://w3c.github.io/csswg-drafts/cssom-view/#dom-element-scrollintoview.
     dev: false
 
   /semver@5.7.2:
